@@ -1,0 +1,4 @@
+baseURL = "http://whchi.github.io/"
+languageCode = "zh-tw"
+title = "My New Hugo Site"
+theme = "casper"
