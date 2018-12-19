@@ -1,4 +1,4 @@
 baseURL = "http://whchi.github.io/"
 languageCode = "zh-tw"
-title = "My New Hugo Site"
-theme = "casper"
+title = "雜談與紀錄"
+theme = "aether"
