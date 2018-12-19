@@ -4,4 +4,5 @@
 	branch = master
 [submodule "themes/aether"]
 	path = themes/aether
-	url = https://github.com/josephhutch/aether
+	url = https://github.com/josephhutch/aether.git
+	branch = master
