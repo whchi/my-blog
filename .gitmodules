@@ -2,3 +2,6 @@
 	path = public
 	url = https://github.com/whchi/whchi.github.io.git
 	branch = master
+[submodule "themes/aether"]
+	path = themes/aether
+	url = https://github.com/josephhutch/aether
