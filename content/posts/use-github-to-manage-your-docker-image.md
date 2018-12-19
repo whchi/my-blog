@@ -1,7 +1,7 @@
 ---
 title: "使用 Github 管理 Docker image"
 date: 2018-12-19T17:32:42+08:00
-draft: false
+draft: true
 ---
 Docker hub 本身有提供 autobuild trigger，只需透過UI設定與github連動即可做到使用git branch進行docker file的管理，以下分別列出Github與Docker hub需要的設定
 
