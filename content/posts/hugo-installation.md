@@ -55,28 +55,37 @@ Because this is my personal website, so I use User/Organization Pages
 4. add shell to project folder, named `deploy.sh`
     ```
     #!/bin/bash
-    echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
+    echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
     # Build the project.
     hugo # if using a theme, replace with `hugo -t <YOURTHEME>`
+
 
     # Go To Public folder
     cd public
     # Add changes to git.
+    git checkout master
+
     git add .
 
     # Commit changes.
-    msg="rebuilding site `date`"
-    if [ $# -eq 1 ]
-    then msg="$1"
-    fi
-    git commit -m "$msg"
+    git commit -m "rebuilding site `date`"
 
     # Push source and build repos.
     git push origin master
 
     # Come Back up to the Project Root
     cd ..
+
+    msg="updated at `date`"
+    if [ $# -eq 1 ]
+    then msg="$1"
+    fi
+    git add .
+    git commit -m "$msg"
+
+    git push origin master
+
     ```
 5. run `git commit -am "yout website-hugo commit message "` then `git push origin master`
 6. deploy to `{yourname}.github.io` with `./deploy.sh "your commit message"`
