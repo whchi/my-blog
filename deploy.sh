@@ -14,11 +14,12 @@ git add .
 git commit -m "rebuilding site `date`"
 
 # Push source and build repos.
-git push origin master
+# git push origin master
 
 # Come Back up to the Project Root
 cd ..
 # raw update
+git submodule update
 
 msg="updated at `date`"
 if [ $# -eq 1 ]
