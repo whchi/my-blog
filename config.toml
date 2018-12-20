@@ -1,4 +1,4 @@
-baseURL = 'http://whchi.github.io/'
+baseURL = 'https://whchi.github.io/'
 theme = 'hamburg'
 ### hanburg settings ###
 defaultContentLanguageInSubdir = 'false'
