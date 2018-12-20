@@ -1,7 +1,7 @@
 ---
 title: 'Hugo安裝'
 date: 2018-12-19T15:48:17+08:00
-draft: true
+draft: false
 author: 'whchi'
 summary: '簡單介紹安裝hugo的方法，mac only'
 tags: ['hugo']
