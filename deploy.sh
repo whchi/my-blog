@@ -20,8 +20,6 @@ git commit -m "rebuilding site `date`"
 
 # Come Back up to the Project Root
 cd ..
-# raw update
-git submodule update
 
 msg="updated at `date`"
 if [ $# -eq 1 ]
