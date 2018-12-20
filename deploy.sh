@@ -8,6 +8,8 @@ hugo # if using a theme, replace with `hugo -t <YOURTHEME>`
 # Go To Public folder
 cd public
 # Add changes to git.
+git checkout master
+
 git add .
 
 # Commit changes.
