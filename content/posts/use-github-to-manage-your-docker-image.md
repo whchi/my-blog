@@ -1,7 +1,7 @@
 ---
 title: '使用 Github 管理 Docker image'
 date: 2018-12-19T17:32:42+08:00
-draft: false
+draft: true
 author: 'whchi'
 summary: '列出使用github管理dockerhub時需要做的步驟'
 tags: ['github', 'docker']
