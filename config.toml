@@ -1,4 +1,45 @@
-baseURL = "http://whchi.github.io/"
-languageCode = "zh-tw"
-title = "雜談與紀錄"
-theme = "aether"
+baseURL = 'http://whchi.github.io/'
+theme = 'hamburg'
+### hanburg settings ###
+defaultContentLanguageInSubdir = 'false'
+defaultContentLanguage = 'zh'
+disableLanguages = ['en', 'de']
+[params]
+# Short subtitle/tagline. This is displayed in the header.
+# themecolor = '#ffff00' # Defines the tab color in Chrome for Android.
+# To load additional CSS styles
+customCSS = ['custom-hamburg.css']
+# Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
+ShowGDPRNotice = true
+# github = 'whchi'
+disqus = true
+disqusShortname = 'whcdc'
+[mediaTypes]
+  [mediaTypes."application/javascript"]
+    suffixes = "js"
+
+[languages]
+    [languages.en]
+        languageCode = 'en'
+        languageName = 'English'
+        title = 'murmurs and records'
+        subtitle = ''
+        copyright = '&copy; whchi 2018'
+        [languages.en.menu]
+            [[languages.en.menu.main]]
+                name = 'About'
+                identifier = 'about'
+                url = 'pages/about'
+    [languages.zh]
+        languageCode = 'zh-tw'
+        languageName = '繁體中文'
+        title = '雜談與紀錄'
+        subtitle = 'that/s all'
+        copyright = '&copy; whchi 2018'
+        [languages.zh.menu]
+            [[languages.zh.menu.main]]
+                name = 'About'
+                identifier = 'about'
+                url = 'pages/about'
+
+
