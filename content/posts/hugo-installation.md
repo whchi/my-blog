@@ -1,12 +1,12 @@
 ---
-title: "Hugo安裝"
+title: 'Hugo安裝'
 date: 2018-12-19T15:48:17+08:00
 draft: false
+author: 'whchi'
+summary: '簡單介紹安裝hugo的方法，mac only'
+tags: ['hugo']
 ---
 ## Step1. install hugo
-Mac only
-
-\
 install [homebrew](https://brew.sh/index_zh-tw)
 ```
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -32,7 +32,7 @@ mkdir themes
 git clone https://github.com/josephhutch/aether.git themes/aether
 
 # use git submodule(recommend)
-git submodule add https://github.com/josephhutch/aether themes/aether
+git submodule add https://github.com/josephhutch/aether.git themes/aether
 ```
 enable theme
 ```
@@ -55,7 +55,6 @@ Because this is my personal website, so I use User/Organization Pages
 4. add shell to project folder, named `deploy.sh`
     ```
     #!/bin/bash
-
     echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
     # Build the project.
@@ -79,8 +78,9 @@ Because this is my personal website, so I use User/Organization Pages
     # Come Back up to the Project Root
     cd ..
     ```
-5. run with `./deploy.sh "your commit message"`
+5. run `git commit -am "yout website-hugo commit message "` then `git push origin master`
+6. deploy to `{yourname}.github.io` with `./deploy.sh "your commit message"`
 
-## reference
+## Reference
 * [hosting hugo on github](https://gohugo.io/hosting-and-deployment/hosting-on-github/)
 * [在github部署hugo靜態網站](https://medium.com/@chs_wei/在-github-部署-hugo-靜態網站-9c40682dfe40)

@@ -1,0 +1,28 @@
+[pageNotExists]
+  other = "頁面不存在"
+[home]
+  other = "回首頁"
+[noMoreNewPosts]
+  other = "已是最新的文章"
+[newerPosts]
+  other = "下一篇"
+[noMoreOldPosts]
+  other = "已是最舊的文章"
+[olderPosts]
+  other = "上一篇"
+[pageOf]
+  other = "{{ .TotalPages }} 中的第 {{ .PageNumber }} 頁"
+[postedOn]
+  other = "發佈時間"
+[readMore]
+  other = "閱讀更多"
+[contactMe]
+  other = "聯絡方式"
+[dateformat]
+  other = "2006-1-2"
+[allTags]
+  other = "所有標籤"
+[gdprNotice]
+  other = '我們使用您的 cookie 來瞭解您以便提供更佳的體驗．如繼續使用我們的網站，吉表示您接受我們使用您的 cookie'
+[TagName]
+  other = '標籤名稱'
