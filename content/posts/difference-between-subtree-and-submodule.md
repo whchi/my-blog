@@ -4,6 +4,7 @@ date: 2018-12-21T09:35:24+08:00
 draft: false
 author: 'whchi'
 tags: ['git', 'hugo']
+summary: 'subtree or submodule? that is a question.'
 ---
 
 最近架設 hugo 時查詢的資料發現有使用 `git subtree`跟 `git submodule`兩種抓 theme 的方法，研究後把差別記錄在這
