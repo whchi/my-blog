@@ -7,11 +7,11 @@ tags: ['git', 'hugo']
 summary: 'subtree or submodule? that is a question.'
 ---
 
-最近架設 hugo 時查詢的資料發現有使用 `git subtree`跟 `git submodule`兩種抓 theme 的方法，研究後把差別記錄在這
+最近架設 hugo 時查詢的資料發現有使用`git subtree`跟`git submodule`兩種抓 theme 的方法，研究後把差別記錄在這
 
 ## 主要差異
 submodule: 適合不需對 sub repo 進行 push 的動作時使用
-subtree: 適合需要把 master repo的某些 feature 獨立成一個 git branch 時使用
+subtree: 適合需要把 master repo 的某些 feature 獨立成一個 git branch 時使用
 
 ## subtree
 * concept\
