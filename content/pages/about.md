@@ -12,5 +12,13 @@ nopagination: true
 
 ### skills
 
-* Experienced in Web Backend development (Php, node, python).
-* Development enviorment: docker, vagrant
+* Web Backend development: php, node, python
+* Web Frontend development: vue.js, jQuery
+* Development enviorment: docker, vagrant, GCP services
+* Linux(centos, ubuntu)
+* Version control: git
+* MySQL
+
+### contact
+
+* email: whccchi@gmail.com
