@@ -11,7 +11,6 @@ summary: 'embed gist'
 2. add gist.html and past follow code below
 {{< gist ce8cfd2061f7bba1635790f45c149f92 >}}
 
-
 then you can use it in your .md file by **\{\{< gist embedhash >\}\}**
 
 ## Reference
