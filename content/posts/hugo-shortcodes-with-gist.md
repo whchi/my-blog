@@ -1,7 +1,7 @@
 ---
 title: "Hugo shortcodes With embed gist"
 date: 2018-12-29T18:24:20+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['hugo', 'gist']
 summary: 'embed gist'
