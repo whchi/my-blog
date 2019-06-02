@@ -11,7 +11,6 @@ summary: '人在做，天沒在看'
 設定如下
 
 * composer.json
-
 {{< highlight json >}}
 {
     ...
