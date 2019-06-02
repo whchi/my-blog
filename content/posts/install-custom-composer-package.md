@@ -1,5 +1,5 @@
 ---
-title: 'Install Custom Composer Package'
+title: '安裝 fork 過來的 composer 套件'
 date: 2019-06-02T20:16:20+08:00
 draft: false
 author: 'whchi'
@@ -10,6 +10,7 @@ summary: '人在做，天沒在看'
 
 設定如下
 * composer.json
+
 {{< highlight json >}}
 {
     ...
@@ -24,6 +25,6 @@ summary: '人在做，天沒在看'
     }
 }
 {{< / highlight >}}
-
+> 建議 branch name 切開，不要用 master
 ## Reference
 * https://getcomposer.org/doc/05-repositories.md#vcs
