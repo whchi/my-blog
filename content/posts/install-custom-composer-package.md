@@ -1,7 +1,7 @@
 ---
 title: 'Install Custom Composer Package'
 date: 2019-06-02T20:16:20+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['composer', 'php']
 summary: '人在做，天沒在看'
