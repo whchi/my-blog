@@ -54,6 +54,7 @@ EXPOSE 8000
 {{< / highlight >}}
 
 * build & push image
+
 ```sh
 docker build -t phpapp:1.0.0 -f Dockerfile.php .
 # then
