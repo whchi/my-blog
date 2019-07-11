@@ -191,7 +191,9 @@ spec:
     serviceName: nginx-local #必須為 NodePort, 名稱為 nginx-k8s.yml 的 metadata
     servicePort: 80
 {{< / highlight >}}
+
 * mysql.yml
+
 {{< highlight yml >}}
 
 {{< / highlight >}}
