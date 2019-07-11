@@ -15,6 +15,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 > [GKE](https://cloud.google.com/kubernetes-engine/): 由 google 推出的 k8s engine 代管服務, 其他還有 AWS 的 EKS, M$ 的 AKS
 ## 名詞解釋
 在 k8s 中有多種類型的 [resource objects](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types), 下面簡單介紹本文所需知道的類型
+
 |資源名稱|簡單說明|
 |:--|:--|
 |pod|組成的最小單位, 可由單一或是多個 container 組成, 撰寫 yaml 時建議直接用 deployment|
@@ -37,6 +38,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 [安裝完laravel](https://laravel.com/docs/5.8/installation)之後寫個 Dockerfile build image, 參考如下
 
 * Dockerfile.php
+
 {{< highlight docker >}}
 FROM php:7.3.3
 
