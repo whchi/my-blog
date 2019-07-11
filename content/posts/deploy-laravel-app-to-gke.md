@@ -31,7 +31,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 |Ingress|不是 service type, 但能夠做到巷一台 L7 的服務掛給你對外|
 
 ## 架構圖
-![](/static/images/k8s-infa-sample.png)
+![](/images/k8s-infa-sample.png)
 
 ### 建立 laravel app image & push to GCR
 [安裝完laravel](https://laravel.com/docs/5.8/installation)之後寫個 Dockerfile build image, 參考如下
@@ -52,6 +52,7 @@ USER www-data
 CMD php artisan serve --host=0.0.0.0 --port=8000 #實務上不會這樣做, 本文只是為了可以建立環境所以這樣做
 EXPOSE 8000
 {{< / highlight >}}
+
 * build & push image
 ```sh
 docker build -t phpapp:1.0.0 -f Dockerfile.php .
@@ -167,6 +168,7 @@ spec:
 
 {{< / highlight >}}
 ### ingress.yml
+{{< highlight yml >}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -177,6 +179,7 @@ spec:
   backend:
     serviceName: nginx-local #必須為 NodePort, 名稱為 nginx-k8s.yml 的 metadata
     servicePort: 80
+{{< / highlight >}}
 ### mysql
 ## References
 * [k8s overview](https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/)
