@@ -35,6 +35,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 
 ### 建立 laravel app image & push to GCR
 [安裝完laravel](https://laravel.com/docs/5.8/installation)之後寫個 Dockerfile build image, 參考如下
+
 * Dockerfile.php
 {{< highlight docker >}}
 FROM php:7.3.3
