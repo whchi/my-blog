@@ -14,6 +14,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 3. 撰寫 yaml 檔並把程式部署到 GKE 上
 
 > [GKE](https://cloud.google.com/kubernetes-engine/): 由 google 推出的 k8s engine 代管服務, 其他還有 AWS 的 EKS, M$ 的 AKS
+
 ## 名詞解釋
 在 k8s 中有多種類型的 [resource objects](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types), 下面簡單介紹本文所需知道的類型
 
@@ -68,7 +69,9 @@ docker push gcr.io/{your-gcp-project-name}/phpapp:1.0.0
 
 ### yaml
 這裡直接把 deploy 跟 service 寫在一起
-#### nginx-k8s.yml
+
+* nginx-k8s.yml
+
 {{< highlight yml>}}
 apiVersion: v1
 data:
@@ -131,7 +134,8 @@ spec:
   type: NodePort # 要注意的是, Ingress 目前只支援 NodePort, 如果不用 Ingress 的話可使用 ClusterIP
 {{</ highlight >}}
 
-#### php-k8s.yml
+* php-k8s.yml
+
 {{< highlight yml>}}
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -172,7 +176,9 @@ spec:
   type: ClusterIP
 
 {{< / highlight >}}
-### ingress.yml
+
+* ingress.yml
+
 {{< highlight yml >}}
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -185,7 +191,11 @@ spec:
     serviceName: nginx-local #必須為 NodePort, 名稱為 nginx-k8s.yml 的 metadata
     servicePort: 80
 {{< / highlight >}}
-### mysql
+* mysql.yml
+{{< highlight yml >}}
+
+{{< / highlight >}}
+
 ## References
 * [k8s overview](https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/)
 * [k8s pods concept](https://kubernetes.io/docs/concepts/workloads/pods/pod/)
