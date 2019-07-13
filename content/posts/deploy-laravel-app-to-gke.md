@@ -41,6 +41,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 
 > 這裡沒有找到比較好的解釋說明兩者的差異, 我個人是偏好不變的資源用 create, 因為兩種command 建立出來的資源是在 command 中是互斥的, 避免 apply 倒不會動的資源
 
+
 ```sh
 # 1. create resource
 kubectl create -f xxxx.yml
