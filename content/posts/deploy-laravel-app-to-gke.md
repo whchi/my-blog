@@ -52,7 +52,6 @@ kubectl apply -f xxxx.yml
 kubectl replace -f xxxx.yml # use create
 # or
 kubectl apply -f xxxx.yml # use apply
-
 ```
 
 ## 預計建立架構
@@ -196,7 +195,6 @@ spec:
   selector:
     app: phpapp
   type: ClusterIP
-
 {{< / highlight >}}
 
 * mysql.yml
@@ -321,11 +319,9 @@ spec:
 {{< / highlight >}}
 
 ## 備註
-nginx 跟 php 做分拆的話會有靜態檔案的問題, 這邊還沒想到一個很好的解法, 之前嘗試過的解法是用k8s的 pv(persistentVolume) + pvc(persistentVolumeClaim) 去掛可以掛 ROX(目前 GCE 還不支援) 的 disk 來做到多個 replicas 的時候也能正確 mount 新的靜態檔案
-
-不過圖檔之類的東西應該不適合丟在 pv 做, 畢竟流量就是$$
-
-上面的 yml 有蠻多細節沒補到, 如果有拿去 try 的要稍微研究一下拉~
+1. nginx 跟 php 做分拆的話會有靜態檔案的問題, 這邊還沒想到一個很好的解法, 之前嘗試過的解法是用k8s的 pv(persistentVolume) + pvc(persistentVolumeClaim) 去掛可以掛 ROX(目前 GCE 還不支援) 的 disk 來做到多個 replicas 的時候也能正確 mount 新的靜態檔案
+2. 圖檔之類的東西應該不適合丟在 pv 做, 畢竟流量就是$$
+3. 上面的 yml 有蠻多細節沒補到, 如果有拿去 try 的要稍微研究一下拉~
 
 ## References
 * [k8s overview](https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/)
