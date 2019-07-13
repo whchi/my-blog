@@ -8,12 +8,13 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 ---
 <font color="red">內文僅記錄主要概念</font>
 
-最近有機會接觸到 GKE 相關的東西, 趁記憶猶新趕緊紀錄一下, 流程大概為
-1. 開啟 [GKE instance](https://cloud.google.com/kubernetes-engine/?hl=zh-tw)
-2. 建立 & push laravel app docker image to [GCR](https://cloud.google.com/container-registry/)
+最近有機會接觸到 GKE 相關的東西, 趁記憶猶新趕緊紀錄一下, 流程大概為\
+1. 開啟 [GKE instance](https://cloud.google.com/kubernetes-engine/?hl=zh-tw)\
+2. 建立 & push laravel app docker image to [GCR](https://cloud.google.com/container-registry/)\
 3. 撰寫 yaml 檔並把程式部署到 GKE 上
 
 > [GKE](https://cloud.google.com/kubernetes-engine/): 由 google 推出的 k8s engine 代管服務, 其他還有 AWS 的 EKS, M$ 的 AKS
+
 # 前置作業
 [GKE quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart?hl=zh-tw)
 
@@ -37,6 +38,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 
 ## 建立資源指令
 有兩種方法使用`kubectl`告訴 k8s 你要建立的資源, 分別是[create(命令式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)和[apply(宣告式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
+
 > 這裡沒有找到比較好的解釋說明兩者的差異, 我個人是偏好不變的資源用 create, 因為兩種command 建立出來的資源是在 command 中是互斥的, 避免 apply 倒不會動的資源
 ```sh
 # 1. create resource
@@ -51,7 +53,7 @@ kubectl apply -f xxxx.yml # use apply
 
 ```
 
-## 架構圖
+## 預計建立架構
 ![](/images/k8s-infa-sample.png)
 
 ### 建立 laravel app image & push to GCR
@@ -203,11 +205,11 @@ spec:
 kubectl create secret generic {secret-name} --from-file /path/to/service-account.json
 # 2. use shell
 cat /path/to/service-account.json | base64
-# then copy and paste to cloudsql-instance-credentials.yml
+# then paste to cloudsql-instance-credentials.yml
 ```
 先跑完 credential 再跑下面的 yml, 不然跑的時候會找不到
 
-* cloudsql-instance-credentials.yml
+* cloudsql-instance-credentials.yml (用 kubectl create 後也會建立此檔, 使用方法 2 的話可以先建立後再copy-paste)
 
 {{< highlight yml >}}
 apiVersion: v1
@@ -216,7 +218,8 @@ metadata:
   name: cloudsql-instance-credentials
 type: Opaque # k8s 提供的一種非明碼儲存方式, 使用 `kubectl create secret generic`也會產生一樣的檔案
 data:
-  cw-it-lab-line-poc.json: #base64 encoded service-account.json
+  # base64 encoded service-account.json
+  service-account.json: xxxxxxxxxxx=
 {{< / highlight >}}
 
 * cloudsql.yml
@@ -300,6 +303,7 @@ spec:
 {{< / highlight >}}
 
 * ingress.yml
+
 不一定要用ingress, 也可以使用 LoadBalancer
 {{< highlight yml >}}
 apiVersion: extensions/v1beta1
@@ -315,7 +319,7 @@ spec:
 {{< / highlight >}}
 
 ## 備註
-nginx 跟 php 做分拆的話會有靜態檔案的問題, 這邊還沒想到一個很好的解法, 之前嘗試過的解法是用k8s的 pv(persistentVolume) + pvc(persistentVolumeClaim) 去掛可以掛 ROX(目前GCE還不支援) 的 disk 來做到多個 replicas 的時候也能正確 mount 新的靜態檔案
+nginx 跟 php 做分拆的話會有靜態檔案的問題, 這邊還沒想到一個很好的解法, 之前嘗試過的解法是用k8s的 pv(persistentVolume) + pvc(persistentVolumeClaim) 去掛可以掛 ROX(目前 GCE 還不支援) 的 disk 來做到多個 replicas 的時候也能正確 mount 新的靜態檔案
 
 不過圖檔之類的東西應該不適合丟在 pv 做, 畢竟流量就是$$
 
