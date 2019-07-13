@@ -1,9 +1,9 @@
 ---
 title: '部署laravel應用程式到GKE上'
-date: 2019-07-11T15:27:23+08:00
-draft: true
+date: 2019-07-13T00:37:23+08:00
+draft: false
 author: 'whchi'
-tags: ['devops', 'gke', 'laravel']
+tags: ['devops', 'GKE', 'laravel', 'k8s']
 summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 ---
 <font color="red">內文僅記錄主要概念</font>
@@ -14,6 +14,8 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 3. 撰寫 yaml 檔並把程式部署到 GKE 上
 
 > [GKE](https://cloud.google.com/kubernetes-engine/): 由 google 推出的 k8s engine 代管服務, 其他還有 AWS 的 EKS, M$ 的 AKS
+# 前置作業
+[GKE quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart?hl=zh-tw)
 
 ## 名詞解釋
 在 k8s 中有多種類型的 [resource objects](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types), 下面簡單介紹本文所需知道的類型
@@ -32,6 +34,22 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 |service.ClusterIP|預設的service type, 叢集中提供一個 cluster-internal ip讓叢集內/間的 pods 可以直接存取|
 |service.LoadBalancer|一般對外的方式, 有需要的請參考[官方說明](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)|
 |Ingress|不是 service type, 但能夠做到巷一台 L7 的服務掛給你對外|
+
+## 建立資源指令
+有兩種方法使用`kubectl`告訴 k8s 你要建立的資源, 分別是[create(命令式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)和[apply(宣告式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
+> 這裡沒有找到比較好的解釋說明兩者的差異, 我個人是偏好不變的資源用 create, 因為兩種command 建立出來的資源是在 command 中是互斥的, 避免 apply 倒不會動的資源
+```sh
+# 1. create resource
+kubectl create -f xxxx.yml
+# or
+kubectl apply -f xxxx.yml
+
+# 2. reload resource
+kubectl replace -f xxxx.yml # use create
+# or
+kubectl apply -f xxxx.yml # use apply
+
+```
 
 ## 架構圖
 ![](/images/k8s-infa-sample.png)
@@ -177,26 +195,131 @@ spec:
 
 {{< / highlight >}}
 
-* ingress.yml
+* mysql.yml
 
+這裡用 cloudSQL, credential 的部分指的是 service account 金鑰, 有幾種方式設定
+```sh
+# 1. use kubectl (recommend)
+kubectl create secret generic {secret-name} --from-file /path/to/service-account.json
+# 2. use shell
+cat /path/to/service-account.json | base64
+# then copy and paste to cloudsql-instance-credentials.yml
+```
+先跑完 credential 再跑下面的 yml, 不然跑的時候會找不到
+
+* cloudsql-instance-credentials.yml
+
+{{< highlight yml >}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudsql-instance-credentials
+type: Opaque # k8s 提供的一種非明碼儲存方式, 使用 `kubectl create secret generic`也會產生一樣的檔案
+data:
+  cw-it-lab-line-poc.json: #base64 encoded service-account.json
+{{< / highlight >}}
+
+* cloudsql.yml
+
+{{< highlight yml >}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cloudsql-proxy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: cloudsql-proxy
+    spec:
+      containers:
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.14
+          ports:
+            - containerPort: 3306
+          command:
+            - /cloud_sql_proxy
+            - -instances={gcp-project-name}:{cloud-sql-region}:{cloud-sql-database-name}=tcp:0.0.0.0:3306
+            - -credential_file=/secrets/cloudsql/{your-service-account.json} # 具有讀寫 cloudsql database 權限的service account 金鑰檔
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudsql-proxy-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    component: cloudsql-proxy
+{{< / highlight >}}
+
+* redis.yml
+
+{{< highlight yml >}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis-pod
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-pod
+    spec:
+      containers:
+        - name: redis
+          image: redis:5.0.5
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-svc # 記得把 laravel 的 env 中 redis 連線名稱改為這個
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+      protocol: TCP
+  selector:
+    app: redis-pod
+  type: ClusterIP
+{{< / highlight >}}
+
+* ingress.yml
+不一定要用ingress, 也可以使用 LoadBalancer
 {{< highlight yml >}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: external-ip-name # 預留外部靜態ip的名稱
+    kubernetes.io/ingress.global-static-ip-name: "external-ip-name" # 預留外部靜態ip的名稱, @see [GCP保留靜態IP位址](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address?hl=zh-tw)
 spec:
   backend:
     serviceName: nginx-local #必須為 NodePort, 名稱為 nginx-k8s.yml 的 metadata
     servicePort: 80
 {{< / highlight >}}
 
-* mysql.yml
+## 備註
+nginx 跟 php 做分拆的話會有靜態檔案的問題, 這邊還沒想到一個很好的解法, 之前嘗試過的解法是用k8s的 pv(persistentVolume) + pvc(persistentVolumeClaim) 去掛可以掛 ROX(目前GCE還不支援) 的 disk 來做到多個 replicas 的時候也能正確 mount 新的靜態檔案
 
-{{< highlight yml >}}
+不過圖檔之類的東西應該不適合丟在 pv 做, 畢竟流量就是$$
 
-{{< / highlight >}}
+上面的 yml 有蠻多細節沒補到, 如果有拿去 try 的要稍微研究一下拉~
 
 ## References
 * [k8s overview](https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/)
@@ -207,3 +330,7 @@ spec:
 * [k8s label and selector](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
 * [(github issue) Ingress Controller for ClusterIP service type](https://github.com/Kong/kubernetes-ingress-controller/issues/85)
 * [Ingress, ClusterIP and NodePort compression](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
+* [gke connect to cloudsql setup](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine?hl=zh-tw)
+* [kubectl create vs apply](https://stackoverflow.com/questions/47369351/kubectl-apply-vs-kubectl-create)
+* [GCP保留靜態IP位址](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address?hl=zh-tw)
+* [k8s persistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#mount-options)
