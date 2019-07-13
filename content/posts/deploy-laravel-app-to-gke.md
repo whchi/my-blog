@@ -15,7 +15,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 
 > [GKE](https://cloud.google.com/kubernetes-engine/): 由 google 推出的 k8s engine 代管服務, 其他還有 AWS 的 EKS, M$ 的 AKS
 
-# 前置作業
+## 前置作業
 [GKE quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart?hl=zh-tw)
 
 ## 名詞解釋
@@ -40,6 +40,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 有兩種方法使用`kubectl`告訴 k8s 你要建立的資源, 分別是[create(命令式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)和[apply(宣告式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 
 > 這裡沒有找到比較好的解釋說明兩者的差異, 我個人是偏好不變的資源用 create, 因為兩種command 建立出來的資源是在 command 中是互斥的, 避免 apply 倒不會動的資源
+
 ```sh
 # 1. create resource
 kubectl create -f xxxx.yml
