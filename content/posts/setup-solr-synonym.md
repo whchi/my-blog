@@ -8,7 +8,7 @@ summary: '使用 docker 建立 solr 4.10 並用 mmseg 切字'
 ---
 將說明從安裝到設定的過程
 > 現在 solr 已經到 8.2 了, 但因為歷史包袱所以還是用 4.10
-# 設定
+## 設定
 在本地建立core folder, 結構圖如下
 ```sh
 cores
@@ -27,7 +27,7 @@ cores
     └── data/
 ```
 主要說明幾個檔案
-## core.properties
+### core.properties
 告訴 solr 要讀取的 core 資訊, 範例參考
 ```properties
 name=mycore
@@ -35,7 +35,7 @@ config=solrconfig.xml
 schema=schema.xml
 dataDir=data
 ```
-## solrconfig.xml
+### solrconfig.xml
 增加 dataimport
 {{< highlight xml >}}
 <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
@@ -45,7 +45,7 @@ dataDir=data
 </requestHandler>
 {{< / highlight >}}
 
-## db-data-config.xml
+### db-data-config.xml
 設定要 import 的 data 的 query, 範例參考
 {{< highlight xml >}}
 <dataConfig>
@@ -61,7 +61,7 @@ dataDir=data
 </dataConfig>
 {{< / highlight >}}
 
-## schema.xml
+### schema.xml
 {{< highlight xml >}}
 <fields>
     <field name="name" type="text_syn" indexed="true" stored="true" required="true" multiValued="false" />
@@ -79,7 +79,7 @@ dataDir=data
 </fieldType>
 {{< / highlight >}}
 
-## synonym.txt
+### synonym.txt
 {{< highlight plaintext >}}
 # , 表示同等意思
 # => 表示用左側搜會用右側搜
@@ -88,7 +88,7 @@ dataDir=data
 流行性感冒 => 流感
 TV => Taiwan-Value
 {{< / highlight >}}
-# 使用 docker-compose 安裝
+## 使用 docker-compose 安裝
 上面的設定完成後跑下面的`docker-compose.yml`進行安裝, 附上相關 jar 的載點\
 [mmseg4j-core-1.10.0.jar](https://mvnrepository.com/artifact/com.chenlb.mmseg4j/mmseg4j-core/1.10.0)、
 [mmseg4j-solr-2.2.0.jar](https://mvnrepository.com/artifact/com.chenlb.mmseg4j/mmseg4j-solr/2.2.0)、
@@ -155,13 +155,13 @@ services:
     - "3306:3306"
     privileged: true
 {{< / highlight >}}
-# 測試
+## 測試
 安裝成功後開啟瀏覽器輸入`localhost:8983` 會看到 solr 的 UI, 選擇`mycore`跑完`full-import`後點擊`Analysis`頁籤\
 於選擇建立的欄位進行測試如圖
 ![](/images/solr-analysis-field.png)
 輸入有寫在 synonym.txt 裡面的字串進行分析, 有看到如下圖結果表示成功
 ![](/images/solr-synonym-setup-success.png)
-# References
+## References
 * [碼上會！ mmseg4j 中文斷詞java 實作 (55行)](http://function1122.blogspot.com/2010/10/mmseg4j-java-55.html)
 * [solr filter](https://lucene.apache.org/solr/guide/6_6/about-filters.html)
 * [solr tokenizer](https://lucene.apache.org/solr/guide/6_6/tokenizers.html#tokenizers)
