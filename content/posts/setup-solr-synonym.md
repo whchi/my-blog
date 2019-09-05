@@ -94,12 +94,15 @@ TV => Taiwan-Value
 [mysql-connector-java-5.1.47.jar](https://mvnrepository.com/artifact/mysql/mysql-connector-java/5.1.47)、
 [solr-dataimporthandler-4.10.4.jar](https://mvnrepository.com/artifact/org.apache.solr/solr-dataimporthandler/4.10.4)、
 [solr-dataimporthandler-extras-4.10.4.jar](https://mvnrepository.com/artifact/org.apache.solr/solr-dataimporthandler-extras/4.10.4)
+
 * 關於 mysql 設定
 
 參考 [docker mysql](https://hub.docker.com/_/mysql)
+
 * 關於字典檔
 
 以 `.dic` 結尾
+
 |檔案|說明|
 |:--|:--|
 |units.dic|單位詞(年月日時分秒...)|
@@ -107,6 +110,7 @@ TV => Taiwan-Value
 |words.dic|想要被切出來的詞庫, 比如說「三生有幸」原本可能是「三」「生」「有」「幸」, 加入後就會直接被切成「三生有幸」|
 |wordsXXXX.dic|XXXX自定義, 主要是切開管理字典檔|
 除了最後一項尚上述的字典都有開源載點
+
 * docker-compose.yml
 
 {{< highlight yaml >}}
