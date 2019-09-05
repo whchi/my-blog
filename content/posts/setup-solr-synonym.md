@@ -37,13 +37,14 @@ dataDir=data
 ```
 ## solrconfig.xml
 增加 dataimport
-```xml
+{{< highlight xml >}}
 <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
     <lst name="defaults">
         <str name="config">db-data-config.xml</str>
     </lst>
 </requestHandler>
-```
+{{< / highlight >}}
+
 ## db-data-config.xml
 設定要 import 的 data 的 query, 範例參考
 {{< highlight xml >}}
@@ -157,9 +158,9 @@ services:
 # 測試
 安裝成功後開啟瀏覽器輸入`localhost:8983` 會看到 solr 的 UI, 選擇`mycore`跑完`full-import`後點擊`Analysis`頁籤\
 於選擇建立的欄位進行測試如圖
-![](images/solr-analysis-field.png)
+![](/images/solr-analysis-field.png)
 輸入有寫在 synonym.txt 裡面的字串進行分析, 有看到如下圖結果表示成功
-![](images/solr-synonym-setup-success.png)
+![](/images/solr-synonym-setup-success.png)
 # References
 * [碼上會！ mmseg4j 中文斷詞java 實作 (55行)](http://function1122.blogspot.com/2010/10/mmseg4j-java-55.html)
 * [solr filter](https://lucene.apache.org/solr/guide/6_6/about-filters.html)
