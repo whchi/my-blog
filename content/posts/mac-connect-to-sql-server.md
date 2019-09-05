@@ -8,13 +8,13 @@ summary: '以 python 為例'
 ---
 前陣子需要用 mac 連 sql server, 記錄一下\
 這裡用[DSN](http://mirlab.org/jang/books/asp/odbc&dsn.asp?title=18-1%20ODBC%20%BBP%20DSN%20%C2%B2%A4%B6)連線
-# Step1 安裝driver
+## Step1 安裝driver
 使用 brew
 ```sh
 brew update
 brew install unixodbc freetds
 ```
-# Step2 修改 odbc 設定
+## Step2 修改 odbc 設定
 in `/usr/local/etc/odbcinst.ini`
 ```sh
 [FreeTDS]
@@ -37,7 +37,7 @@ in `/usr/local/etc/freetds.conf`
     port = sqlserver port
     tds version = 7.3 # version 說明參考 https://www.freetds.org/userguide/choosingtdsprotocol.htm
 ```
-# Step3 測試連線
+## Step3 測試連線
 設定完成後用command測試能否連上
 ```sh
 tsql -S TEST_DB -U username -P password
@@ -49,7 +49,7 @@ locale charset is "UTF-8"
 using default charset "UTF-8"
 1>
 ```
-# python 連線範例
+## python 連線範例
 安裝必要套件
 ```sh
 pip install sqlalchemy pyodbc
@@ -66,5 +66,5 @@ engine = create_engine(
 con = engine.connect()
 # more sample @see https://kite.com/python/docs/sqlalchemy.dialects.mssql.pyodbc
 ```
-# Reference
+## Reference
 * [Connecting to SQL Server from Mac OSX](https://github.com/mkleehammer/pyodbc/wiki/Connecting-to-SQL-Server-from-Mac-OSX)
