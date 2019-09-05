@@ -1,7 +1,7 @@
 ---
 title: 'Mac Connect to SQL Server'
 date: 2019-09-05T11:30:49+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['mac', 'sqlserver', 'python']
 summary: '以 python 為例'
