@@ -11,7 +11,6 @@ disableLanguages = ['en', 'de']
 customCSS = ['custom-hamburg.css']
 # Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
 ShowGDPRNotice = true
-    mainSections = ['posts']
 # github = 'whchi'
 disqus = true
 disqusShortname = 'whcdc'
@@ -37,6 +36,7 @@ disqusShortname = 'whcdc'
         title = '雜談與紀錄'
         subtitle = 'that/s all'
         copyright = '&copy; whchi 2018'
+        mainSections = ['posts']
         [languages.zh.menu]
             [[languages.zh.menu.main]]
                 name = 'About'
