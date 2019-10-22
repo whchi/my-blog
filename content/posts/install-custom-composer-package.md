@@ -11,7 +11,7 @@ summary: '人在做，天沒在看'
 設定如下
 
 * composer.json
-{{< highlight json >}}
+```json
 {
     ...
     "repositories": [
@@ -24,7 +24,7 @@ summary: '人在做，天沒在看'
         "vendor/package": "dev-{your fork branch name}"
     }
 }
-{{< / highlight >}}
+```
 > 建議 branch name 切開，不要用 master
 ## Reference
 * https://getcomposer.org/doc/05-repositories.md#vcs

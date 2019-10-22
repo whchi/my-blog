@@ -1,5 +1,6 @@
 baseURL = 'https://whchi.github.io/'
 theme = 'hamburg'
+pygmentsCodeFences = true
 ### hanburg settings ###
 defaultContentLanguageInSubdir = 'false'
 defaultContentLanguage = 'zh'

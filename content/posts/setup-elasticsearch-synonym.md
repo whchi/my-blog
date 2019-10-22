@@ -19,7 +19,7 @@ summary: '使用 docker 建立 elasticsearch 5.3 和 ik 分詞器'
 | analyzer  | 在建立/搜尋索引的時候要怎麼處理特定類型的字串, 比如說upperFirstCase, 去掉介詞, 同義詞處理...相當於tokenizer+filter |
 ## 設定
 * Dockerfile(包含 ik 安裝)
-{{< highlight docker >}}
+```docker
 FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.0
 
 RUN mkdir -p /usr/share/elasticsearch/plugins/ik530 && cd /usr/share/elasticsearch/plugins/ik530 && \
@@ -31,18 +31,18 @@ COPY ./synonym.txt /usr/share/elasticsearch/config/analysis/synonym.txt
 COPY ./stopwords.txt /usr/share/elasticsearch/config/analysis/stopwords.txt
 
 USER elasticsearch
-{{< / highlight >}}
+```
 
 * synonym.txt
 , 跟 => 的意義同 solr
-{{< highlight txt >}}
+```txt
 攝氏 => 華氏
 台灣,臺灣,臺灣黑熊
-{{< / highlight >}}
+```
 * [stopwords.txt](https://github.com/goto456/stopwords)
 
 * docker-compose.yml
-{{< highlight yaml >}}
+```yml
 version: '3'
 services:
   elasticsearch:
@@ -59,7 +59,7 @@ services:
     volumes:
       - '/path/to/local/index:/usr/share/elasticsearch/data'
     container_name: local_es
-{{< / highlight >}}
+```
 
 ## 執行
 記得把 Dockerfile 放在與 docker-compose.yml 同層
