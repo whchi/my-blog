@@ -17,30 +17,28 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 
 ## 前置作業
 [GKE quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart?hl=zh-tw)
-
 ## 名詞解釋
 在 k8s 中有多種類型的 [resource objects](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types), 下面簡單介紹本文所需知道的類型
 
-|資源名稱|簡單說明|
-|:--|:--|
-|pod|組成的最小單位, 可由單一或是多個 container 組成, 撰寫 yaml 時建議直接用 deployment|
-|node|實際提供 pods 環境的機器(虛擬 or 實體)|
-|deployment|pods instance template|
-|service|定義了如何連到 pods 的方式(protocol, port, kind)|
-|ingress|think as L7 LBS(F5)|
-|configmap|可在runtime時再把設定檔綁到特定的 pods 上, 讓設定更加彈性|
-|persistentvolume|short for pv, think as external HD|
-|persistentvolumeclaims|short for pvc, 存取pv的抽象層, 建好的 pv 需要透過 pvc 才能被掛載, 類似用 deploy 去掛 pod 的感覺|
-|service.NodePort|讓叢集對外的最原始方式, 直接在 node 上開個 port|
-|service.ClusterIP|預設的service type, 叢集中提供一個 cluster-internal ip讓叢集內/間的 pods 可以直接存取|
-|service.LoadBalancer|一般對外的方式, 有需要的請參考[官方說明](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)|
-|Ingress|不是 service type, 但能夠做到巷一台 L7 的服務掛給你對外|
+| 資源名稱               | 簡單說明                                                                                                                |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------------------- |
+| pod                    | 組成的最小單位, 可由單一或是多個 container 組成, 撰寫 yaml 時建議直接用 deployment                                      |
+| node                   | 實際提供 pods 環境的機器(虛擬 or 實體)                                                                                  |
+| deployment             | pods instance template                                                                                                  |
+| service                | 定義了如何連到 pods 的方式(protocol, port, kind)                                                                        |
+| ingress                | think as L7 LBS(F5)                                                                                                     |
+| configmap              | 可在runtime時再把設定檔綁到特定的 pods 上, 讓設定更加彈性                                                               |
+| persistentvolume       | short for pv, think as external HD                                                                                      |
+| persistentvolumeclaims | short for pvc, 存取pv的抽象層, 建好的 pv 需要透過 pvc 才能被掛載, 類似用 deploy 去掛 pod 的感覺                         |
+| service.NodePort       | 讓叢集對外的最原始方式, 直接在 node 上開個 port                                                                         |
+| service.ClusterIP      | 預設的service type, 叢集中提供一個 cluster-internal ip讓叢集內/間的 pods 可以直接存取                                   |
+| service.LoadBalancer   | 一般對外的方式, 有需要的請參考[官方說明](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) |
+| Ingress                | 不是 service type, 但能夠做到巷一台 L7 的服務掛給你對外                                                                 |
 
 ## 建立資源指令
 有兩種方法使用`kubectl`告訴 k8s 你要建立的資源, 分別是[create(命令式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)和[apply(宣告式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 
 > 這裡沒有找到比較好的解釋說明兩者的差異, 我個人是偏好不變的資源用 create, 因為兩種command 建立出來的資源是在 command 中是互斥的, 避免 apply 倒不會動的資源
-
 
 ```sh
 # 1. create resource
@@ -61,8 +59,7 @@ kubectl apply -f xxxx.yml # use apply
 [安裝完laravel](https://laravel.com/docs/5.8/installation)之後寫個 Dockerfile build image, 參考如下
 
 * Dockerfile.php
-
-{{< highlight docker >}}
+```docker
 FROM php:7.3.3
 
 RUN apt-get update -y && apt-get install -y openssl zip unzip git
@@ -77,23 +74,18 @@ RUN chown -R www-data:www-data /app/
 USER www-data
 CMD php artisan serve --host=0.0.0.0 --port=8000 #實務上不會這樣做, 本文只是為了可以建立環境所以這樣做
 EXPOSE 8000
-{{< / highlight >}}
-
+```
 * build & push image
-
 ```sh
 docker build -t phpapp:1.0.0 -f Dockerfile.php .
 # then
 docker push gcr.io/{your-gcp-project-name}/phpapp:1.0.0
 # 這裡以 gcr 為例, 推到 dockerhub 也可以, 總之要有一個本地連的到的地方
 ```
-
 ### yaml
 這裡直接把 deploy 跟 service 寫在一起
-
 * nginx-k8s.yml
-
-{{< highlight yml>}}
+```yml
 apiVersion: v1
 data:
   nginx.conf: |
@@ -103,7 +95,6 @@ data:
     http {
       server {
         listen 80;
-
         location / {
           proxy_pass http://phpapp-local:7777;
         }
@@ -153,11 +144,9 @@ spec:
   selector:
     app: nginx # 這裡用 select 對應到實際的 deployment
   type: NodePort # 要注意的是, Ingress 目前只支援 NodePort, 如果不用 Ingress 的話可使用 ClusterIP
-{{</ highlight >}}
-
+```
 * php-k8s.yml
-
-{{< highlight yml>}}
+```yml
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -195,10 +184,8 @@ spec:
   selector:
     app: phpapp
   type: ClusterIP
-{{< / highlight >}}
-
-* mysql.yml
-
+```
+* mysql.yml\
 這裡用 cloudSQL, credential 的部分指的是 service account 金鑰, 有幾種方式設定
 ```sh
 # 1. use kubectl (recommend)
@@ -208,10 +195,9 @@ cat /path/to/service-account.json | base64
 # then paste to cloudsql-instance-credentials.yml
 ```
 先跑完 credential 再跑下面的 yml, 不然跑的時候會找不到
-
-* cloudsql-instance-credentials.yml (用 kubectl create 後也會建立此檔, 使用方法 2 的話可以先建立後再copy-paste)
-
-{{< highlight yml >}}
+* cloudsql-instance-credentials.yml \
+用 kubectl create 後也會建立此檔, 使用方法 2 的話可以先建立後再copy-paste
+```yml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -220,11 +206,9 @@ type: Opaque # k8s 提供的一種非明碼儲存方式, 使用 `kubectl create 
 data:
   # base64 encoded service-account.json
   service-account.json: xxxxxxxxxxx=
-{{< / highlight >}}
-
+```
 * cloudsql.yml
-
-{{< highlight yml >}}
+```yml
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -265,11 +249,9 @@ spec:
       targetPort: 3306
   selector:
     component: cloudsql-proxy
-{{< / highlight >}}
-
+```
 * redis.yml
-
-{{< highlight yml >}}
+```yml
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -300,12 +282,10 @@ spec:
   selector:
     app: redis-pod
   type: ClusterIP
-{{< / highlight >}}
-
-* ingress.yml
-
+```
+* ingress.yml\
 不一定要用ingress, 也可以使用 LoadBalancer
-{{< highlight yml >}}
+```yml
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -316,8 +296,7 @@ spec:
   backend:
     serviceName: nginx-local #必須為 NodePort, 名稱為 nginx-k8s.yml 的 metadata
     servicePort: 80
-{{< / highlight >}}
-
+```
 ## 備註
 1. nginx 跟 php 做分拆的話會有靜態檔案的問題, 這邊還沒想到一個很好的解法, 之前嘗試過的解法是用k8s的 pv(persistentVolume) + pvc(persistentVolumeClaim) 去掛可以掛 ROX(目前 GCE 還不支援) 的 disk 來做到多個 replicas 的時候也能正確 mount 新的靜態檔案
 2. 圖檔之類的東西應該不適合丟在 pv 做, 畢竟流量就是$$

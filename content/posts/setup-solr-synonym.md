@@ -29,7 +29,7 @@ cores
 主要說明幾個檔案
 ### core.properties
 告訴 solr 要讀取的 core 資訊, 範例參考
-```properties
+```txt
 name=mycore
 config=solrconfig.xml
 schema=schema.xml
@@ -37,17 +37,17 @@ dataDir=data
 ```
 ### solrconfig.xml
 增加 dataimport
-{{< highlight xml >}}
+```xml
 <requestHandler name="/dataimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
     <lst name="defaults">
         <str name="config">db-data-config.xml</str>
     </lst>
 </requestHandler>
-{{< / highlight >}}
+```
 
 ### db-data-config.xml
 設定要 import 的 data 的 query, 範例參考
-{{< highlight xml >}}
+```xml
 <dataConfig>
     <dataSource type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/test" user="myusername" password="mypassword"/>
         <document name="mydocument">
@@ -59,10 +59,10 @@ dataDir=data
         </entity>
     </document>
 </dataConfig>
-{{< / highlight >}}
+```
 
 ### schema.xml
-{{< highlight xml >}}
+```xml
 <fields>
     <field name="name" type="text_syn" indexed="true" stored="true" required="true" multiValued="false" />
     <field name="type" indexed="false" type="string" stored="true" required="false" multiValued="false" />
@@ -77,17 +77,17 @@ dataDir=data
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/> <!-- token參考停用字, 不一定要 -->
     </analyzer>
 </fieldType>
-{{< / highlight >}}
+```
 
 ### synonym.txt
-{{< highlight plaintext >}}
+```txt
 # , 表示同等意思
 # => 表示用左側搜會用右側搜
 # 但因為會先跑 token, 所以有要做同意的字也要把他設進 words.dic 裡面
 台灣,臺灣
 流行性感冒 => 流感
 TV => Taiwan-Value
-{{< / highlight >}}
+```
 ## 使用 docker-compose 安裝
 上面的設定完成後跑下面的`docker-compose.yml`進行安裝, 附上相關 jar 的載點\
 [mmseg4j-core-1.10.0.jar](https://mvnrepository.com/artifact/com.chenlb.mmseg4j/mmseg4j-core/1.10.0)、
@@ -104,18 +104,18 @@ TV => Taiwan-Value
 
 以 `.dic` 結尾
 
-|檔案|說明|
-|:--|:--|
-|units.dic|單位詞(年月日時分秒...)|
-|chars.dic|單一串字典|
-|words.dic|想要被切出來的詞庫, 比如說「三生有幸」原本可能是「三」「生」「有」「幸」, 加入後就會直接被切成「三生有幸」|
-|wordsXXXX.dic|XXXX自定義, 主要是切開管理字典檔|
+| 檔案          | 說明                                                                                                       |
+| :------------ | :--------------------------------------------------------------------------------------------------------- |
+| units.dic     | 單位詞(年月日時分秒...)                                                                                    |
+| chars.dic     | 單一串字典                                                                                                 |
+| words.dic     | 想要被切出來的詞庫, 比如說「三生有幸」原本可能是「三」「生」「有」「幸」, 加入後就會直接被切成「三生有幸」 |
+| wordsXXXX.dic | XXXX自定義, 主要是切開管理字典檔                                                                           |
 
 除了最後一項尚上述的字典都有開源載點
 
 * docker-compose.yml
 
-{{< highlight yaml >}}
+```yml
 version: '3'
 services:
   solr:
@@ -154,7 +154,7 @@ services:
     ports:
     - "3306:3306"
     privileged: true
-{{< / highlight >}}
+```
 ## 測試
 安裝成功後開啟瀏覽器輸入`localhost:8983` 會看到 solr 的 UI, 選擇`mycore`跑完`full-import`後點擊`Analysis`頁籤\
 於選擇建立的欄位進行測試如圖

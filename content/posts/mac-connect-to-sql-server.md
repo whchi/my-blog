@@ -16,7 +16,7 @@ brew install unixodbc freetds
 ```
 ## Step2 修改 odbc 設定
 in `/usr/local/etc/odbcinst.ini`
-```sh
+```ini
 [FreeTDS]
 Description=FreeTDS Driver for Mac & MSSQL
 Driver=/usr/local/lib/libtdsodbc.so # 這兩個 .so 在下 brew install unixodbc 的時候會自己裝到這
@@ -24,14 +24,14 @@ Setup=/usr/local/lib/libtdsodbc.so
 UsageCount=1
 ```
 in `/usr/local/etc/odbc.ini`
-```sh
+```ini
 [TEST_DB] # DSN名稱, 要跟 freetds.conf 的 name mapping
 Description         = test_db # 隨便
 Driver              = FreeTDS # 要跟 odbcinst.ini 的 name mapping
 Servername          = TEST_DB # 隨便
 ```
 in `/usr/local/etc/freetds.conf`
-```sh
+```conf
 [TEST_DB]
     host = sqlserver host
     port = sqlserver port
