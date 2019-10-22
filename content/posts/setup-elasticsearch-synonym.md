@@ -1,7 +1,7 @@
 ---
 title: '設定 elasticsearch 同義詞'
 date: 2019-10-15T18:17:14+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['elasticsearch']
 summary: '使用 docker 建立 elasticsearch 5.3 和 ik 分詞器'
