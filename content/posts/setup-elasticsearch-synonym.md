@@ -7,14 +7,16 @@ tags: ['elasticsearch']
 summary: '使用 docker 建立 elasticsearch 5.3 和 ik 分詞器'
 ---
 同 solr 是基於 lucene 寫出來的開源搜尋引擎, 因此 filter, tokenizer, analyzer 的概念與 solr 是一致的
+
 > 現在 elasticsearch 已經到 7.4
+
 * filter, tokenizer, analyzer簡介
 
-|名詞|說明|
-|:--|:--|
-|tokenizer|把 input 拆分成 token 產出 token stream|
-|filter| 接收 token stream 並進行處理(case/replace/drop...)|
-|analyzer|在建立/搜尋索引的時候要怎麼處理特定類型的字串, 比如說upperFirstCase, 去掉介詞, 同義詞處理...相當於tokenizer+filter|
+| 名詞      | 說明                                                                                                               |
+| :-------- | :----------------------------------------------------------------------------------------------------------------- |
+| tokenizer | 把 input 拆分成 token 產出 token stream                                                                            |
+| filter    | 接收 token stream 並進行處理(case/replace/drop...)                                                                 |
+| analyzer  | 在建立/搜尋索引的時候要怎麼處理特定類型的字串, 比如說upperFirstCase, 去掉介詞, 同義詞處理...相當於tokenizer+filter |
 ## 設定
 * Dockerfile(包含 ik 安裝)
 {{< highlight docker >}}
