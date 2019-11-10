@@ -12,9 +12,9 @@ nopagination: true
 
 ### skills
 
-* Web Backend development: php, node, python
-* Web Frontend development: vue.js, jQuery
-* Development enviorment: docker, vagrant, GCP services
+* Backend development: php, node, python
+* Frontend development: Vue, jQuery
+* Development enviorment: docker, vagrant, GCP
 * Linux(centos, ubuntu)
 * Version control: git
 * MySQL
