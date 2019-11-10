@@ -7,7 +7,9 @@ tags: ['solr']
 summary: '使用 docker 建立 solr 4.10 並用 mmseg 切字'
 ---
 將說明從安裝到設定的過程
+
 > 現在 solr 已經到 8.2 了, 但因為歷史包袱所以還是用 4.10
+
 ## 設定
 在本地建立core folder, 結構圖如下
 ```sh
@@ -134,17 +136,7 @@ services:
         './dict:/opt/solr-multicore/dics/' # 自定義字典檔, 可以去開源詞庫抓獲自行定義
     ]
     command:
-      [
-        '/opt/solr/bin/solr',
-        'start',
-        '-p',
-        '8983',
-        '-s',
-        '/var/solr',
-        '-m',
-        '1024m',
-        '-f',
-      ]
+    - '/opt/solr/bin/solr start -p 8983 -s /var/solr -m 1024m -f'
   mysql:
     image: mysql:5.7
     volumes:

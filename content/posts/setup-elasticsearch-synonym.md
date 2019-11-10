@@ -86,6 +86,7 @@ docker-compose up -d
 * [PUT]新增 index
 
 直接打 `localhost:9200/{indexname}?pretty`
+
 * [PUT] 設定 mappings(token的欄位與型態) & settings(如何處理token)
 
 ```json
