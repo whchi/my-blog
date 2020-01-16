@@ -3,6 +3,7 @@ title: "Intro to Microsoft Application Insights"
 date: 2019-11-21T14:47:19+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 summary: '是一份沒有機會講的ppt'
 ---
 

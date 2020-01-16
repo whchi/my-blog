@@ -3,6 +3,7 @@ title: '設定 solr 同義詞'
 date: 2019-09-05T11:55:11+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['solr']
 summary: '使用 docker 建立 solr 4.10 並用 mmseg 切字'
 ---

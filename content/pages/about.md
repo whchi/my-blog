@@ -1,8 +1,9 @@
 ---
 title: "About"
-date: 2018-12-20T14:31:46+08:00
 draft: false
+type: 'pages'
 author: 'whchi'
+nodate: true
 noshowdate: true
 nocomments: true
 nopagination: true

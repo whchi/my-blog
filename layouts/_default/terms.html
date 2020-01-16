@@ -3,7 +3,7 @@
     <h1>{{ .Title }}</h1>
     {{ $data := .Data }}
     <div class="container">
-        {{ range $key, $value := .Data.Pages }}
+        {{ range $key, $value := .Pages }}
         <a class="tag-container" href="{{ $value.URL }}">
             {{ $value.Name }}
         </a>

@@ -3,6 +3,7 @@ title: "將 laravel log 透過 kafka 送入 ELK"
 date: 2018-12-29T17:30:24+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['laravel','devops','php', 'kafka', 'elk']
 summary: '就像在烤肉時，把雞肉、青椒以及杏苞姑串再一起的概念'
 ---

@@ -4,6 +4,14 @@
   other = "回首頁"
 [noMoreNewPosts]
   other = "已是最新的文章"
+[prevPage]
+  other = "上一頁"
+[nextPage]
+  other = "下一頁"
+[noMorePrevPage]
+  other = "已是最舊一頁"
+[noMoreNextPage]
+  other = "已是最新一頁"
 [newerPosts]
   other = "下一篇"
 [noMoreOldPosts]

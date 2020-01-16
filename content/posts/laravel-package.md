@@ -3,6 +3,7 @@ title: "開發並部署 laravel package 到 github 上"
 date: 2019-03-18T16:38:36+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['laravel']
 summary: '最近花了點時間把以前寫的東西改成laravel package，留個筆記'
 ---

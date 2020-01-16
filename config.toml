@@ -5,20 +5,22 @@ pygmentsCodeFences = true
 defaultContentLanguageInSubdir = 'false'
 defaultContentLanguage = 'zh'
 disableLanguages = ['en', 'de']
+paginate=5
 [params]
 # Short subtitle/tagline. This is displayed in the header.
 # themecolor = '#ffff00' # Defines the tab color in Chrome for Android.
 # To load additional CSS styles
 customCSS = ['custom-hamburg.css']
+mainSections=['posts']
 # Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
 ShowGDPRNotice = true
-# github = 'whchi'
+github = 'whchi'
+linkedin='wei-han-chi-61500611'
 disqus = true
 disqusShortname = 'whcdc'
 [mediaTypes]
   [mediaTypes."application/javascript"]
     suffixes = "js"
-
 [languages]
     [languages.en]
         languageCode = 'en'
@@ -37,7 +39,6 @@ disqusShortname = 'whcdc'
         title = '雜談與紀錄'
         subtitle = 'that/s all'
         copyright = '&copy; whchi 2018'
-        mainSections = ['posts']
         [languages.zh.menu]
             [[languages.zh.menu.main]]
                 name = 'About'
