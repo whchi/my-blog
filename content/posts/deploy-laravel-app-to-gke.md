@@ -3,6 +3,7 @@ title: '部署laravel應用程式到GKE上'
 date: 2019-07-13T00:37:23+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['devops', 'GKE', 'laravel', 'k8s']
 summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 ---

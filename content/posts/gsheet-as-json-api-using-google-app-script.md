@@ -3,6 +3,7 @@ title: '把 gsheet 當作 json api 使用'
 date: 2020-01-07T14:56:44+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['google sheet', 'serverless', 'google app script']
 summary: '有些事情做了才知道，比如改 wording'
 ---

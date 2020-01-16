@@ -3,6 +3,7 @@ title: '安裝 fork 過來的 composer 套件'
 date: 2019-06-02T20:16:20+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['composer', 'php']
 summary: '人在做，天沒在看'
 ---

@@ -69,29 +69,29 @@
     {{ else }}
     <div class="delimiter"></div>
     <div class="pager-container">
-      {{ if .NextPage }}
-      <a class="btn btn-primary btn-older-posts" href="{{ .NextPage.Permalink }}">
+      {{ if .PrevPage }}
+      <a class="btn btn-primary btn-older-posts" href="{{ .PrevPage.Permalink }}">
         <div>
-          <span aria-hidden="true">&larr;</span> {{ i18n "olderPosts" }}
+          <span aria-hidden="true">&larr;</span>
         </div>
       </a>
       {{ else }}
       <a class="btn btn-primary btn-older-posts disabled" href="#">
         <div>
-          <span aria-hidden="true">&#10006;</span> {{ i18n "noMoreOldPosts" }}
+          <span aria-hidden="true">&#10006;</span>
         </div>
       </a>
       {{ end }}
-      {{ if .PrevPage }}
-      <a class="btn btn-primary btn-newer-posts" href="{{ .PrevPage.Permalink }}">
+      {{ if .NextPage }}
+      <a class="btn btn-primary btn-newer-posts" href="{{ .NextPage.Permalink }}">
         <div>
-          {{ i18n "newerPosts" }} <span aria-hidden="true">&rarr;</span>
+          <span aria-hidden="true">&rarr;</span>
         </div>
       </a>
       {{ else }}
       <a class="btn btn-primary btn-newer-posts disabled" href="#">
         <div>
-          {{ i18n "noMoreNewPosts" }} <span aria-hidden="true">&#10006;</span>
+          <span aria-hidden="true">&#10006;</span>
         </div>
       </a>
       {{ end }}
