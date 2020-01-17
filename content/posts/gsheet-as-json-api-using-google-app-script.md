@@ -51,7 +51,7 @@ function doPost(e){
 ```
 script editor 有提供中斷點進行 debug 如圖
 ![](/images/script-editor-debugger.png)
-1. publish\
+4. publish\
 點擊上方的`publish::Deploy as web app`，存取權限選擇`Anyone,even anonymous`後發布\
 會取得一個 uri，這串就直接把 sheet 內的東西做為 json 取回拉～
 
