@@ -49,7 +49,8 @@ services:
         - "local-project.dev:172.28.0.2"
 networks:
   default:
-    external: mynetwork
+    external:
+      name: mynetwork
 ```
 下面列出 laravel-dusk 要做的事
 ### laravel-dusk
