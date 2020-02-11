@@ -1,10 +1,10 @@
 ---
-title: 'Laravel Model Incrementing Detail'
+title: 'Laravel Model 使用非預設主鍵'
 date: 2020-02-11T21:56:10+08:00
 draft: false
 author: 'whchi'
 tags: ['laravel']
-summary: 'laravel trace code筆記'
+summary: 'trace code 筆記'
 ---
 
 最近遇到一個怪問題，用 laravel 時如果指定 `$primaryKey` 為其他非 auto-increment 的值時必需同時指定`$keyType`跟`$incrementing`才能 model  在使用時正常
