@@ -10,7 +10,9 @@ summary: 'trace code 筆記'
 最近遇到一個怪問題，用 laravel 時如果指定 `$primaryKey` 為其他非 auto-increment 的值時必需同時指定`$keyType`跟`$incrementing`才能 model  在使用時正常
 
 比如說主鍵是 uuid 時要做以下設定才能正確執行，少一個都不能 work
+
 ```php
+<?php
 $primaryKey = 'uuid';
 $keyType = 'string';
 $incrementing = false;
@@ -22,6 +24,7 @@ $incrementing = false;
 
 在這支約 `L682` 的地方有說明如果設定上有 `$incrementing` 的時候會使用`PDO::lastInsertId`來取的最後 insert 的 id
 ```php
+<?php
 // If the model has an incrementing key, we can use the "insertGetId" method on
 // the query builder, which will give us back the final inserted ID for this
 // table from the database. Not all tables have to be incrementing though.
@@ -42,6 +45,7 @@ With an argument, LAST_INSERT_ID() returns an unsigned integer.
 model 在回傳的時候會去查看`$casts`裡面的東西並把它mapping起來作為回傳的 attributes，而在使用到的 Traits 裡面的裡面有去特別檢查`$incrementing`的設定，程式碼如下
 * HasAttributes.php
 ```php
+<?php
 public function getCasts()
 {
     if ($this->getIncrementing()) {
