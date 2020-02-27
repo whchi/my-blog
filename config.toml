@@ -15,7 +15,7 @@ mainSections=['posts']
 # Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
 ShowGDPRNotice = true
 github = 'whchi'
-linkedin='wei-han-chi-61500611'
+linkedin='wei-han-chi-61500610'
 disqus = true
 disqusShortname = 'whcdc'
 [mediaTypes]
