@@ -8,12 +8,16 @@ summary: 'just note it'
 ---
 ### bind vs singleton
 * bind
+
 for reusable class or object
 * singleton
+
 need only one instance through your application call
 
 **example**
+
 ```php
+<?php
 class TestClass
 {
     protected $value = 0;
@@ -42,6 +46,7 @@ app('klass2')->increase(); // 3
 
 **example**
 ```php
+<?php
 protected static function getFacadeAccessor()
 {
     self::clearResolvedInstance(YourService::class);
