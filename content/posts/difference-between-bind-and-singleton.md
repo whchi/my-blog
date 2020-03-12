@@ -8,7 +8,7 @@ summary: 'just note it'
 ---
 ### bind vs singleton
 * bind
-for reuseable class or object
+for reusable class or object
 * singleton
 need only one instance through your application call
 
