@@ -5,7 +5,7 @@ pygmentsCodeFences = true
 defaultContentLanguageInSubdir = 'false'
 defaultContentLanguage = 'zh'
 disableLanguages = ['en', 'de']
-paginate=5
+paginate=10
 [params]
 # Short subtitle/tagline. This is displayed in the header.
 # themecolor = '#ffff00' # Defines the tab color in Chrome for Android.
