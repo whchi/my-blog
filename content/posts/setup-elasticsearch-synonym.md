@@ -21,11 +21,9 @@ summary: '使用 docker 建立 elasticsearch 5.3 和 ik 分詞器'
 ## 設定
 * Dockerfile(包含 ik 安裝)
 ```docker
-FROM docker.elastic.co/elasticsearch/elasticsearch:5.3.0
+FROM elasticsearch:5.3.0
 
-RUN mkdir -p /usr/share/elasticsearch/plugins/ik530 && cd /usr/share/elasticsearch/plugins/ik530 && \
-    wget "https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.3.0/elasticsearch-analysis-ik-5.3.0.zip" && \
-    unzip elasticsearch-analysis-ik-5.3.0.zip && rm elasticsearch-analysis-ik-5.3.0.zip;
+RUN ./bin/elasticsearch-plugin install -b https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.3.0/elasticsearch-analysis-ik-5.3.0.zip
 
 # 記得先放
 COPY ./synonym.txt /usr/share/elasticsearch/config/analysis/synonym.txt
