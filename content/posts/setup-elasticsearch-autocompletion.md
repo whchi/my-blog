@@ -11,8 +11,8 @@ summary: '使用 elasticsearch 7.6.2'
 
 自動完成直覺想到的關聯是「建議」以及「打字即呈現」，在 Elasticsearch 官方文件找的話會有`Suggester`、`search as you type`等關鍵字，以下分別說明兩者設定方式與差異
 > 這裡假設已經有安裝 ik 分詞器，還沒裝的可以餐考 [我之前的文章](/posts/setup-elasticsearch-synonym/)
-# 設定方式
-## Suggester
+## 設定方式
+### Suggester
 官方提到共有四種類型如下
 
 |名稱|描述|
@@ -85,9 +85,9 @@ POST <index>/_search?pretty
 }
 ```
 可以直接拿 _source 裡面的東西或是 text 作為 api 回傳的資料
-## search_as_you_type
+### search_as_you_type
 這是 7.2 之後才推出的欄位，使用 ngram 為基礎並打造的自動完成 field type，因此**可以做到 infix 自動完成**。\
-搜尋 `edge_ngram auto completion elasticsearch`可以找到7.2之前的版本大概都是怎麼完成 infix 的
+搜尋 `edge_ngram auto completion elasticsearch`或是參考我的 Reference 可以知道 7.2 之前的版本大概都是怎麼完成 infix 的
 1. set mapping
 ```sh
 PUT <index>
@@ -161,7 +161,7 @@ _source 裡面的就是結果\
 src="/images/auto-completion-result.png"
 title="呈現結果示意圖"
 caption="呈現結果示意圖">}}
-# 補充： analyzer 是什麼
+## 補充： analyzer 是什麼
 > Analyzer = Character Filter + Tokenizer + Token Filter
 
 |名稱|簡介|
