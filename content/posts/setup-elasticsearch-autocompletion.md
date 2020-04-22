@@ -19,8 +19,9 @@ summary: '使用 elasticsearch 7.6.2'
 |:--|:--|
 |Term|用 [edit distance](https://zh.wikipedia.org/wiki/%E7%B7%A8%E8%BC%AF%E8%B7%9D%E9%9B%A2) 為算法基礎（顧名思義，某個字詞改變多少字元就能轉變為另個字詞），基於 analyze 過的單一 term 給予建議，不考慮 term 之間的關係。|
 |Phrase|基於前者的基礎上考慮其關係，通常能提供更符合語意的結果。|
-|Completion|針對 **auto completion** 的應用場景，其原理是將 token 編碼成 FST 後放在索引裡，由於是在 memory 因此回應速度很快，不過因其資料結構限制所以只能做 prefix 查詢|
+|Completion|針對 **auto completion** 的應用場景，其原理是將 token 編碼成 FST 後放在索引裡，由於是在 memory 因此回應速度很快，**不過因其資料結構限制所以只能做 prefix 查詢**|
 |Context|是前者的進階使用，由於自動完成有時需要考慮情境（比如輸入 star 跑出 coffee，因為 starbuck 的存在）而出現的類型|
+
 
 這邊只介紹 Completion Suggester 的部分
 1. set mapping
@@ -85,7 +86,7 @@ POST <index>/_search?pretty
 ```
 可以直接拿 _source 裡面的東西或是 text 作為 api 回傳的資料
 ## search_as_you_type
-這是 7.2 之後才推出的欄位，使用 ngram 為基礎並打造的自動完成 field type，因此可以做到 infix 自動完成。\
+這是 7.2 之後才推出的欄位，使用 ngram 為基礎並打造的自動完成 field type，因此**可以做到 infix 自動完成**。\
 搜尋 `edge_ngram auto completion elasticsearch`可以找到以前大概都是怎麼完成的
 1. set mapping
 ```sh
