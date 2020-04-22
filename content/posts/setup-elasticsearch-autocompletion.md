@@ -87,7 +87,7 @@ POST <index>/_search?pretty
 可以直接拿 _source 裡面的東西或是 text 作為 api 回傳的資料
 ## search_as_you_type
 這是 7.2 之後才推出的欄位，使用 ngram 為基礎並打造的自動完成 field type，因此**可以做到 infix 自動完成**。\
-搜尋 `edge_ngram auto completion elasticsearch`可以找到以前大概都是怎麼完成的
+搜尋 `edge_ngram auto completion elasticsearch`可以找到7.2之前的版本大概都是怎麼完成 infix 的
 1. set mapping
 ```sh
 PUT <index>
