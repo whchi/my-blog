@@ -1,0 +1,11 @@
+{{ $src := .Get "src" }} {{ $title := .Get "title" }}{{ $caption := .Get "caption" }}
+
+<figure class="center">
+  <img src="{{$src}}" title="{{$title}}" decoding="async" />
+  <figcaption>{{$caption}}</figcaption>
+</figure>
+<style lang="css">
+  .center {
+    text-align: center;
+  }
+</style>
