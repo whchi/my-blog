@@ -4,7 +4,7 @@ date: 2020-01-07T14:56:44+08:00
 draft: false
 author: 'whchi'
 type: 'posts'
-tags: ['google sheet', 'serverless', 'google app script']
+tags: ['google app script']
 summary: '有些事情做了才知道，比如改 wording'
 ---
 改 wording 這種別人說了算的東西，就應該把責任推給別人，所以就有了這篇文章
