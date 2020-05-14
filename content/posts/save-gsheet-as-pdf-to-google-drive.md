@@ -3,7 +3,7 @@ title: '轉存 gsheet 成 pdf 並存入 google drive'
 date: 2020-05-06T23:00:12+08:00
 draft: false
 author: 'whchi'
-tags: ['google app script']
+tags: ['google app script', 'save time']
 summary: '感覺很有機會用就紀錄在這'
 ---
 ```js
