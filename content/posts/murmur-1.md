@@ -3,7 +3,7 @@ title: '雜談（1）'
 date: 2020-04-22T23:48:03+08:00
 draft: false
 author: 'whchi'
-tags: ['gossiping']
+tags: ['murmur']
 summary: '關於學習'
 ---
 
