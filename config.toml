@@ -44,5 +44,9 @@ disqusShortname = 'whcdc'
                 name = 'About'
                 identifier = 'about'
                 url = 'pages/about'
+            [[languages.zh.menu.main]]
+                name = '所有標籤'
+                identifier = 'tags'
+                url = 'tags'
 
 
