@@ -15,7 +15,7 @@ nopagination: true
 
 * Backend development: php, node, python
 * Frontend development: Vue, jQuery
-* Development enviorment: docker, vagrant, GCP
+* Development enviorment: docker, vagrant, GCP, k8s
 * Linux(centos, ubuntu)
 * Version control: git
 * MySQL
