@@ -21,6 +21,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 ## 名詞解釋
 在 k8s 中有多種類型的 [resource objects](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types), 下面簡單介紹本文所需知道的類型
 
+{{< table "table table-bordered" >}}
 | 資源名稱               | 簡單說明                                                                                                                |
 | :--------------------- | :---------------------------------------------------------------------------------------------------------------------- |
 | pod                    | 組成的最小單位, 可由單一或是多個 container 組成, 撰寫 yaml 時建議直接用 deployment                                      |
@@ -35,7 +36,7 @@ summary: '這是一篇 quick guide about 建立三層<del>肉</del>式架構'
 | service.ClusterIP      | 預設的service type, 叢集中提供一個 cluster-internal ip讓叢集內/間的 pods 可以直接存取                                   |
 | service.LoadBalancer   | 一般對外的方式, 有需要的請參考[官方說明](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) |
 | Ingress                | 不是 service type, 但能夠做到巷一台 L7 的服務掛給你對外                                                                 |
-
+{{</ table>}}
 ## 建立資源指令
 有兩種方法使用`kubectl`告訴 k8s 你要建立的資源, 分別是[create(命令式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)和[apply(宣告式)](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 

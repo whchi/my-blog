@@ -133,12 +133,14 @@ class KafkaLogServiceProvider extends ServiceProvider
 ### 使用 git-tag 進行版本控管
 composer 對於使用 git 進行版控的 package 的版本定義是使用 tag，原因參考[這裡](https://getcomposer.org/doc/articles/versions.md#composer-versions-vs-vcs-versions)，因此在部署時記得要把 tag 一起推上去，操作如列表
 
+{{< table "table table-bordered" >}}
 | 說明             | 指令                                                             |
 | :--------------- | :--------------------------------------------------------------- |
 | add local tag    | `git tag -a {版本號} -m '非必要的描述'`                          |
 | add remote tag   | `git push --tags`                                                |
 | remove local tag | `git tag -d {版本號}`                                            |
 | add remote tag   | `git push --delete [remotereponame] {版本號}`，不指定則為 origin |
+{{</ table>}}
 - - -
 ## 使用 composer 安裝
 部署上去最的目的是使用 composer 安裝，composer 有指定 package 要去哪抓的[設定](https://getcomposer.org/doc/05-repositories.md#vcs)，參考設定如下
