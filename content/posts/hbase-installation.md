@@ -1,7 +1,7 @@
 ---
 title: '安裝 Hbase'
 date: 2020-05-25T14:46:39+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['hadoop', 'hbase']
 summary: 'hbase only'
