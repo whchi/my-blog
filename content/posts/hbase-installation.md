@@ -104,7 +104,7 @@ sudo mv hbase-2.2.4 /opt/hbase
 cd /opt/hbase
 mkdir zookeeperdata
 ```
-2. file configurations(這邊以 pseudo distributed 為例的指令
+1. file configurations(這邊以 pseudo distributed 為例)
 
 * hbase-env.sh
 ```sh
