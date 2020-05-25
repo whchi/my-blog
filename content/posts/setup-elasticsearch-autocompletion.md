@@ -15,13 +15,14 @@ summary: '使用 elasticsearch 7.6.2'
 ### Suggester
 官方提到共有四種類型如下
 
-|名稱|描述|
-|:--|:--|
-|Term|用 [edit distance](https://zh.wikipedia.org/wiki/%E7%B7%A8%E8%BC%AF%E8%B7%9D%E9%9B%A2) 為算法基礎（顧名思義，某個字詞改變多少字元就能轉變為另個字詞），基於 analyze 過的單一 term 給予建議，不考慮 term 之間的關係。|
-|Phrase|基於前者的基礎上考慮其關係，通常能提供更符合語意的結果。|
-|Completion|針對 **auto completion** 的應用場景，其原理是將 token 編碼成 FST 後放在索引裡，由於是在 memory 因此回應速度很快，**不過因其資料結構限制所以只能做 prefix 查詢**|
-|Context|是前者的進階使用，由於自動完成有時需要考慮情境（比如輸入 star 跑出 coffee，因為 starbuck 的存在）而出現的類型|
-
+{{< table "table table-bordered" >}}
+| 名稱       | 描述                                                                                                                                                                                                                 |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Term       | 用 [edit distance](https://zh.wikipedia.org/wiki/%E7%B7%A8%E8%BC%AF%E8%B7%9D%E9%9B%A2) 為算法基礎（顧名思義，某個字詞改變多少字元就能轉變為另個字詞），基於 analyze 過的單一 term 給予建議，不考慮 term 之間的關係。 |
+| Phrase     | 基於前者的基礎上考慮其關係，通常能提供更符合語意的結果。                                                                                                                                                             |
+| Completion | 針對 **auto completion** 的應用場景，其原理是將 token 編碼成 FST 後放在索引裡，由於是在 memory 因此回應速度很快，**不過因其資料結構限制所以只能做 prefix 查詢**                                                      |
+| Context    | 是前者的進階使用，由於自動完成有時需要考慮情境（比如輸入 star 跑出 coffee，因為 starbuck 的存在）而出現的類型                                                                                                        |
+{{</ table >}}
 
 這邊只介紹 Completion Suggester 的部分
 1. set mapping
@@ -164,11 +165,13 @@ caption="呈現結果示意圖">}}
 ## 補充： analyzer 是什麼
 > Analyzer = Character Filter + Tokenizer + Token Filter
 
-|名稱|簡介|
-|:--|:--|
-|Character Filter|針對原始文件進行處理，例如：去除HTML tag，一個 analyzer 可設定多個 char_filter|
-|Tokenizer|將前者的結果依據規則切分 token，比如以空白切分的 `whitespace`，必須要有一個 tokenizer|
-|Token Filter|將前者個結果進行增修（stop、lowercase、synonym...），但不可移動其位置，可設定多個 filter|
+{{< table "table table-bordered" >}}
+| 名稱             | 簡介                                                                                     |
+| :--------------- | :--------------------------------------------------------------------------------------- |
+| Character Filter | 針對原始文件進行處理，例如：去除HTML tag，一個 analyzer 可設定多個 char_filter           |
+| Tokenizer        | 將前者的結果依據規則切分 token，比如以空白切分的 `whitespace`，必須要有一個 tokenizer    |
+| Token Filter     | 將前者個結果進行增修（stop、lowercase、synonym...），但不可移動其位置，可設定多個 filter |
+{{</ table>}}
 ## Reference
 * [elasticsearch suggesters](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html)
 * [FST 深入剖析](https://www.shenyanchao.cn/blog/2018/12/04/lucene-fst/)
