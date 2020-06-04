@@ -42,7 +42,7 @@ function doGet(e) {
 
     // return as json
     return ContentService.createTextOutput(JSON.stringify(rows)).setMimeType(
-        ContentService.MimeType.JSON
+        ContentService.MimeType.JSON)
 }
 function doPost(e){
     // post action here
