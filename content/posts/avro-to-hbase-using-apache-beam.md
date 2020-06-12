@@ -105,7 +105,7 @@ summary: '這真的蠻冷門的'
 由 hadoop 之父創造的一種檔案格式，由於是 language-neutral 因此可以被多種語言處理，廣泛被用於 hadoop 體系，是一種效率很高的檔案格式
 - - -
 # Code
-{{< gist 1acecb73de0374c8f32f136748de145b >}}
+{{< gist c2298beb74b56a4937c19cbeacffa83b >}}
 - - -
 # Reference
 * [beam overview](https://beam.apache.org/get-started/beam-overview/)
