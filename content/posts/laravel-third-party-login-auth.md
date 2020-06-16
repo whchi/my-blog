@@ -7,7 +7,9 @@ tags: ['laravel']
 summary: '覺得是很常見的需求'
 ---
 
-在 legency 專案上要變換登入要考量的事很多，其中一個情況就是 blade 大量使用 Auth Facade 做 UI 的呈現變化，這邊提出在這種情況下比較無痛轉移的方法
+在 legency 專案上要變換登入要考量的事很多，其中一個情況就是 blade 大量使用 Auth Facade 做 UI 的呈現變化，加上第三方登入都跟你 token 來 token 去，不熟 auth 還真不知道怎麼下手。
+
+這邊提出在這種情況下比較無痛轉移的方法
 
 在 laravel 中修改驗證時有幾個地方要改，以下分別列出並提供範例
 
