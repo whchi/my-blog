@@ -13,6 +13,7 @@ summary: '覺得是很常見的需求'
 
 * config/auth.php
 ```php
+<?php
 ...
 'providers' => [
     'users' => [
@@ -25,6 +26,7 @@ summary: '覺得是很常見的需求'
 
 you can use `php artisan` to create provider
 ```php
+<?php
 public function boot() {
     ...
     Auth::provider('custom-driver', function ($app, array $config) {
@@ -34,6 +36,7 @@ public function boot() {
 ```
 * YourCustomAuthProvider.php
 ```php
+<?php
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\GenericUser;
 
@@ -75,6 +78,7 @@ class YourCustomAuthProvider implements \Illuminate\Contracts\Auth\UserProvider
 ```
 * YourLoginController.php
 ```php
+<?php
 ...
 use Illuminate\Auth\GenericUser;
 ...
@@ -84,7 +88,7 @@ public function login(Request $request)
 
     // the key-point is here
     Auth::guard('web')->login(new GenericUser(['id' => $data['email']]))
-    // then you can run your code with Auth Facade easily
+    // then you keep your facade works as usual
 }
 ```
 
