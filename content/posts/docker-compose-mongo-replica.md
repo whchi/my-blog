@@ -22,7 +22,7 @@ mongo 的讀寫分離是用 replica set 實作，裡面的 node 分為 primary-s
 ### arbiter node
 * 只出嘴不出力，跟大多數的**官**一樣（只有投票功能的節點）
 ## 設定方法
-這裡用 keyfile 的方式，省得建帳號
+這裡用 [keyfile](https://docs.mongodb.com/manual/tutorial/deploy-replica-set-with-keyfile-access-control/) 的方式，省得建帳號
 ### mongod.conf
 ```conf
 systemLog:
