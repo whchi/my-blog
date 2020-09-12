@@ -154,6 +154,5 @@ class RedisSessionServices implements SessionHandlerInterface
 }
 
 ```
-*
 # Reference
 [official doc](https://laravel.com/docs/6.x/authentication#adding-custom-user-providers)
