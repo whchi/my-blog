@@ -93,7 +93,67 @@ public function login(Request $request)
     // then you keep your facade works as usual
 }
 ```
+## 補充：使用 redis 實現 sso
+* redis retrive session
+```php
+<?php
+...
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Auth;
+use SessionHandlerInterface;
 
+class RedisSessionServices implements SessionHandlerInterface
+{
+    public function open($savePath, $sessionName)
+    {
+        return true;
+    }
+
+    public function close()
+    {
+        return true;
+    }
+
+    public function read($sessionId)
+    {
+        return Redis::get($this->prefixCheck($sessionId));
+    }
+
+    public function write($sessionId, $data)
+    {
+        // can add auth check if needed
+        Redis::set($this->prefixCheck($sessionId), $data, 'EX', $expireTime);
+
+        return true;
+    }
+
+    public function destroy($sessionId)
+    {
+        Redis::del($this->prefixCheck($sessionId));
+
+        return true;
+    }
+
+    public function gc($lifetime)
+    {
+        return true;
+    }
+
+    /**
+    * laravel 原生會帶 :session:
+    */
+    private function prefixCheck($sessionId)
+    {
+        $prefix = env('REDIS_PREFIX') . ':session:';
+        if (strpos($sessionId, $prefix) === false) {
+            $sessionId = $prefix . $sessionId;
+        }
+
+        return $sessionId;
+    }
+}
+
+```
 *
 # Reference
 [official doc](https://laravel.com/docs/6.x/authentication#adding-custom-user-providers)
