@@ -3,7 +3,7 @@ title: '善用 lru_cache 對設定檔進行 cache'
 date: 2020-12-16T18:27:35+08:00
 draft: false
 author: 'whchi'
-tags: ['python', 'python tips']
+tags: ['python']
 summary: '蟒蛇小技巧'
 mermaid: true
 ---
