@@ -8,6 +8,14 @@
   </header>
   <div class="delimiter"></div>
   {{ end }}
+  {{ if (isset .Params "preview_figure")  }}
+  <figure class="preview">
+      <img src="{{ .Params.preview_figure }}">
+      {{ if(isset .Params "preview_figcaption")}}
+      <figcaption>{{ .Params.preview_figcaption }}</figcaption>
+      {{ end }}
+  </figure>
+  {{ end }}
   <section>
     {{ .Content }}
   </section>
@@ -24,7 +32,7 @@
     <div class="pull-right">
       {{ range .Params.tags }}
       {{ with $.Site.GetPage "taxonomy" ( print "/tags/" ( . | urlize ) ) }}
-      <span class="post-tag small"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
+      <span class="post-tag"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
       {{ end }}
       {{ end }}
     </div>

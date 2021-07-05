@@ -8,14 +8,14 @@ noshowdate: true
 nocomments: true
 nopagination: true
 ---
+# about
+🛹 🌊 ⛰ ✈️ 📈
 # skills
-* Backend development: php, node, python
-* Frontend development: Vue, jQuery
+* Backend: php, node, python
+* Frontend: Vue, jQuery
 * Devops: docker, GCP, k8s
 * Linux: centos, ubuntu
-* Version control: git
+* VCS: git
 * Database: MySQL, PostgreSQL, redis
 # contact
 whccchi@gmail.com
-
-🛹 🌊 ⛰ ✈️ 📈

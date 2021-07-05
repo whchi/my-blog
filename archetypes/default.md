@@ -5,5 +5,7 @@ draft: true
 author: 'whchi'
 tags: ['']
 summary: ''
+preview_figure: ''
+preview_figcaption: ''
 ---
 
