@@ -6,10 +6,10 @@ author: 'whchi'
 tags: ['dockerfile', 'translate']
 summary: '很難翻出原始意義的就不翻'
 ---
-{{< image
+{{< figure
 src="/images/docker-logo.png"
-alt="docker logo" >}}
-> 原文位置 [https://docs.docker.com/develop/develop-images/dockerfile_best-practices/](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+title="docker logo"
+caption="原文位置 https://docs.docker.com/develop/develop-images/dockerfile_best-practices/">}}
 
 本文範圍涵蓋建立有效率的 images 的最佳實踐方法
 
