@@ -62,6 +62,3 @@ url = 'about'
 identifier = 'tags'
 name = 'tags'
 url = 'tags'
-
-[outputs]
-home = ["HTML", "RSS", "JSON"]

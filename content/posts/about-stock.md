@@ -5,11 +5,9 @@ draft: false
 author: 'whchi'
 tags: ['stock', 'chives']
 summary: '對韭當割，等我賠光大概就有（2）了'
+preview_figure: '/images/give-my-money-back.jpeg'
+preview_figcaption: '投資理財有賺有賠 謹慎理財信用至上'
 ---
-
-![](/images/give-my-money-back.jpeg)
-> 投資理財有賺有賠 謹慎理財信用至上
-
 這篇是很粗淺的心得，畢竟才踏入半年左右
 
 這兩年股市的變化實在精彩，因為[疫情](https://en.wikipedia.org/wiki/COVID-19_pandemic)影響+美國無限[QE](https://www.moneydj.com/kmdj/wiki/wikiviewer.aspx?keyid=630183bd-d8e1-43e8-9b1f-cc0724ac0e61)政策，造成市場上熱錢滿滿，錢放著不動只會越來越貶值已經成為全民共識，[擦鞋童](https://www.moneydj.com/kmdj/wiki/wikiviewer.aspx?keyid=749df30a-9910-4363-9eca-2c3ace9c90f8)與少年股神們蜂擁而出，成就股市大多頭時代，一天上下沒有個 5% 都不像是在玩股票。

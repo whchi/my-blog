@@ -3,7 +3,7 @@ title: 'Avro to Hbase using Apache Beam'
 date: 2020-06-11T18:02:56+08:00
 draft: false
 author: 'whchi'
-tags: ['apache beam', 'avro', 'data pipeline']
+tags: ['apache beam', 'avro']
 summary: '這真的蠻冷門的'
 ---
 

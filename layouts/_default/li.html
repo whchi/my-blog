@@ -1,4 +1,4 @@
-<article>
+<article class="list">
   <header>
     <h1 class="li-h1"><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
     <div class="clearfix">
@@ -9,7 +9,7 @@
       </div>
     </div>
   </header>
-  <div>
+  <div class="summary">
     {{ if (isset .Params "summary") }} {{ markdownify .Params.Summary }} {{ else
     }} {{ .Summary }} {{ end }}
   </div>
@@ -19,7 +19,7 @@
     <span class="post-tag"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
     {{ end }} {{ end }}
   </div>
-  <footer>
+  <!-- <footer>
     <div class="read-more-container">
       <a class="btn btn-primary" href="{{ .Permalink }}">
         <div>
@@ -27,5 +27,5 @@
         </div>
       </a>
     </div>
-  </footer>
+  </footer> -->
 </article>
