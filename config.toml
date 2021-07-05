@@ -8,7 +8,7 @@ disableLanguages = ['en', 'de']
 paginate = 20
 
 [permalinks]
-posts = "/:year/:month/:title/"
+posts = "/:year/:month/:filename/"
 
 [params]
 # Short subtitle/tagline. This is displayed in the header.
