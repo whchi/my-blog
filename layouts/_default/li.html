@@ -16,7 +16,7 @@
   <div>
     {{ range .Params.tags }} {{ with $.Site.GetPage "taxonomy" ( print "/tags/"
     ( . | urlize ) ) }}
-    <span><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
+    <span class="post-tag"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
     {{ end }} {{ end }}
   </div>
   <footer>
