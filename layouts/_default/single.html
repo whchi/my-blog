@@ -2,10 +2,12 @@
 {{ $baseurl := .Site.BaseURL }}
 {{ $data := index .Site.Data .Site.Language.Lang }}
 <article>
+  {{ if (ne .Title "About")}}
   <header class="article-title">
     <h1 class="text-primary">{{ .Title }}</h1>
   </header>
   <div class="delimiter"></div>
+  {{ end }}
   <section>
     {{ .Content }}
   </section>
