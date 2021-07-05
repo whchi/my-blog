@@ -8,7 +8,7 @@ noshowdate: true
 nocomments: true
 nopagination: true
 ---
-# about
+# interests
 🛹 🌊 ⛰ ✈️ 📈
 # skills
 * Backend: php, node, python
