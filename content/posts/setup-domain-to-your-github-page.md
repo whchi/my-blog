@@ -1,7 +1,7 @@
 ---
 title: '綁定 domain 給 github page'
 date: 2021-07-05T15:39:25+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['godaddy', 'github']
 summary: '買了 domain 就是要用'
