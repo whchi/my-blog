@@ -13,7 +13,7 @@
     {{ if (isset .Params "summary") }} {{ markdownify .Params.Summary }} {{ else
     }} {{ .Summary }} {{ end }}
   </div>
-  <div>
+  <div class="tags">
     {{ range .Params.tags }} {{ with $.Site.GetPage "taxonomy" ( print "/tags/"
     ( . | urlize ) ) }}
     <span class="post-tag"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
