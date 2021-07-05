@@ -62,3 +62,8 @@ url = 'about'
 identifier = 'tags'
 name = 'tags'
 url = 'tags'
+
+[[languages.zh.menu.main]]
+identifier = 'archives'
+name = 'archives'
+url = 'archives'

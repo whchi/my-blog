@@ -2,7 +2,7 @@
 {{ $baseurl := .Site.BaseURL }}
 {{ $data := index .Site.Data .Site.Language.Lang }}
 <article>
-  {{ if (ne .Title "About")}}
+  {{ if and (ne .Title "About") (ne .Title "Archives")}}
   <header class="article-title">
     <h1 class="text-primary">{{ .Title }}</h1>
   </header>
