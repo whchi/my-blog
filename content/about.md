@@ -8,18 +8,14 @@ noshowdate: true
 nocomments: true
 nopagination: true
 ---
-
-慢慢把以前的筆記整理上來
-
-### skills
-
+# skills
 * Backend development: php, node, python
 * Frontend development: Vue, jQuery
-* Development enviorment: docker, vagrant, GCP, k8s
-* Linux(centos, ubuntu)
+* Devops: docker, GCP, k8s
+* Linux: centos, ubuntu
 * Version control: git
-* MySQL
+* Database: MySQL, PostgreSQL, redis
+# contact
+whccchi@gmail.com
 
-### contact
-
-* email: whccchi@gmail.com
+🛹 🌊 ⛰ ✈️ 📈
