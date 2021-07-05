@@ -1,4 +1,5 @@
-{{ $src := .Get "src" }} {{ $title := .Get "title" }}{{ $caption := .Get "caption" }}
+{{ $src := .Get "src" }} {{ $title := .Get "title" }}{{ $caption := .Get
+"caption" }}
 
 <figure class="center">
   <img src="{{$src}}" title="{{$title}}" decoding="async" />
@@ -6,6 +7,14 @@
 </figure>
 <style lang="css">
   figure.center {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  figure.center > img {
+    max-width: 100%;
+    height: auto;
   }
 </style>
