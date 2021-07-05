@@ -1,52 +1,67 @@
-baseURL = 'https://whchi.github.io/'
-theme = 'hamburg'
+baseURL = 'http://shachiku.life/'
 pygmentsCodeFences = true
-### hanburg settings ###
-defaultContentLanguageInSubdir = 'false'
+theme = 'hamburg'
+### hamburger settings ###
 defaultContentLanguage = 'zh'
+defaultContentLanguageInSubdir = 'false'
 disableLanguages = ['en', 'de']
-paginate=10
+paginate = 20
+
+[permalinks]
+posts = "/:year/:month/:title/"
+
 [params]
 # Short subtitle/tagline. This is displayed in the header.
 # themecolor = '#ffff00' # Defines the tab color in Chrome for Android.
 # To load additional CSS styles
 customCSS = ['custom-hamburg.css']
-mainSections=['posts']
+mainSections = ['posts']
 # Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
 ShowGDPRNotice = true
-github = 'whchi'
-linkedin='wei-han-chi-615006110'
 disqus = true
 disqusShortname = 'whcdc'
+github = 'whchi'
+linkedin = 'wei-han-chi-615006110'
+
 [mediaTypes]
-  [mediaTypes."application/javascript"]
-    suffixes = "js"
+
+[mediaTypes."application/javascript"]
+suffixes = "js"
+
 [languages]
-    [languages.en]
-        languageCode = 'en'
-        languageName = 'English'
-        title = 'murmurs and records'
-        subtitle = ''
-        copyright = '&copy; whchi 2018'
-        [languages.en.menu]
-            [[languages.en.menu.main]]
-                name = 'About'
-                identifier = 'about'
-                url = 'pages/about'
-    [languages.zh]
-        languageCode = 'zh-tw'
-        languageName = '繁體中文'
-        title = '雜談與紀錄'
-        subtitle = 'that/s all'
-        copyright = '&copy; whchi 2018'
-        [languages.zh.menu]
-            [[languages.zh.menu.main]]
-                name = 'About'
-                identifier = 'about'
-                url = 'pages/about'
-            [[languages.zh.menu.main]]
-                name = '所有標籤'
-                identifier = 'tags'
-                url = 'tags'
 
+[languages.en]
+copyright = '&copy; whchi 2018'
+languageCode = 'en'
+languageName = 'English'
+subtitle = ''
+title = 'murmurs and records'
 
+[languages.en.menu]
+
+[[languages.en.menu.main]]
+identifier = 'about'
+name = 'about'
+url = 'about'
+
+[languages.zh]
+copyright = '&copy; whchi 2018'
+languageCode = 'zh-tw'
+languageName = '繁體中文'
+subtitle = '雜談與紀錄'
+title = '社畜人生'
+
+[languages.zh.menu]
+
+[[languages.zh.menu.main]]
+identifier = 'about'
+name = 'about'
+url = 'about'
+
+[[languages.zh.menu.main]]
+identifier = 'tags'
+name = 'tags'
+url = 'tags'
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]

@@ -3,7 +3,7 @@ title: '在 vscode 中設定 docker xdebug'
 date: 2020-05-14T15:17:19+08:00
 draft: false
 author: 'whchi'
-tags: ['docker', 'save time']
+tags: ['docker', 'time-saving']
 summary: '記錄一下比較好 copy-paste'
 ---
 

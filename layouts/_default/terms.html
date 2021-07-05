@@ -5,7 +5,7 @@
   <div class="tag-wrapper">
     {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
       <a class="tag-container" href="/tags/{{ $name | urlize }}">
-        {{ $name | humanize }}<span class="tag-count"
+        &#35;{{ $name | humanize }}<span class="tag-count"
           >&#40;{{ $taxonomy.Count }}&#41;</span
         ></a
       >

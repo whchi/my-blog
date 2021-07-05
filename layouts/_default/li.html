@@ -4,25 +4,20 @@
     <div class="clearfix">
       <div class="post-date pull-left">
         <span class="li-small">
-          {{ i18n "postedOn" }}
-          {{ .Date.Format ( i18n "dateformat" ) }}
+          {{ i18n "postedOn" }} {{ .Date.Format ( i18n "dateformat" ) }}
         </span>
-      </div>
-      <div class="pull-right">
-        {{ range .Params.tags }}
-        {{ with $.Site.GetPage "taxonomy" ( print "/tags/" ( . | urlize ) ) }}
-        <span class="post-tag small"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
-        {{ end }}
-        {{ end }}
       </div>
     </div>
   </header>
   <div>
-    {{ if (isset .Params "summary") }}
-    {{ markdownify .Params.Summary }}
-    {{ else }}
-    {{ .Summary }}
-    {{ end }}
+    {{ if (isset .Params "summary") }} {{ markdownify .Params.Summary }} {{ else
+    }} {{ .Summary }} {{ end }}
+  </div>
+  <div>
+    {{ range .Params.tags }} {{ with $.Site.GetPage "taxonomy" ( print "/tags/"
+    ( . | urlize ) ) }}
+    <span><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
+    {{ end }} {{ end }}
   </div>
   <footer>
     <div class="read-more-container">

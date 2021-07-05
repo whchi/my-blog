@@ -3,7 +3,7 @@ title: 'Docker Compose yml 小技巧'
 date: 2020-12-22T16:26:41+08:00
 draft: false
 author: 'whchi'
-tags: ['docker', 'save time']
+tags: ['docker', 'time-saving']
 summary: ''
 ---
 1. 設定多個 hosts
