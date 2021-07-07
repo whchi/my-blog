@@ -67,3 +67,6 @@ url = 'tags'
 identifier = 'archives'
 name = 'archives'
 url = 'archives'
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
