@@ -5,12 +5,10 @@ draft: false
 author: 'whchi'
 tags: ['dockerfile', 'translate']
 summary: '很難翻出原始意義的就不翻'
+preview_figure: '/images/docker-logo.png'
+preview_figcaption: '原文位置 https://docs.docker.com/develop/develop-images/dockerfile_best-practices/'
+image: '/images/docker-logo.png'
 ---
-{{< figure
-src="/images/docker-logo.png"
-title="docker logo"
-caption="原文位置 https://docs.docker.com/develop/develop-images/dockerfile_best-practices/">}}
-
 本文範圍涵蓋建立有效率的 images 的最佳實踐方法
 
 docker 透過讀取 Dockerfile 建立 image．其有自訂的規範與指示, 可參考 [Dockerfile reference](https://docs.docker.com/engine/reference/builder/) 找到更多解釋
