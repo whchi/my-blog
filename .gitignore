@@ -1,1 +1,3 @@
 .jsbeautifyrc
+.vscode
+.DS_Store
