@@ -21,6 +21,7 @@ ShowGDPRNotice = true
 disqus = true
 disqusShortname = 'whcdc'
 github = 'whchi'
+medium = 'whccchi'
 linkedin = 'wei-han-chi-615006110'
 
 [mediaTypes]

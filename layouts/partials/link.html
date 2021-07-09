@@ -59,4 +59,9 @@
       <i class="fa fa-key"></i>
     </a>
   {{ end }}
+  {{ with .Site.Params.medium }}
+    <a rel="noopener noreferrer" href="https://medium.com/@{{ . }}" target="_blank">
+        <i class="fa fa-medium"></i>
+    </a>
+  {{ end }}
 </div>
