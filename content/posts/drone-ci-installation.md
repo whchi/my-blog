@@ -147,6 +147,8 @@ volumes:
         caption="dashboard">}}
 
 這樣就是設定完成拉～剩下的就看你的 repo 要用哪種 runner 跟 pipeline 調整～
+
+範例都放在我的 [github](https://github.com/whchi/drone-installation-example) 上提供參考
 # References
 * https://readme.drone.io/
 * https://readme.drone.io/pipeline/overview/
