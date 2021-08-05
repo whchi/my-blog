@@ -7,7 +7,7 @@ tags: ['drone', 'devops']
 summary: '（偽）無人機體驗心得'
 preview_figure: '/images/preview/drone.jpeg'
 preview_figcaption: 'Drone 這個名字老是找到無人機'
-cover_image: '/images/preview/drone.jpeg'
+preview_image: '/images/preview/drone.jpeg'
 ---
 
 久聞 Drone CI 的大名卻一直沒理解過，剛好公司裡面用的 CICD tool 是 Drone～趕緊玩玩看

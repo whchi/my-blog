@@ -7,7 +7,7 @@ tags: ['stock', 'chives']
 summary: '對韭當割，等我賠光大概就有（2）了'
 preview_figure: '/images/preview/give-my-money-back.jpeg'
 preview_figcaption: '投資理財有賺有賠 謹慎理財信用至上'
-cover_image: '/images/preview/give-my-money-back.jpeg'
+preview_image: '/images/preview/give-my-money-back.jpeg'
 ---
 這篇是很粗淺的心得，畢竟才踏入半年左右
 

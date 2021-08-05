@@ -7,7 +7,7 @@ tags: ['seo']
 summary: '寫了 blog 總會想看一下瀏覽數，娛不了人也能自娛'
 preview_figure: '/images/preview/docking.jpeg'
 preview_figcaption: '每個搞網站的工程師都要會一點 ga + gtm'
-cover_image: '/images/preview/docking.jpeg'
+preview_image: '/images/preview/docking.jpeg'
 ---
 # Google Analytics(GA)
 ## 1. 建立 account 與 property
