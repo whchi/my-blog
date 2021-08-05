@@ -7,7 +7,6 @@ tags: ['composer']
 summary: '^ vs ~'
 preview_figure: ''
 preview_figcaption: ''
-image: ''
 ---
 在 `composer.json` 經常看到 caret(^) 跟 tilde(~) 開頭的套件版號，雖然很少會遇到需要調整的情況但有需要都會忘記，紀錄一下不然每次都要查
 
