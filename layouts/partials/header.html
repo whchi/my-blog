@@ -55,8 +55,8 @@
 </head>
 
 <body>
-  {{ if isset .Params "image" }}
-  <header class="global-header" style="background-image:url({{ .Params.image }})">
+  {{ if isset .Params "cover_image" }}
+  <header class="global-header" style="background-image:url({{ .Params.cover_image }})">
     {{ else }}
     <header class="global-header" style="background-image:url({{ "images/background.jpg" | absURL }})">
       {{ end }}

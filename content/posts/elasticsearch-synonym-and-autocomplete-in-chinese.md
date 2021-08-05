@@ -7,7 +7,6 @@ tags: ['elasticsearch', 'medium']
 summary: 'medium 搬過來的'
 preview_figure: '/images/preview/synonym-demo.png'
 preview_figcaption: '康健知識庫自動完成示意圖，Elasticsearch 版本 7.6.2'
-image: '/images/preview/synonym-demo.png'
 ---
 > #### **Originally published at https://medium.com/@whccchi on May 2, 2020. [原文網址](https://medium.com/cw-itgroup/elasticsearch-%E4%B8%AD%E6%96%87%E5%90%8C%E7%BE%A9%E8%A9%9E%E8%88%87%E8%87%AA%E5%8B%95%E5%AE%8C%E6%88%90-693410e68b0a?source=collection_home---4------0-----------------------)**
 

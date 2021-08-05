@@ -7,7 +7,7 @@ tags: ['medium']
 summary: 'medium 搬過來的'
 preview_figure: '/images/preview/taiwan-election-map.png'
 preview_figcaption: '美美的台灣地圖'
-image: '/images/preview/taiwan-election-map.png'
+cover_image: '/images/preview/taiwan-election-map.png'
 ---
 > #### **Originally published at https://medium.com/cw-it-group on Jan 15, 2020. [原文網址](https://medium.com/cw-itgroup/%E5%A4%A9%E4%B8%8B%E9%9B%9C%E8%AA%8C2020%E7%B8%BD%E7%B5%B1%E5%A4%A7%E9%81%B8%E5%B0%88%E9%A1%8C-%E6%8A%80%E8%A1%93%E7%B4%80%E9%8C%84-84d2482d713d)**
 

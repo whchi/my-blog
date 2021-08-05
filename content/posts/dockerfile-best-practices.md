@@ -7,7 +7,7 @@ tags: ['dockerfile', 'translate']
 summary: '很難翻出原始意義的就不翻'
 preview_figure: '/images/preview/docker-logo.png'
 preview_figcaption: '原文位置 https://docs.docker.com/develop/develop-images/dockerfile_best-practices/'
-image: '/images/preview/docker-logo.png'
+cover_image: '/images/preview/docker-logo.png'
 ---
 本文範圍涵蓋建立有效率的 images 的最佳實踐方法
 

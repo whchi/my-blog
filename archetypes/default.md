@@ -7,6 +7,6 @@ tags: ['']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
-image: ''
+cover_image: ''
 ---
 
