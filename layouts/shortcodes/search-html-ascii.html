@@ -1,0 +1,109 @@
+<style lang="css">
+  #ascii-search {
+    width: 100%;
+    font-size: 1.6em;
+    color: #5e7579;
+    font-weight: bold;
+    background-color: #eee7d4;
+    border: none;
+    outline: none;
+    padding: 0.1rem 0.5rem;
+  }
+  .result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .card {
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    border-radius: 5px;
+    background-color: #6d6d6d91;
+    color: #fff;
+  }
+  .card .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+  .card .content span {
+    /* display: block; */
+  }
+</style>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+  integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<div style="margin-bottom: 1rem">
+  <input id="ascii-search" />
+  <section class="result">
+    <div class="card">
+      <h1>char</h1>
+      <div class="content">
+        <span>ascii</span>
+        <span>unicode</span>
+        <span>desc</span>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  let asciiData = null;
+  const resultTemplate = `
+    <div class="card">
+      <h3>{CHAR}</h3>
+      <div class="content">
+        <span>{ASCII}</span>
+        <span>{UNICODE}</span>
+        <span>{DESC}</span>
+      </div>
+    </div>
+  `;
+  let search = document.getElementById('ascii-search');
+  let rst = null;
+  const filter = debounce((e) => {
+    rst = null;
+    let kw = e.target.value.toLowerCase();
+    if (!kw.trim()) {
+      rst = asciiData.filter((e) => e.char === ' \t' || e.char === ' \n');
+    } else {
+      rst = asciiData.filter(
+        (e) => e.char.indexOf(kw) > -1 || e.desc.indexOf(kw) > -1
+      );
+    }
+    console.log(rst);
+  }, 250);
+  search.addEventListener('input', filter);
+  //   function filter() {
+  //     let kw = document.getElementById('ascii-search').value;
+  //     console.log(kw);
+  //   }
+  axios
+    .get(
+      'https://gist.githubusercontent.com/whchi/45463b3e89178d662c2d0c20d6b8d342/raw/8c9b7137e2f2384d57117cf7e2e749057fc425b7/html_ascii_unicode_map.json'
+    )
+    .then((r) => {
+      asciiData = r.data;
+    });
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+      var context = this,
+        args = arguments;
+      var later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
+</script>
