@@ -69,5 +69,10 @@ identifier = 'archives'
 name = 'archives'
 url = 'archives'
 
+# [[languages.zh.menu.main]]
+# identifier = 'tools'
+# name = 'tools'
+# url = 'tools'
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
