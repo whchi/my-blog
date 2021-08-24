@@ -25,3 +25,42 @@ app:
         context: .
         dockerfile: ./.docker/Dockerfile.xxx-xx
 ```
+3. connect other network
+* bridge
+```yml
+# docker-compose-1.yml
+version: '3.7'
+...
+services:
+  svc1:
+    networks:
+      - custom_name
+networks:
+  custom_name: # 這邊是類似 namespace 的概念
+    driver: bridge
+# docker-compose-2.yml
+version: '3.7'
+...
+services:
+  svc1:
+    networks:
+      - mynet
+...
+networks:
+  mynet:
+    external:
+      name: folder_custom_name
+```
+* pre-existing
+```yml
+version: '3.7'
+...
+services:
+  svc1:
+    networks:
+      - network_name
+# 只要指定 external true 即可
+networks:
+  network_name:
+    external: true
+```
