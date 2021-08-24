@@ -64,3 +64,18 @@ networks:
   network_name:
     external: true
 ```
+4. virtual volume
+用他的好處是不用特別綁定路徑，且也可避免 host 真的要裝該服務時路徑衝突問題，比較適用的場景為一次只有一個專案的情境
+```yml
+...
+services:
+  postgres:
+    image: postgres:13.2
+    restart: unless-stopped
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
+```
