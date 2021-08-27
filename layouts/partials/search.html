@@ -84,17 +84,17 @@
 <script src="/js/fuse.js"></script>
 <script>
   const url = new URL(location.href);
-  const key = 'uknowhow2srh@' + url.host;
+  const srhkey = url.host + '_uknowhow2srh';
 
-  if (!sessionStorage.getItem(key)) {
+  if (!sessionStorage.getItem(srhkey)) {
     document.getElementById('tips').style.visibility = 'visible';
   }
 
   function uknowhow2srh() {
-    if (sessionStorage.getItem(key)) {
+    if (sessionStorage.getItem(srhkey)) {
       document.getElementById('tips').style.visibility = 'hidden';
     } else {
-      sessionStorage.setItem(key, 1);
+      sessionStorage.setItem(srhkey, 1);
     }
   }
 </script>

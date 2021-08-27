@@ -1,0 +1,22 @@
+<div class="day-night-switch">
+  <input type="checkbox" id="switch_theme" class="theme-toggle" />
+  <label for="switch_theme" class="theme-toggle-label">Toggle Theme</label>
+</div>
+<script>
+  const themekey = url.host + '_thememode';
+  if (localStorage.getItem(themekey)) {
+    document.body.className = 'dark';
+    document.getElementById('switch_theme').checked = 'checked';
+  }
+  document
+    .getElementById('switch_theme')
+    .addEventListener('click', function (e) {
+      if (e.target.checked) {
+        localStorage.setItem(themekey, '1');
+        document.body.className = 'dark';
+      } else {
+        localStorage.removeItem(themekey);
+        document.body.className = '';
+      }
+    });
+</script>
