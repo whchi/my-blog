@@ -5,7 +5,7 @@ theme = 'hamburg'
 defaultContentLanguage = 'zh'
 defaultContentLanguageInSubdir = 'false'
 disableLanguages = ['en', 'de']
-paginate = 20
+paginate = 10
 image = '/images/the-road-not-taken.jpg'
 [permalinks]
 posts = "/:year/:month/:filename/"
