@@ -1,7 +1,7 @@
 ---
 title: 'Facebook 應用程式審查要點'
 date: 2022-03-11T15:57:46+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['instagram', 'facebook']
 summary: '真的很麻煩'
@@ -38,3 +38,5 @@ Instagram 帳密
 test_ig@example.com
 xxxxxxxx
 ```
+
+審查速度還挺快的，前前後後 5 共 3 天，主要是要讓審查人員可以對系統作出影片的事情就好～
