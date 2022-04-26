@@ -3,6 +3,7 @@ title: 'Facebook 應用程式審查要點'
 date: 2022-03-11T15:57:46+08:00
 draft: false
 author: 'whchi'
+type: 'posts'
 tags: ['instagram', 'facebook']
 summary: '真的很麻煩'
 preview_figure: '/images/fg-ig.png'
