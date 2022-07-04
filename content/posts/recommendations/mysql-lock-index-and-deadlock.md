@@ -1,5 +1,5 @@
 ---
-title: 'Mysql Lock Index and Deadlock'
+title: '[推薦] Mysql Lock Index and Deadlock'
 date: 2022-07-02T23:29:49+08:00
 draft: false
 author: 'whchi'
