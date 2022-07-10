@@ -12,6 +12,7 @@ preview_image: ''
 
 # Source
 [原文](https://ably.com/blog/8-fallacies-of-distributed-computing)
+
 [youtube 中文解說](https://www.youtube.com/watch?v=b3LNQs8UXF8)
 
 # Summary
