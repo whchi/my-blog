@@ -4,7 +4,7 @@ date: 2019-09-05T11:30:49+08:00
 draft: false
 author: 'whchi'
 type: 'posts'
-tags: ['mac', 'sqlserver', 'python']
+tags: ['mac', 'SQL server', 'python']
 summary: '以 python 為例'
 ---
 前陣子需要用 mac 連 sql server, 記錄一下\
