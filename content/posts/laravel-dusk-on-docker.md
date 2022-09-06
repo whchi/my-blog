@@ -3,7 +3,7 @@ title: '在 docker 上跑 laravel-dusk'
 date: 2020-01-31T14:45:27+08:00
 draft: false
 author: 'whchi'
-tags: ['laravel', 'docker']
+tags: ['Laravel', 'docker']
 summary: '自己挖的洞自己填'
 ---
 最近因為要還債~~不得不寫測試~~，所以有了這篇文章

@@ -3,7 +3,7 @@ title: 'Laravel Model 使用非預設主鍵'
 date: 2020-02-11T21:56:10+08:00
 draft: false
 author: 'whchi'
-tags: ['laravel']
+tags: ['Laravel']
 summary: 'trace code 筆記'
 ---
 

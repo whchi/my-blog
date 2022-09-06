@@ -3,7 +3,7 @@ title: '在 laravel 中使用第三方登入並整合 Auth Facade'
 date: 2020-06-16T23:16:10+08:00
 draft: false
 author: 'whchi'
-tags: ['laravel']
+tags: ['Laravel']
 summary: '覺得是很常見的需求'
 ---
 
