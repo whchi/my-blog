@@ -3,7 +3,7 @@ title: '玩玩 Drone CI'
 date: 2021-07-22T10:23:18+08:00
 draft: false
 author: 'whchi'
-tags: ['drone', 'devops']
+tags: ['drone', 'DevOps']
 summary: '（偽）無人機體驗心得'
 preview_figure: '/images/preview/drone.jpeg'
 preview_figcaption: 'Drone 這個名字老是找到無人機'

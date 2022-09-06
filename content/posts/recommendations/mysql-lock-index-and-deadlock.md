@@ -3,7 +3,7 @@ title: '[推薦] Mysql Lock Index and Deadlock'
 date: 2022-07-02T23:29:49+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendation', 'mysql']
+tags: ['recommendation', 'MySQL']
 summary: 'lock is a good thing'
 preview_figure: ''
 preview_figcaption: ''
