@@ -1,7 +1,7 @@
 ---
 title: '發 Pull Request 的正確姿勢'
 date: 2022-10-19T11:58:03+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['git', 'github']
 summary: ''
