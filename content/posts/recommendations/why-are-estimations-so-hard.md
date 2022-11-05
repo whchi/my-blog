@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: 'divide and conquer'
 preview_figure: 'https://static.fmgsuite.com/media/images/03f28e96-c19f-42ea-8aa8-a9194e8e8ef6.jpg'
 preview_figcaption: ''
-preview_image: null
 ---
 # Source
 https://www.youtube.com/watch?v=XhUAIVJ62dQ
