@@ -7,7 +7,6 @@ tags: ['ruby']
 summary: '沒事不要亂升級本地開發環境'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 最近在寫 ruby，因為案子有切版本的需求就用了 `rbenv` 做不同版本環境切割
 

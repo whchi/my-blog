@@ -7,7 +7,6 @@ tags: ['recommendations']
 summary: '過早最佳化是萬惡的根源'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 # Source
