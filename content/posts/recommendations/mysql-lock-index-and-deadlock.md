@@ -7,7 +7,6 @@ tags: ['recommendation', 'MySQL']
 summary: 'lock is a good thing'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 # Source

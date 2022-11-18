@@ -7,7 +7,7 @@ tags: ['seo']
 summary: '埋了 GTM 卻不用客製化 event，履歷上敢寫你會 GTM？'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
+
 ---
 
 # 設置 trigger

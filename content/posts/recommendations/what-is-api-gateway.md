@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: 'gateway is a good thing'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 # Source
 https://www.youtube.com/watch?v=vHQqQBYJtLI

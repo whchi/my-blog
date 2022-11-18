@@ -56,7 +56,7 @@
 </head>
 
 <body>
-  {{ if and (isset .Params "preview_image") (ne .Params "preview_image" "") }}
+  {{ if isset .Params "preview_image" }}
   <header class="global-header" style="background-image:url({{ .Params.preview_image }})">
     {{ else }}
     <header class="global-header" style="background-image:url({{ "images/background.jpg" | absURL }})">
