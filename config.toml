@@ -4,7 +4,7 @@ theme = 'hamburg'
 ### hamburger settings ###
 defaultContentLanguage = 'zh'
 defaultContentLanguageInSubdir = 'false'
-disableLanguages = ['en', 'de']
+disableLanguages = ['en']
 paginate = 6
 image = '/images/the-road-not-taken.jpg'
 [permalinks]
@@ -15,7 +15,7 @@ posts = "/:year/:month/:filename/"
 # themecolor = '#ffff00' # Defines the tab color in Chrome for Android.
 # To load additional CSS styles
 customCSS = ['custom-hamburg.css']
-mainSections = ['posts']
+mainSections = ['posts', 'recommendations']
 # Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
 ShowGDPRNotice = true
 disqus = true
@@ -75,4 +75,4 @@ name = 'tools'
 url = 'tools'
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+home = ["HTML", "RSS", "JSON"]
