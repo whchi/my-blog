@@ -10,10 +10,12 @@ preview_figcaption: ''
 ---
 
 最近 open-ai chat 正火，隨便問了幾個問題，發現回答得滿好的，放上來娛樂一下
-Q:
+# Question
+```
 please use the words "php", "javascript", "html", "css" to make a poetry
-
-A:
+```
+# Answer
+```
 In the world of the web,
 Where browsers rule supreme,
 PHP, JavaScript, HTML, and CSS,
@@ -48,3 +50,4 @@ Of the modern web,
 Enabling us to create,
 Innovate, and explore,
 A world without limits.
+```
