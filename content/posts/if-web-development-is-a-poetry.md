@@ -51,3 +51,6 @@ Enabling us to create,
 Innovate, and explore,
 A world without limits.
 ```
+
+# References
+* [open-ai chat](https://chat.openai.com/)
