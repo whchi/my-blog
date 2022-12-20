@@ -16,4 +16,4 @@ preview_figcaption: ''
 2. a parser is just a function that consumes less-structured input and produces more-structured output. By its very nature, a parser is a partial function—some values in the domain do not correspond to any value in the range—so all parsers must have some notion of failure.
 3. type-hinting is the key
 
-取得正確值得過程都會做驗證，parser 是解析成指定類型的過程報錯（做一次），validation 是檢查是否符合特定類型報錯（做 n 次），so parse, don't validate
+取得正確值的過程都會做驗證，parser 是解析成指定類型的過程報錯（做一次），validation 是檢查是否符合特定類型報錯（做 n 次），so parse, don't validate
