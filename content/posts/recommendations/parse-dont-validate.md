@@ -1,0 +1,19 @@
+---
+title: "Parse Don't Validate"
+date: 2022-12-20T21:21:43+08:00
+draft: false
+author: 'whchi'
+tags: ['recommendations']
+summary: '輸入的階段就直接解析成正確的型態'
+preview_figure: ''
+preview_figcaption: ''
+---
+
+# Source
+[https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
+# Summary
+1.  the difference between validation and parsing lies almost entirely in how information is preserved
+2. a parser is just a function that consumes less-structured input and produces more-structured output. By its very nature, a parser is a partial function—some values in the domain do not correspond to any value in the range—so all parsers must have some notion of failure.
+3. type-hinting is the key
+
+取得正確值得過程都會做驗證，parser 是解析成指定類型的過程報錯（做一次），validation 是檢查是否符合特定類型報錯（做 n 次），so parse, don't validate
