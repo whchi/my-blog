@@ -1,5 +1,5 @@
 ---
-title: "Parse Don't Validate"
+title: "[推薦] Parse Don't Validate"
 date: 2022-12-20T21:21:43+08:00
 draft: false
 author: 'whchi'
