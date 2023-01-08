@@ -1,9 +1,9 @@
 ---
-title: 'Laravel Like Filesystem Using Python'
+title: '使用 python 模擬 laravel filesystem'
 date: 2023-01-04T13:47:17+08:00
 draft: false
 author: 'whchi'
-tags: ['python']
+tags: ['python', 'laravel']
 summary: 'good artists copy'
 preview_figure: ''
 preview_figcaption: ''
