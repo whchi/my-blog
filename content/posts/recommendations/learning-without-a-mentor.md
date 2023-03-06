@@ -1,5 +1,5 @@
 ---
-title: '如何在沒有 mentor 的情況下自學成才'
+title: '[推薦] 如何在沒有 mentor 的情況下自學成才'
 date: 2023-03-04T21:13:57+08:00
 draft: false
 author: 'whchi'
