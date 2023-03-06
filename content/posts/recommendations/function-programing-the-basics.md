@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: '少見的中文講解 FP 概念'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 # Source

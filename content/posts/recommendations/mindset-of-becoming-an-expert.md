@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 # Source

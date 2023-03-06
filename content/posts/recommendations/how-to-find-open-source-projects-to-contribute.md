@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: '軟體面向全球，不該被拘束在一個地方'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 多貢獻也有機會找到國外工作，讓自己被看見
