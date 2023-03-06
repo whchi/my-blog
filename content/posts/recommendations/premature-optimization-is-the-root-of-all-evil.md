@@ -3,7 +3,7 @@ title: '[推薦] 過早最佳化是萬惡的根源'
 date: 2022-07-04T12:15:52+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: '過早最佳化是萬惡的根源'
 preview_figure: ''
 preview_figcaption: ''
