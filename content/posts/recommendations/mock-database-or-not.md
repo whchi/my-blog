@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: 'mock is a good thing'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 最近比較閒，想開啟一個逼自己閱讀的方式：找出個人認為值得閱讀的文章，做出重點摘要，順便嘗試看看[原子習慣](https://www.books.com.tw/products/0010822522)的法則。
 

@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: '學習是永遠是痛苦的'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 雖然標題是寫工程師，但裡面的概念任何領域都通用

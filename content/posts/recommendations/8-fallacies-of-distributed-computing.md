@@ -7,7 +7,6 @@ tags: ['recommendation']
 summary: '設計分散式系統時須具備的基礎思考要點'
 preview_figure: ''
 preview_figcaption: ''
-preview_image: ''
 ---
 
 # Source
