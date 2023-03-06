@@ -3,7 +3,7 @@ title: '[推薦]物件導向的 SOLID 原則'
 date: 2022-11-18T19:31:01+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: '越基礎越抽象'
 preview_figure: ''
 preview_figcaption: ''

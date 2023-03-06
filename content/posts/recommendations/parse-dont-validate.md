@@ -3,7 +3,7 @@ title: "[推薦] Parse Don't Validate"
 date: 2022-12-20T21:21:43+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: '輸入的階段就直接解析成正確的型態'
 preview_figure: ''
 preview_figcaption: ''

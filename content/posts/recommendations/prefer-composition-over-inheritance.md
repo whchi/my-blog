@@ -3,7 +3,7 @@ title: '[推薦]少用繼承，多用 composition'
 date: 2023-01-08T11:13:34+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
