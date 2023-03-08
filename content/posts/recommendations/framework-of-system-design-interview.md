@@ -15,14 +15,13 @@ preview_figcaption: ''
 # Summary
 適用於大概 60 min 的面試
 1. 理解問題（5 min）
-   1. 理解需求
-   2. who is the user? what feature to build?
-   3. 釐清 non-functional requirement.(安全性、可用性...)
+   1. who is the user? what core feature to build?
+   2. 釐清 non-functional requirement.(安全性、可用性...)
 2. 進行高度抽象的設計並取得認同（20 min）
    1. functional-related RESTful API interfaces，注意 API 的回應資料
    2. 系統設計示意圖（user->service->database），重點在於畫出來的每個服務都是 e2e
    3. 不要太快進入細節（db scaling, concurrency, failure scenarios）
-   4. data model design: the key part of non-functional requirements
+   4. data model design: **the key part of non-functional requirements**
       1. data access pattern, R/W ratio
       2. what db to choose? how to make indexes?
 3. 深入設計細節（25 min）
