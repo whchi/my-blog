@@ -39,7 +39,6 @@ class ResponseStatusEnum(str, Enum):
     ERROR = 'error'
 
 class ResponseBaseModel(GenericModel, Generic[T]):
-    # {data, message, status}
     data: T | None = None
     message: str | None = ''
     status: str = ResponseStatusEnum.success
