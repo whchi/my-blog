@@ -9,7 +9,7 @@ preview_figure: ''
 preview_figcaption: ''
 ---
 # Source
-https://www.youtube.com/watch?v=vHQqQBYJtLI
+https://www.youtube.com/watch?v=vHQqQBYJtLI 10:47
 
 # Summary
 1. Separate out cross cutting concerns: 把非 api 不需要關注的邏輯（ssl, 驗證, logging…）分離

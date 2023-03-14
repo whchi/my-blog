@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/)
+https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/
 
 # Summary
 為何大部分的 programer 都喜歡重寫 code? 因為讀 code 遠比寫 code 難。

@@ -12,7 +12,7 @@ preview_figcaption: ''
 雖然標題是寫工程師，但裡面的概念任何領域都通用
 
 # Source
-[https://codewithoutrules.com/2017/04/17/learning-without-a-mentor/](https://codewithoutrules.com/2017/04/17/learning-without-a-mentor/)
+https://codewithoutrules.com/2017/04/17/learning-without-a-mentor/
 
 # Summary
 1. 任何學習都有個共通表徵—非常痛苦，當你做某事時覺得你很笨拙且有點惱羞，代表你正在學習。

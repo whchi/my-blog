@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://www.youtube.com/watch?v=i7twT3x5yv8](https://www.youtube.com/watch?v=i7twT3x5yv8)
+https://www.youtube.com/watch?v=i7twT3x5yv8 9:53
 
 # Summary
 適用於大概 60 min 的面試

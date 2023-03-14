@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://www.youtube.com/watch?v=h6wBYWWdyYQ](https://www.youtube.com/watch?v=h6wBYWWdyYQ)
+https://www.youtube.com/watch?v=h6wBYWWdyYQ 21:04
 
 # Summary
 auth 的本質，很適合上補習班出來的人看

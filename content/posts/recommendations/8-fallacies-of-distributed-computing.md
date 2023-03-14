@@ -10,9 +10,9 @@ preview_figcaption: ''
 ---
 
 # Source
-[原文](https://ably.com/blog/8-fallacies-of-distributed-computing)
+[原文位置](https://ably.com/blog/8-fallacies-of-distributed-computing)
 
-[youtube 中文解說](https://www.youtube.com/watch?v=b3LNQs8UXF8)
+[youtube 中文解說](https://www.youtube.com/watch?v=b3LNQs8UXF8) 8:27
 
 # Summary
 1. 網路是可靠的：可以設計可重做的機制（狀態池+redo）

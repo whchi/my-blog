@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://www.youtube.com/watch?v=qpOcRG3e9Q8](https://www.youtube.com/watch?v=qpOcRG3e9Q8) 24:22
+https://www.youtube.com/watch?v=qpOcRG3e9Q8 24:22
 
 # Summary
 1. pure function 是可預測且容易測試—input 什麼 output 就會是什麼

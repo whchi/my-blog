@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://yuanchieh.page/posts/2022/2022-04-25-mysqllock-%E8%88%87-index-%E9%97%9C%E4%BF%82%E5%92%8C-deadlock-%E5%88%86%E6%9E%90/](https://yuanchieh.page/posts/2022/2022-04-25-mysqllock-%E8%88%87-index-%E9%97%9C%E4%BF%82%E5%92%8C-deadlock-%E5%88%86%E6%9E%90/)
+https://yuanchieh.page/posts/2022/2022-04-25-mysqllock-%E8%88%87-index-%E9%97%9C%E4%BF%82%E5%92%8C-deadlock-%E5%88%86%E6%9E%90/
 # Summary
 1. index 會造成寫入效能下降（lock），使用時須謹慎評估
 2. 先篩選出 pk(fk) 後再使用他們避免 gap lock（不要用 where pk > ?）
