@@ -1,5 +1,5 @@
 ---
-title: '[推薦]物件導向的 SOLID 原則'
+title: '[推薦] 物件導向的 SOLID 原則'
 date: 2022-11-18T19:31:01+08:00
 draft: false
 author: 'whchi'
@@ -9,7 +9,7 @@ preview_figure: ''
 preview_figcaption: ''
 ---
 # Source
-https://www.youtube.com/watch?v=dGbzlsBuw9M
+https://www.youtube.com/watch?v=dGbzlsBuw9M 14:12
 
 # Summary
 講得十分本質，比起追逐新潮名詞，顧好 SOLID 的根本就可以寫出好程式了

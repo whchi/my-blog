@@ -1,5 +1,5 @@
 ---
-title: '[推薦]少用繼承，多用 composition'
+title: '[推薦] 少用繼承，多用 composition'
 date: 2023-01-08T11:13:34+08:00
 draft: false
 author: 'whchi'
@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://www.youtube.com/watch?v=hxGOiiR9ZKg](https://www.youtube.com/watch?v=hxGOiiR9ZKg)
+https://www.youtube.com/watch?v=hxGOiiR9ZKg 10:00
 # Summary
 Inheritance's cost is expensive when changing requirement, and will need to write methods which your subclass doesn't needs. Use composition to write more usable code.
 

@@ -1,5 +1,5 @@
 ---
-title: '[推薦]如何找到開源專案貢獻'
+title: '[推薦] 如何找到開源專案貢獻'
 date: 2022-07-26T15:10:15+08:00
 draft: false
 author: 'whchi'
@@ -12,7 +12,7 @@ preview_figcaption: ''
 多貢獻也有機會找到國外工作，讓自己被看見
 
 # Source
-[https://dev.to/isabelcmdcosta/how-to-find-open-source-projects-to-contribute-2o1e](https://dev.to/isabelcmdcosta/how-to-find-open-source-projects-to-contribute-2o1e)
+https://dev.to/isabelcmdcosta/how-to-find-open-source-projects-to-contribute-2o1e
 
 # Summary
 * Aggregators

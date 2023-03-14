@@ -10,7 +10,7 @@ preview_figcaption: ''
 ---
 
 # Source
-[https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
+https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/
 # Summary
 取得正確值的過程都會做驗證，parser 是解析成指定類型的過程報錯（做一次），validation 是檢查是否符合特定類型報錯（做 n 次），so parse, don't validate
 ### 文內重點
