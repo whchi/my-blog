@@ -1,6 +1,6 @@
 ---
 title: '智能合約開發學習—實踐 ERC 20'
-date: 2023-03-18T18:30:47+08:00
+date: 2023-03-18T17:30:47+08:00
 draft: true
 author: 'whchi'
 tags: ['solidity', 'blockchain', 'eth']
