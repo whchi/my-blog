@@ -14,7 +14,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 * 專有名詞（Terms）
 * [solidity basics（Data types & Control flow）](/2023/03/smart-contract-development-2)
 * [functions](/2023/03/smart-contract-development-3)
-* [實踐 ERC 20](/2023/03/smart-contract-development-4)
+* [實踐 ERC-20](/2023/03/smart-contract-development-4)
 
 
 # 開發相關名詞
