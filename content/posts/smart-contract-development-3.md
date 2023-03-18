@@ -14,7 +14,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 * [專有名詞（Terms）](/2023/03/smart-contract-development-1)
 * [solidity basics（Data types & Control flow）](/2023/03/smart-contract-development-2)
 * functions
-* [實踐 ERC 20](/2023/03/smart-contract-development-4)
+* [實踐 ERC-20](/2023/03/smart-contract-development-4)
 
 function 的寫法跟一般的程式語言一樣，特別拉一個章節是因為有多個 function type
 
@@ -84,4 +84,12 @@ function xxx() public onlyOwner {
     // require(owner == msg.sender);
     xxxx
 }
+```
+
+# event
+寫 log 用的，告訴真實世界這個 contract 發生了什麼事，比如發生 transfer、發生 approve 等
+```sol
+event Transfer(address indexed from, address indexed to, uint tokens);
+
+emit Transfer(msg.sender, msg.receiver, 10)
 ```

@@ -14,4 +14,30 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 * [專有名詞（Terms）](/2023/03/smart-contract-development-1)
 * [solidity basics（Data types & Control flow）](/2023/03/smart-contract-development-2)
 * [functions](/2023/03/smart-contract-development-3)
-* 實踐 ERC 20
+* 實踐 ERC-20
+
+講那麼多，還是看個實際的例子比較有感覺
+
+所謂得 ERC 是 Ethereum Request for Comments 的縮寫，是被同意後的 EIP 演變而來的
+
+EIP 是 Ethereum Improvement Proposals 的縮寫，顧名思義就是提案，提案給 eth 社群經審查確定實作後就成為 ERC
+
+而 EIP-20 的標題是 Token standard，就是以太幣的標準
+
+
+# interfaces
+EIP-20 的文件有明定要實現標準接口如下
+* totalSupply
+* balanceOf
+* transfer
+* transferFrom
+* approve
+* allowance
+# implementation
+* 開發環境
+
+這裡是用 Remix IDE 進行開發，不用煩惱本地環境配置的問題
+
+# references
+* [EIP-20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md)
+* [Remix IDE](https://remix.ethereum.org/)
