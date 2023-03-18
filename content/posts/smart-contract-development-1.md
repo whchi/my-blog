@@ -25,8 +25,8 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 | Ethereum       | 可縮寫為 eth, Eth，一個 Layer 1 的區塊鏈實作項目，可以類比為一個全球通用的公開資料庫                                      |
 | Eth node       | 參與 Ethereum chain 的儲存節點                                                                                            |
 | EVM            | Ethereum Virtual Machine 的縮寫，執行 Smart Contract 的 runtime environment, it runs application of bytecode on consensus |
-| smart contract | 智能合約，程式本人，對鏈只有兩種操作：狀態修改（**transaction**）或是取得資料（**call**）                                 |
-|solidity|撰寫智能合約的程式語言|
+| smart contract | 智能合約，程式本人，是一套**獨立且完整**的應用程式，對鏈只有兩種操作：狀態修改（**transaction**）或是取得資料（**call**）     |
+| solidity       | 撰寫智能合約的程式語言                                                                                                    |
 {{< /table >}}
 
 ## 帳戶（account）
@@ -58,7 +58,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 | OPCODE      | 被 EVM 執行的運算操作, 每次操作都需要 gas，eth 官方有每個 OPCODE 對應的 gas                                   |
 {{< /table >}}
 
-## [eth explorer](https://etherscan.io/)(帳本查詢工具)
+## eth explorer(帳本查詢工具)
 {{< table "table table-bordered table-hover" >}}
 | 原文         | 解釋                                                 |
 | :----------- | :--------------------------------------------------- |
@@ -75,7 +75,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 | value    | 如果是 tx 則顯示 eth in wei，如果為 0 表示此次呼叫為 deploy contract 或是 call |
 | nonce    | puzzles found by the miner                                                     |
 | gasLimit | 如果該交易消耗的 gas 小於此值，剩餘會返回給 sender                             |
-| hash     | 又稱作 id, unique id to trace                                                             |
+| hash     | 又稱作 id, unique id to trace                                                  |
 {{< /table >}}
 
 # 其他名詞
@@ -89,7 +89,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 | seed phrase | 助記詞，由隨機的單詞組成的密碼，用來加密錢包使用          |
 | miner       | 礦工，算 block 的節點，PoW 時代的稱呼                     |
 | minter      | 礦工，PoS 時代的稱呼                                      |
-| sealer      | 礦工，又稱 block signer，PoA 時代的稱呼                                      |
+| sealer      | 礦工，又稱 block signer，PoA 時代的稱呼                   |
 {{< /table >}}
 
 ## 補充說明
@@ -126,3 +126,4 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 
 # references
 * [eth 官方 OPCODE gas 對應表](https://ethereum.org/en/developers/docs/evm/opcodes/)
+* [eth 帳本查詢工具—etherscan](https://etherscan.io/)
