@@ -34,7 +34,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 
 # variables
 solidity 的變數大致上分以下兩種
-1. state(global) variable: declare at contract level
+1. state variable: declare at contract level
    1. store in contract storage
    2. can be constant
    3. cost gas to declare
