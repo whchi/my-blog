@@ -1,6 +1,6 @@
 ---
-title: '智能合約開發學習—資料型別與控制流程'
-date: 2023-03-18T16:21:47+08:00
+title: '智能合約開發學習—functions'
+date: 2023-03-18T17:21:47+08:00
 draft: true
 author: 'whchi'
 tags: ['solidity', 'blockchain', 'eth']
