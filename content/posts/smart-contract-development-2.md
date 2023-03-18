@@ -16,7 +16,6 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 * [functions](/2023/03/smart-contract-development-3)
 * [實踐 ERC 20](/2023/03/smart-contract-development-4)
 
-# storage detail
 在 EVM 中有三個地方儲存變數
 1. storage
    1. holds state variables
