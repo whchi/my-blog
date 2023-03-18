@@ -25,7 +25,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 | Ethereum       | 可縮寫為 eth, Eth，一個 Layer 1 的區塊鏈實作項目，可以類比為一個全球通用的公開資料庫                                      |
 | Eth node       | 參與 Ethereum chain 的儲存節點                                                                                            |
 | EVM            | Ethereum Virtual Machine 的縮寫，執行 Smart Contract 的 runtime environment, it runs application of bytecode on consensus |
-| smart contract | 智能合約，程式本人，是一套**獨立且完整**的應用程式，對鏈只有兩種操作：狀態修改（**transaction**）或是取得資料（**call**）     |
+| smart contract | 智能合約，程式本人，是一套**獨立且完整**的應用程式，對鏈只有兩種操作：狀態修改（**transaction**）或是取得資料（**call**） |
 | solidity       | 撰寫智能合約的程式語言                                                                                                    |
 {{< /table >}}
 
@@ -113,7 +113,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
   * transaction: 執行 write 行為，修改 state，需要 gas，will broadcast to the blockchain
 * transaction vs call
 {{< table "table table-bordered table-hover" >}}
-| tx                     | call         |
+| transaction            | call         |
 | :--------------------- | :----------- |
 | write                  | read         |
 | 修改 blockchain 的狀態 | 不會修改     |
