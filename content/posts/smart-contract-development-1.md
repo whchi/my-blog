@@ -12,7 +12,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 
 這裡整理之前上課的筆記，都是入門級別一共 4 章，分別如下：
 * 專有名詞（Terms）
-* [資料型別與控制流程（Data types & Control flow）](/2023/03/smart-contract-development-2)
+* [solidity basics（Data types & Control flow）](/2023/03/smart-contract-development-2)
 * [functions](/2023/03/smart-contract-development-3)
 * [實踐 ERC 20](/2023/03/smart-contract-development-4)
 
@@ -26,6 +26,7 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 | Eth node       | 參與 Ethereum chain 的儲存節點                                                                                            |
 | EVM            | Ethereum Virtual Machine 的縮寫，執行 Smart Contract 的 runtime environment, it runs application of bytecode on consensus |
 | smart contract | 智能合約，程式本人，對鏈只有兩種操作：狀態修改（**transaction**）或是取得資料（**call**）                                 |
+|solidity|撰寫智能合約的程式語言|
 {{< /table >}}
 
 ## 帳戶（account）

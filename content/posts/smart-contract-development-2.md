@@ -12,6 +12,18 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 
 這裡整理之前上課的筆記，都是入門級別一共 4 章，分別如下：
 * [專有名詞（Terms）](/2023/03/smart-contract-development-1)
-* 資料型別與控制流程（Data types & Control flow）
+* solidity basics（Data types & Control flow）
 * [functions](/2023/03/smart-contract-development-3)
 * [實踐 ERC 20](/2023/03/smart-contract-development-4)
+
+# variables
+solidity 有分兩種類型
+1. state(global) variable
+   1. declare at contract level
+   2. store in contract storage
+   3. can be constant
+   4. cost gas to declare
+   5. set by init, construct or setter
+2. local variable
+   1. declare at function level
+   2.
