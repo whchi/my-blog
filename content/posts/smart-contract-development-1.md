@@ -102,8 +102,8 @@ preview_image: 'https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixl
 
 ### transaction
 * 交易生命週期
-  1. sender 初始化 tx 物件
-  2. sender 使用 private key 簽署 tx
+  1. client node(usually geth) 初始化 tx 物件
+  2. client node 使用 private key 簽署 tx
   3. tx 被廣播給的所有的 client 並回傳 tx hash
   4. tx 被加入到 tx pool 裡面等待被礦工驗證（挖礦）。礦工節點接收 tx，pool 是許多礦工與非礦工節點聚合的地方
   5. 礦工透過共識機制進行解謎，最先解出謎題的礦工會建立一個 block，每個 block 裡面有多少個 tx 取決於該 block 定義的 gasLimit
