@@ -43,6 +43,21 @@ solidity 的變數大致上分以下兩種
    2. `string` default saves in storage, use `memory` if you want `string` be local variable
 
 # variable types
+可以分為以下兩種
+* value type
+  * boolean
+  * int / uint
+  * fixed / ufixed
+  * address
+  * dynamically-sized byte array(bytes, byte[]), fixed-size byte array(byte[2])
+* reference type
+  * array
+  * struct
+  * mapping
+  * string
+
+每個 reference type 在定義的時候必須指定他的儲存位置，分為`storage`, `memory`, `calldata`
+
 ## boolean
 ```sol
 bool myBoolean = true;
