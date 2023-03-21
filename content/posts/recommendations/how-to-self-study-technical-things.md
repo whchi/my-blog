@@ -25,6 +25,7 @@ https://www.youtube.com/watch?v=_EzmbCuoFcU 16:13
    * 別想著一步到位，摸著石頭過河才能持續前進
    * 上課或看書不用堅持看完，能夠解決遇到的問題就好
 4. accountability
+   * the key of keeping yourself motivated
    * take ownership of your situation
    * 思考你放棄學習的機會成本
 5. others
