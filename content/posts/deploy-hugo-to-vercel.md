@@ -3,7 +3,7 @@ title: 'Deploy Hugo to Vercel'
 date: 2023-03-22T14:55:52+08:00
 draft: false
 author: 'whchi'
-tags: ['hugo']
+tags: ['hugo', 'vercel']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
