@@ -1,3 +1,4 @@
 .jsbeautifyrc
 .vscode
 .DS_Store
+.vercel
