@@ -18,7 +18,7 @@ customCSS = ['custom-hamburg.css']
 mainSections = ['posts']
 # Show this very user-friendly and absolutely not annoying GDPR notice at the bottom of the page
 ShowGDPRNotice = true
-disqus = true
+disqus = false
 disqusShortname = 'whcdc'
 github = 'whchi'
 medium = 'whccchi'
