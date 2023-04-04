@@ -56,6 +56,9 @@
 </head>
 
 <body>
+  {{ if (fileExists "layouts/partials/body-tracking.html") }}
+  {{ partial "body-tracking.html" . }}
+  {{ end }}
   {{ if isset .Params "preview_image" }}
   <header class="global-header" style="background-image:url({{ .Params.preview_image }})">
     {{ else }}
