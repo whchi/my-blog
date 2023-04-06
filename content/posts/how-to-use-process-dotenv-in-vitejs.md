@@ -1,5 +1,5 @@
 ---
-title: '如何在 vite 中使用 process.env'
+title: '如何在 Vitejs 中使用 process.env'
 date: 2023-04-06T19:03:30+08:00
 draft: false
 author: 'whchi'
