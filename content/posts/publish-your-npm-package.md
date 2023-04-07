@@ -70,6 +70,7 @@ export default defineConfig({
   };
 });
 ```
+關於 4 種 module 的異同可參考我的[這篇文章](/2023/04/node-module-comparison/)
 
 # publish
 1. 註冊 npmjs.org 帳號
