@@ -12,7 +12,7 @@ preview_figcaption: ''
 記錄一下，關鍵在於打包的 folder 路徑
 
 # package.json
-可以使用 `npm init --scope=@your-name` 建立或直接修改原本的 `pacakge.json` 的 name
+可以使用 `npm init --scope=@your-name` 建立或直接修改原本的 `pacakge.json` 的 name，要注意 name 在 npm 上面必須是唯一的
 {{< table "table table-bordered table-hover" >}}
 | key     | description                                                              |
 | ------- | ------------------------------------------------------------------------ |
