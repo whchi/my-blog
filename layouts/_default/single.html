@@ -1,12 +1,12 @@
 {{ partial "header.html" . }}
 {{ $baseurl := .Site.BaseURL }}
 {{ $data := index .Site.Data .Site.Language.Lang }}
-{{ partial "toc.html" . }}
 <article>
     {{ if and (ne .Title "About") (ne .Title "Archives")}}
     <header class="article-title">
         <h1 class="text-primary">{{ .Title }}</h1>
     </header>
+    {{ partial "toc.html" . }}
     <div class="delimiter"></div>
     {{ end }}
     {{ if (isset .Params "preview_figure") }}
