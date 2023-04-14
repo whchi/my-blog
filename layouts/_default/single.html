@@ -1,114 +1,117 @@
 {{ partial "header.html" . }}
 {{ $baseurl := .Site.BaseURL }}
 {{ $data := index .Site.Data .Site.Language.Lang }}
+{{ partial "toc.html" . }}
 <article>
-  {{ if and (ne .Title "About") (ne .Title "Archives")}}
-  <header class="article-title">
-    <h1 class="text-primary">{{ .Title }}</h1>
-  </header>
-  <div class="delimiter"></div>
-  {{ end }}
-  {{ if (isset .Params "preview_figure")  }}
-  <figure class="preview">
-      <img src="{{ .Params.preview_figure }}">
-      {{ if(isset .Params "preview_figcaption")}}
-      <figcaption>{{ .Params.preview_figcaption }}</figcaption>
-      {{ end }}
-  </figure>
-  {{ end }}
-  <section>
-    {{ .Content }}
-  </section>
-  <div class="clearfix">
-    {{ if (isset .Params "noshowdate")  }}
-    {{ else }}
-    <div class="post-date pull-left">
-      <span class="small">
-        {{ i18n "postedOn" }}
-        {{ .Date.Format ( i18n "dateformat" ) }}
-      </span>
-    </div>
-    {{ end }}
-    <div class="pull-right">
-      {{ range .Params.tags }}
-      {{ with $.Site.GetPage "taxonomy" ( print "/tags/" ( . | urlize ) ) }}
-      <span class="post-tag"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
-      {{ end }}
-      {{ end }}
-    </div>
-  </div>
-  <footer>
-    {{ if (isset .Params "nocomments")  }}
-    {{ else }}
-    <i id="disqus-shortname" data-disqus-shortname={{ .Site.Params.disqusShortname }}></i>
-    {{ with .Site.Params.disqus }}
+    {{ if and (ne .Title "About") (ne .Title "Archives")}}
+    <header class="article-title">
+        <h1 class="text-primary">{{ .Title }}</h1>
+    </header>
     <div class="delimiter"></div>
-    <div id="disqus_thread"></div>
-    <script type="application/javascript" src="/js/disqus.js"></script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     {{ end }}
+    {{ if (isset .Params "preview_figure") }}
+    <figure class="preview">
+        <img src="{{ .Params.preview_figure }}">
+        {{ if(isset .Params "preview_figcaption")}}
+        <figcaption>{{ .Params.preview_figcaption }}</figcaption>
+        {{ end }}
+    </figure>
     {{ end }}
-    {{ if and (isset $data "authors") (isset .Params "author") }}
-    {{ $author := index $data.authors .Params.author }}
-    <div class="delimiter"></div>
-    <section class="author-info row">
-      <div class="author-avatar col-md-2">
-        {{ with $author.avatar }}
-        <img alt="Author Avatar" src="{{ . }}" />
-        {{ end }}
-      </div>
-      <div class="author-meta col-md-10">
-        {{ with $author.name }}
-        <h2 class="author-name text-primary">{{ . }}</h2>
-        {{ end }}
-        {{ with $author.bio }}
-        <div class="author-bio">{{ . }}</div>
-        {{ end }}
-        {{ with $author.contact }}
-        <a class="btn btn-primary author-contact" href="{{ . }}">
-          <div>
-            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-            &nbsp;{{ i18n "contactMe" }}
-          </div>
-        </a>
-        {{ end }}
-      </div>
+    <section>
+        {{ .Content }}
     </section>
-    {{ end }}
-    {{ if (isset .Params "nopagination") }}
-    {{ else }}
-    <div class="delimiter"></div>
-    <div class="pager-container">
-      {{ if .PrevPage }}
-      <a class="btn btn-primary btn-older-posts" href="{{ .PrevPage.Permalink }}">
-        <div>
-          <span aria-hidden="true">&larr;</span>
+    <div class="clearfix">
+        {{ if (isset .Params "noshowdate") }}
+        {{ else }}
+        <div class="post-date pull-left">
+            <span class="small">
+                {{ i18n "postedOn" }}
+                {{ .Date.Format ( i18n "dateformat" ) }}
+            </span>
         </div>
-      </a>
-      {{ else }}
-      <a class="btn btn-primary btn-older-posts disabled" href="#">
-        <div>
-          <span aria-hidden="true">&#10006;</span>
+        {{ end }}
+        <div class="pull-right">
+            {{ range .Params.tags }}
+            {{ with $.Site.GetPage "taxonomy" ( print "/tags/" ( . | urlize ) ) }}
+            <span class="post-tag"><a href="{{ .Permalink }}">#{{ .Name }}</a></span>
+            {{ end }}
+            {{ end }}
         </div>
-      </a>
-      {{ end }}
-      {{ if .NextPage }}
-      <a class="btn btn-primary btn-newer-posts" href="{{ .NextPage.Permalink }}">
-        <div>
-          <span aria-hidden="true">&rarr;</span>
-        </div>
-      </a>
-      {{ else }}
-      <a class="btn btn-primary btn-newer-posts disabled" href="#">
-        <div>
-          <span aria-hidden="true">&#10006;</span>
-        </div>
-      </a>
-      {{ end }}
     </div>
-    {{ end }}
-  </footer>
+    <footer>
+        {{ if (isset .Params "nocomments") }}
+        {{ else }}
+        <i id="disqus-shortname" data-disqus-shortname={{ .Site.Params.disqusShortname }}></i>
+        {{ with .Site.Params.disqus }}
+        <div class="delimiter"></div>
+        <div id="disqus_thread"></div>
+        <script type="application/javascript" src="/js/disqus.js"></script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript>
+        {{ end }}
+        {{ end }}
+        {{ if and (isset $data "authors") (isset .Params "author") }}
+        {{ $author := index $data.authors .Params.author }}
+        <div class="delimiter"></div>
+        <section class="author-info row">
+            <div class="author-avatar col-md-2">
+                {{ with $author.avatar }}
+                <img alt="Author Avatar" src="{{ . }}" />
+                {{ end }}
+            </div>
+            <div class="author-meta col-md-10">
+                {{ with $author.name }}
+                <h2 class="author-name text-primary">{{ . }}</h2>
+                {{ end }}
+                {{ with $author.bio }}
+                <div class="author-bio">{{ . }}</div>
+                {{ end }}
+                {{ with $author.contact }}
+                <a class="btn btn-primary author-contact" href="{{ . }}">
+                    <div>
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        &nbsp;{{ i18n "contactMe" }}
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+        {{ if (isset .Params "nopagination") }}
+        {{ else }}
+        <div class="delimiter"></div>
+        <div class="pager-container">
+            {{ if .PrevPage }}
+            <a class="btn btn-primary btn-older-posts" href="{{ .PrevPage.Permalink }}">
+                <div>
+                    <span aria-hidden="true">&larr;</span>
+                </div>
+            </a>
+            {{ else }}
+            <a class="btn btn-primary btn-older-posts disabled" href="#">
+                <div>
+                    <span aria-hidden="true">&#10006;</span>
+                </div>
+            </a>
+            {{ end }}
+            {{ if .NextPage }}
+            <a class="btn btn-primary btn-newer-posts" href="{{ .NextPage.Permalink }}">
+                <div>
+                    <span aria-hidden="true">&rarr;</span>
+                </div>
+            </a>
+            {{ else }}
+            <a class="btn btn-primary btn-newer-posts disabled" href="#">
+                <div>
+                    <span aria-hidden="true">&#10006;</span>
+                </div>
+            </a>
+            {{ end }}
+        </div>
+        {{ end }}
+    </footer>
 </article>
+{{ partial "scroll-to-top.html" . }}
 <div class="delimiter"></div>
 
 {{ partial "footer.html" . }}
