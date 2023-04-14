@@ -7,6 +7,7 @@ tags: ['translate']
 summary: 'AGI is coming'
 preview_figure: ''
 preview_figcaption: ''
+toc: true
 ---
 使用 chatGPT 3.5，內文有些圖表的部分就不進行翻譯，只做純文字翻譯
 
