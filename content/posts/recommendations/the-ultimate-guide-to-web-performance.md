@@ -15,7 +15,7 @@ https://www.youtube.com/watch?v=0fONene3OIA 6:42
 
 # Summary
 * LCP: short for Largest Content Paint, measure loading performance
-  * 2.5s is good, 4s is bad
+  * **2.5s** is good, **4s** is bad
   * 最大的元素 loading time，例如圖片、文字
   * 用 console 的 waterfall 查看
   * 使用 CDN 或縮圖技術優化
