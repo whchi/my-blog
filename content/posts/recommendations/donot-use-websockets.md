@@ -3,7 +3,7 @@ title: '[推薦] 不要一開始就用 websocket'
 date: 2023-05-07T21:09:23+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
