@@ -16,7 +16,7 @@ https://twitter.com/alexxubyte/status/1656686865452503040
 
 * RPC
   * 高耦合：要知道對方想做什麼
-  * 高效能：走 binary、protobuf，不用解析 data 後再處理邏輯
+  * 高效能：走 binary、protobuf，解析 data 的速度更快
   * 難讀：相比 RESTful 來說更難 debug
   * 行為導向：function to function
 * RESTful
