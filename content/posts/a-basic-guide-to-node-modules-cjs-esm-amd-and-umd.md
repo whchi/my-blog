@@ -1,5 +1,5 @@
 ---
-title: 'node module 比較'
+title: 'A Basic Guide to Node Modules: CJS, ESM, AMD, and UMD'
 date: 2023-04-06T15:12:24+08:00
 draft: false
 author: 'whchi'
@@ -10,12 +10,12 @@ preview_figcaption: ''
 ---
 
 There are 4 types of node modules:
-1. CommonJS(cjs)
-2. ES6(esm)
-3. Asynchronous Module Definition(amd)
-4. Universal Module Definition(umd)
+1. CJS(CommonJS)
+2. ESM(es6)
+3. AMD(Asynchronous Module Definition)
+4. UMD(Universal Module Definition)
 
-Here's a comparison of the 4 types of modules using ChatGPT-4.
+Here's a comparison of the 4 types of modules.
 
 {{< table "table table-bordered" >}}
 | Feature                | umd                                     | cjs                                      | esm                                      | amd                                       |
