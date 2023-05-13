@@ -1,6 +1,6 @@
 ---
 title: 'A Basic Guide to Node Modules: CJS, ESM, AMD, and UMD'
-date: 2023-04-06T15:12:24+08:00
+date: 2023-05-13T15:12:24+08:00
 draft: false
 author: 'whchi'
 tags: ['nodejs']
