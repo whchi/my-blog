@@ -3,7 +3,7 @@ title: '[推薦] 6 Advanced TypeScript Tricks'
 date: 2023-05-04T11:32:20+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendation']
+tags: ['recommendation', 'typescript']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
