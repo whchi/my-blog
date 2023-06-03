@@ -25,7 +25,7 @@ graph LR
 {{< /mermaid >}}
 # 內文
 首先，我們先來看一個簡單的例子
-```
+```ts
 // original
 export enum ToDoStatus {
     OK = 200,
@@ -44,7 +44,7 @@ export var ToDoStatus;
 可以看到 build 後的程式碼，會有一個反向的 mapping，這是因為 typescript 的 enum 有 reverse mapping 的功能，也就是說，我們可以從 value 取得 key，這樣會使得最終 size 變大
 
 同時字串的 enum 在編譯後結果是無法 reverse mapping 的
-```
+```ts
 // original
 enum ApiResponseStatus {
   SUCCESS = 'success',
@@ -64,7 +64,7 @@ var ApiResponseStatus;
 
 有 2 種方法可以減少 build 後的程式碼大小
 ## 1. const assertion
-```
+```ts
 // original
 export const httpStatusCode = {
     Ok: 200,
@@ -85,7 +85,7 @@ export const httpStatusCode = {
 };
 ```
 ## 2. const enum
-```
+```ts
 // original
 const enum Direction {
   Up,
