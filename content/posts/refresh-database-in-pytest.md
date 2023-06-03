@@ -1,5 +1,5 @@
 ---
-title: 'Implement refresh database using pytest'
+title: 'Refresh database in pytest'
 date: 2023-06-03T16:35:28+08:00
 draft: false
 author: 'whchi'
@@ -18,7 +18,9 @@ There are 5 scopes in pytest:
 - `package`: the fixture is destroyed during teardown of the last test in the package(single/folder).
 - `session`: the fixture is destroyed at the end of the test session.(until the command line exits)
 
-So, we can use the function scope to rollback and truncate all tables of the database after every test, and use the session scope to drop all tables after all tests have ended. This approach ensures that the database schema remains unchanged and prevents tests from failing.
+So, we can use the function scope to rollback and truncate all tables of the database after every test, and use the session scope to drop all tables after all tests have ended.
+
+This approach ensures that the database schema remains unchanged and prevents tests from failing.
 
 Here's how to implement it using SQLAlchemy:
 
