@@ -3,7 +3,7 @@ title: '[推薦] Postgres vs Mysql'
 date: 2023-06-19T13:53:58+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
