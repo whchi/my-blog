@@ -11,6 +11,7 @@
   <meta property="og:site_name" content="{{ .Site.Title }}" />
   <meta property="og:url" content="{{ .Permalink }}" />
   <meta name="description" content="{{ .Site.Params.subtitle }}" />
+  <meta property="og:image" content="/images/favicon.ico" />
   {{ with .Params.images }}
   {{ range first 5 . }}
   <meta property="og:image" content="{{ . }}" />
