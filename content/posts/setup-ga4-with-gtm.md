@@ -5,9 +5,9 @@ draft: false
 author: 'whchi'
 tags: ['seo']
 summary: '寫了 blog 總會想看一下瀏覽數，娛不了人也能自娛'
-preview_figure: '/images/preview/docking.jpeg'
+preview_figure: '/images/preview/docking.webp'
 preview_figcaption: '每個搞網站的工程師都要會一點 ga + gtm'
-preview_image: '/images/preview/docking.jpeg'
+preview_image: '/images/preview/docking.webp'
 ---
 # Google Analytics(GA)
 ## 1. 建立 account 與 property
@@ -16,12 +16,12 @@ property 建議設定成 hostname
 ## 2. 建立 data stream
 照表填寫
 {{< figure
-    src="/images/ga-data-stream.png"
+    src="/images/ga-data-stream.webp"
     caption="data stream 設定">}}
 
 ## 3. copy measurement id
 {{< figure
-    src="/images/ga-copy-measurement-id.png"
+    src="/images/ga-copy-measurement-id.webp"
     caption="copy measurement id">}}
 
 # Google Tag Manager(GTM)
@@ -30,24 +30,24 @@ container 建議設定成 hostname
 
 ## 2. 建立 tag
 {{< figure
-    src="/images/gtm-setup-ga4-tag.png"
+    src="/images/gtm-setup-ga4-tag.webp"
     caption="選擇 GA4 configuration，貼上剛剛複製的 measurement id">}}
 ## 3. 貼代碼到你的 site
 {{< figure
-    src="/images/gtm-code.png"
+    src="/images/gtm-code.webp"
     caption="代碼示意圖">}}
 ## 4. 驗證結果
 {{< figure
-    src="/images/gtm-preview-tag-1.png"
+    src="/images/gtm-preview-tag-1.webp"
     caption="點選 preview 前往驗證">}}
 {{< figure
-    src="/images/gtm-preview-tag-2.png"
+    src="/images/gtm-preview-tag-2.webp"
     caption="設定網站位置進行驗證">}}
 {{< figure
-    src="/images/gtm-preview-tag-site.png"
+    src="/images/gtm-preview-tag-site.webp"
     caption="驗證結果-site（需裝套件）">}}
 {{< figure
-    src="/images/gtm-preview-tag-dashboard.png"
+    src="/images/gtm-preview-tag-dashboard.webp"
     caption="驗證結果-dashboard">}}
 
 

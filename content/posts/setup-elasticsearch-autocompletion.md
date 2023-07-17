@@ -159,7 +159,7 @@ GET my_index/_search
 ```
 _source 裡面的就是結果\
 {{< figure
-src="/images/auto-completion-result.png"
+src="/images/auto-completion-result.webp"
 title="呈現結果示意圖"
 caption="呈現結果示意圖">}}
 ## 補充： analyzer 是什麼
