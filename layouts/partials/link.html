@@ -5,27 +5,22 @@
     </a>
   {{ end }}
   {{ with .Site.Params.twitter }}
-    <a rel="noopener noreferrer" href="https://twitter.com/{{ . }}" target="_blank">
+    <a rel="noopener noreferrer" aria-label="twitter" href="https://twitter.com/{{ . }}" target="_blank">
       <i class="fa fa-twitter"></i>
     </a>
     {{ end }}
   {{ with .Site.Params.instagram }}
-    <a rel="noopener noreferrer" href="https://instagram.com/{{ . }}" target="_blank">
+    <a rel="noopener noreferrer" aria-label="instagram" href="https://instagram.com/{{ . }}" target="_blank">
       <i class="fa fa-instagram"></i>
     </a>
   {{ end }}
-  {{ with .Site.Params.googleplus }}
-    <a rel="noopener noreferrer" href="https://plus.google.com/+{{ . }}" target="_blank">
-      <i class="fa fa-google"></i>
-    </a>
-  {{ end }}
   {{ with .Site.Params.facebook }}
-    <a rel="noopener noreferrer" href="https://facebook.com/{{ . }}" target="_blank">
+    <a rel="noopener noreferrer" aria-label="facebook" href="https://facebook.com/{{ . }}" target="_blank">
       <i class="fa fa-facebook"></i>
     </a>
   {{ end }}
   {{ with .Site.Params.github }}
-    <a rel="noopener noreferrer" href="https://github.com/{{ . }}" target="_blank">
+    <a rel="noopener noreferrer" aria-label="github" href="https://github.com/{{ . }}" target="_blank">
       <i class="fa fa-github"></i>
     </a>
   {{ end }}
@@ -50,7 +45,7 @@
     </a>
   {{ end }}
   {{ with .Site.Params.linkedin }}
-    <a rel="noopener noreferrer" href="https://linkedin.com/in/{{ . }}" target="_blank">
+    <a rel="noopener noreferrer" aria-label="linkedin" href="https://linkedin.com/in/{{ . }}" target="_blank">
       <i class="fa fa-linkedin"></i>
     </a>
   {{ end }}
@@ -60,7 +55,7 @@
     </a>
   {{ end }}
   {{ with .Site.Params.medium }}
-    <a rel="noopener noreferrer" href="https://medium.com/@{{ . }}" target="_blank">
+    <a rel="noopener noreferrer" aria-label="medium" href="https://medium.com/@{{ . }}" target="_blank">
         <i class="fa fa-medium"></i>
     </a>
   {{ end }}
