@@ -5,9 +5,9 @@ draft: false
 author: 'whchi'
 tags: ['skateboard']
 summary: '滑不好沒關係，要講的很專業'
-preview_figure: '/images/skate-baby.png'
+preview_figure: '/images/skate-baby.webp'
 preview_figcaption: ''
-preview_image: '/images/skate-baby.png'
+preview_image: '/images/skate-baby.webp'
 ---
 雖然想怎麼站都沒問題，不過滑一滑突然烙個英文好像可以感覺比較專業
 

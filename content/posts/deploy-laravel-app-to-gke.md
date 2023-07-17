@@ -55,7 +55,7 @@ kubectl apply -f xxxx.yml # use apply
 ```
 
 ## 預計建立架構
-![](/images/k8s-infa-sample.png)
+![](/images/k8s-infa-sample.webp)
 
 ### 建立 laravel app image & push to GCR
 [安裝完laravel](https://laravel.com/docs/5.8/installation)之後寫個 Dockerfile build image, 參考如下

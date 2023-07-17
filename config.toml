@@ -6,7 +6,7 @@ defaultContentLanguage = 'zh'
 defaultContentLanguageInSubdir = 'false'
 disableLanguages = ['en']
 paginate = 10
-image = '/images/the-road-not-taken.jpg'
+image = '/images/the-road-not-taken.webp'
 [permalinks]
 posts = "/:year/:month/:filename/"
 

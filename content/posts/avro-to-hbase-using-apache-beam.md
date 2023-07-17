@@ -29,7 +29,7 @@ summary: '這真的蠻冷門的'
 * PTransform: 表示 pipeline 中一個 job 的處理流程（步驟），包含1~n個 PCollection 作為 input，0~n 個 PCollection 作為 output
 
 一個最單純的 pipeline 用圖形表示如下
-![](/images/pipeline.png)
+![](/images/pipeline.webp)
 
 * Transforms
 有幾種類型如下
@@ -82,7 +82,7 @@ summary: '這真的蠻冷門的'
 | timestamp        | 作為版本識別使用，不指定的話使用當下時間，讀取時預設抓取最新版本                                                                          |
 {{</ table>}}
 以圖片呈現他們的關係如下
-![](/images/hbase-table.png)
+![](/images/hbase-table.webp)
 ### Running mode
 * standalone
   * default mode

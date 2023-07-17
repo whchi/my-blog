@@ -6,9 +6,9 @@ author: 'whchi'
 type: 'posts'
 tags: ['instagram', 'facebook']
 summary: '真的很麻煩'
-preview_figure: '/images/fb-ig.png'
+preview_figure: '/images/fb-ig.webp'
 preview_figcaption: ''
-preview_image: '/images/fb-ig.png'
+preview_image: '/images/fb-ig.webp'
 ---
 
 最近幫公司串 instagram 的功能，因其屬於 facebook，所以要走他的審查，送了好幾次終於過了，紀錄一下撰寫要點
