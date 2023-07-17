@@ -16,11 +16,11 @@
     <span>{{ i18n "pageOf" . }}</span>
   </div>
   {{ if .HasNext }}
-  <a class="btn btn-primary btn-newer-posts" href="{{ .Next.URL }}">
+  <a class="btn btn-primary btn-newer-posts" aria-label="next page" href="{{ .Next.URL }}">
     <div>{{ i18n "olderPage" }} <span aria-hidden="true">&rarr;</span></div>
   </a>
   {{ else }}
-  <a class="btn btn-primary btn-newer-posts disabled" href="#">
+  <a class="btn btn-primary btn-newer-posts disabled" aria-label="no more page" href="#">
     <div><span aria-hidden="true">&#10006;</span></div>
   </a>
   {{ end }}
