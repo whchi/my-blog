@@ -54,7 +54,7 @@ body {
 .tag-count {
   font-weight: bold;
   font-size: 1.15em;
-  color: rgb(245, 85, 85);
+  color: rgb(245, 25, 25);
 }
 .header-desc {
   padding: 7em;
@@ -76,12 +76,12 @@ body {
   text-decoration: none;
   margin-left: 0px;
   border-radius: 12px;
-  color: rgb(245, 85, 85);
-  border-color: rgb(245, 85, 85);
+  color: rgb(245, 25, 25);
+  border-color: rgb(245, 25, 25);
 }
 .post-tag a:hover {
   color: #fff;
-  background-color: rgb(245, 85, 85);
+  background-color: rgb(245, 25, 25);
 }
 .read-more-container {
   display: flex;
