@@ -8,6 +8,7 @@ noshowdate: true
 nocomments: true
 nopagination: true
 ---
+![whchi’s GitHub image](https://scastiel.dev/api/image/whchi)
 # interests
 🛹 🌊 ⛰ ✈️ 📈
 # skills
