@@ -17,7 +17,6 @@ preview_figcaption: ''
 1. 安裝 minikube
 2. 啟用 ingress addon: `minikube addons enable ingress`
 
-
 ## k8s config
 ### tls-secret.yml
 ```yml
@@ -27,8 +26,8 @@ metadata:
   name: my-tls-secret
   namespace: default
 data:
-  tls.crt: <base64 encoded cert>
-  tls.key: <base64 encoded key>
+  tls.crt: BASE64_ENCODED_CERT
+  tls.key: BASE64_ENCODED_CERT_KEY
 type: kubernetes.io/tls
 ```
 或是直接用 cmd 建立
