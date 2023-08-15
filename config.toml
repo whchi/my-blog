@@ -8,7 +8,7 @@ disableLanguages = ['en']
 paginate = 10
 image = '/images/the-road-not-taken.webp'
 [permalinks]
-posts = "/:year/:month/:filename/"
+posts = "/:year/:month/:filename"
 
 [params]
 # Short subtitle/tagline. This is displayed in the header.
