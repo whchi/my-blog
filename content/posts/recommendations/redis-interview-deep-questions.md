@@ -19,6 +19,7 @@ https://www.youtube.com/watch?v=nrgATM0yPO8 14:33
 3. redis 6.0 之後開始使用 multi-thread 處理網路 IO，讀寫仍然是 single-thread
 4. redis 4.0 之後的 muti-thread 是異步刪除
 - 持久化
+
 把 ram 的數據存到 disk 已實踐
 1. AOF: 記錄所有的 command append to doc，先執行後才存入，不同於一般的 RDB 是儲存執行前的指令，原因是 redis 不會執行語法檢查，避免紀錄錯的 command 以及提高 IO
 2. RDB: 記錄某個時段的資料，用 binary 的方式寫入，在數據恢復的效能比 AOF 好，使用 bgsave 可以避免對主線程阻塞（資料修改時會拿修改過的副本執行 save）
