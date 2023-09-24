@@ -30,3 +30,4 @@ https://www.youtube.com/watch?v=nrgATM0yPO8 14:33
    1. 使用 hash slot(CRC 16 key and % 16383(16bit int)) 來處理 data 與 instance 的 mapping
    2. 平均分配：平均分佈 hash slot，`cluster create`
    3. 手動分配：`cluseter meet` & `cluster addslots`
+
