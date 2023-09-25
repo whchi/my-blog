@@ -3,7 +3,7 @@ title: '[推薦] Use Type in Typescript'
 date: 2023-09-01T22:05:19+08:00
 draft: false
 author: 'whchi'
-tags: ['recommendations']
+tags: ['recommendation']
 summary: ''
 preview_figure: ''
 preview_figcaption: ''
