@@ -35,7 +35,6 @@ suffixes = "js"
 copyright = '&copy; whchi 2018'
 languageCode = 'en'
 languageName = 'English'
-subtitle = ''
 title = 'murmurs and records'
 
 [languages.en.menu]
@@ -49,7 +48,6 @@ url = 'about'
 copyright = '&copy; whchi 2018'
 languageCode = 'zh-tw'
 languageName = '繁體中文'
-subtitle = '雜談與紀錄'
 title = '社畜人生'
 
 [languages.zh.menu]
