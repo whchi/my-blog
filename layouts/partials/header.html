@@ -10,7 +10,11 @@
   {{ end }}
   <meta property="og:site_name" content="{{ .Site.Title }}" />
   <meta property="og:url" content="{{ .Permalink }}" />
-  <meta name="description" content="{{ .Site.Params.subtitle }}" />
+  {{ if .Param "summary" }}
+    <meta name="description" content="{{ .Params.summary }}" />
+  {{ else }}
+    <meta name="description" content="{{ .Site.Title }}" />
+  {{ end }}
   <meta property="og:image" content="/images/favicon.ico" />
   {{ with .Params.images }}
   {{ range first 5 . }}
