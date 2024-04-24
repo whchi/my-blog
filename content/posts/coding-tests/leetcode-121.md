@@ -9,6 +9,7 @@ preview_figure: ''
 preview_figcaption: ''
 preview_image: ''
 ---
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
 
 # 題目
 給定一個整數陣列 `prices`，其中 `prices[i]` 是第 `i` 天的股票價格。如果你只能偲在一天買入股票並在之後的某一天賣出，請設計一個演算法來找到最大獲利。如果你不能獲利，則返回 `0`。
