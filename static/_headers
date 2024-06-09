@@ -1,1 +1,1 @@
-Access-Control-Allow-Origin: *
+content-security-policy: upgrade-insecure-requests; script-src 'self' *.cloudflareinsights.com; connect-src 'self' blob: https://easy.saramara.ai wss://easy.saramara.ai;media-src 'self' https:;img-src 'self' data: blob: https:;default-src 'none';base-uri 'self';frame-ancestors 'none';style-src 'self' 'unsafe-inline';font-src 'self';manifest-src 'self';
