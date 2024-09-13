@@ -81,8 +81,8 @@
         {{ else }}
         <div class="delimiter"></div>
         <div class="pager-container">
-            {{ if .PrevPage }}
-            <a class="btn btn-primary btn-older-posts" aria-label="prev page" href="{{ .PrevPage.Permalink }}">
+            {{ if .Prev }}
+            <a class="btn btn-primary btn-older-posts" aria-label="prev page" href="{{ .Prev.Permalink }}">
                 <div>
                     <span aria-hidden="true">&larr;</span>
                 </div>
@@ -94,8 +94,8 @@
                 </div>
             </a>
             {{ end }}
-            {{ if .NextPage }}
-            <a class="btn btn-primary btn-newer-posts" aria-label="next page" href="{{ .NextPage.Permalink }}">
+            {{ if .Next }}
+            <a class="btn btn-primary btn-newer-posts" aria-label="next page" href="{{ .Next.Permalink }}">
                 <div>
                     <span aria-hidden="true">&rarr;</span>
                 </div>
