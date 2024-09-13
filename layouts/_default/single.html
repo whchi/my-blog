@@ -50,7 +50,7 @@
                 Disqus.</a></noscript>
         {{ end }}
         {{ end }}
-        {{ if and (isset $data "authors") (isset .Params "author") }}
+        {{ if (isset .Params "author") }}
         {{ $author := index $data.authors .Params.author }}
         <div class="delimiter"></div>
         <section class="author-info row">
