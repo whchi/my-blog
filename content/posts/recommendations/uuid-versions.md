@@ -13,8 +13,6 @@ preview_figcaption: ''
 https://www.ntietz.com/blog/til-uses-for-the-different-uuid-versions/#dce
 
 # Summary
-很樂意為您總結這篇文章的 5 個主要要點:
-
 1. UUID 有 8 個版本
 2. 最常用的兩個版本是 v4 和 v7
    1. v4 完全由隨機數據生成,適合作為通用的隨機 ID。
