@@ -42,7 +42,7 @@ title = 'murmurs and records'
 [[languages.en.menu.main]]
 identifier = 'about'
 name = 'about'
-url = 'about'
+url = 'https://about.d6i.dev'
 
 [languages.zh]
 copyright = '&copy; whchi 2018'
@@ -55,7 +55,7 @@ title = '社畜人生'
 [[languages.zh.menu.main]]
 identifier = 'about'
 name = 'about'
-url = 'about'
+url = 'https://about.d6i.dev'
 
 [[languages.zh.menu.main]]
 identifier = 'tags'

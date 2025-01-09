@@ -10,4 +10,4 @@ nopagination: true
 ---
 ![whchi’s GitHub image](https://scastiel.dev/api/image/whchi)
 
-https://about-me-whchi.vercel.app/
+https://about.d6i.dev
