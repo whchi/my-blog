@@ -1,0 +1,148 @@
+---
+title: 'Javascript Event Loop'
+date: 2025-02-21T15:54:28+08:00
+draft: false
+author: 'whchi'
+tags: ['javascript']
+summary: '這已經講到爛了...記錄一下'
+preview_figure: ''
+preview_figcaption: ''
+preview_image: ''
+toc: false
+---
+
+這個題目是很基本的概念，但前端就喜歡創造新名詞複雜這件事情，筆記一下不然每次看到新名詞就要追
+
+# 關鍵名詞
+{{< table "table table-bordered" >}}
+|名詞|描述|範例|
+|-|-|-|
+|call stack|程式執行堆疊，每種程式語言都是一樣的模式，因為本質就是用來追蹤和管理函式呼叫的執行順序，這點可以載 throw error 時的錯誤訊息堆疊看得出來||
+|Web APIs|瀏覽器支援非同步機制，會在背景執行不會阻斷 main thread，當他執行完畢會放進 Task queue 中等待 event loop 呼叫|setTimeout/setInterval, fetch, XMLHttpRequest, DOM events|
+|Task queue|又稱為 Marcotask queue, 跟 Microtask 做區別|同 Web APIs|
+|Microtask queue|是比較特別的類型，會在 Marcotask queue dequeue 後被執行，因此其執行順序永遠是在 Marcotask 的前面，所有 Microtask 會在下一個 Marcotask 開始執行前及頁面重新渲染前執行完畢|promise 的 then/catch/finally, queueMicrotask(func)|
+{{< /table >}}
+
+# pseudo code
+ref: https://github.com/atotic/event-loop#event-loop-description
+
+節錄自上述的 pseudo code 執行的區塊
+```js
+while(true) {
+    task = eventLoop.nextTask();
+    if (task) {
+        task.execute();
+    }
+    eventLoop.executeMicrotasks();
+    if (eventLoop.needsRendering())
+        eventLoop.render();
+}
+```
+可以看到這裡基本上就做三件事，這邊就是執行的核心觀念
+1. deque task queue
+2. deque & execute microtask
+3. render
+也就是前述的執行順序：micro -> marco -> render 循環
+
+# 範例
+理解之後再看以下的例子
+```js
+console.log('開始');
+
+setTimeout(() => {
+    console.log('Macro task 1 (setTimeout)');
+
+    Promise.resolve().then(() => {
+        console.log('Micro task 在 Macro task 1 中');
+    });
+}, 0);
+
+Promise.resolve().then(() => {
+    console.log('Micro task 1');
+});
+
+setTimeout(() => {
+    console.log('Macro task 2 (setTimeout)');
+}, 0);
+
+console.log('結束');
+
+// 開始
+// 結束
+// Micro task 1
+// Marco task 1 (setTimeout)
+// Micro task 在 Marco task 1 中
+// Marco task 2 (setTimeout)
+```
+
+## 解釋
+
+1. 同步程式碼的執行
+- 首先執行 console.log('開始')
+- 然後遇到第一個 setTimeout（Macro task 1），將它排入 Macro task 佇列
+- 接著遇到 Promise（Micro task 1），將它排入 Micro task 佇列
+- 遇到第二個 setTimeout（Macro task 2），將它排入 Macro task 佇列
+- 最後執行 console.log('結束')
+
+
+2. 第一輪事件循環
+- 同步程式碼執行完畢後，檢查 Micro task 佇列
+- 發現 Micro task 佇列中有 "Micro task 1"
+- 執行它，輸出 console.log('Micro task 1')
+
+
+3. 第二輪事件循環
+- Micro task 佇列清空後，檢查 Macro task 佇列
+- 執行第一個 setTimeout 回調（Macro task 1）
+- 輸出 console.log('Macro task 1 (setTimeout)')
+- 在這個 Macro task 中產生了新的 Promise（Micro task）
+- 根據規則，必須立即處理這個 Micro task
+- 輸出 console.log('Micro task 在 Macro task 1 中')
+
+
+4. 第三輪事件循環
+- 檢查 Macro task 佇列
+- 執行第二個 setTimeout 回調（Macro task 2）
+- 輸出 console.log('Macro task 2 (setTimeout)')
+
+[用動畫的方式呈現](https://claude.site/artifacts/715c295c-1f78-4254-9aa3-b22ad6334bd7)
+
+那假如 Promise 沒有接 `resolve` 會發生什麼事？
+```js
+console.log('開始');
+
+setTimeout(() => {
+    console.log('Macro task 1 (setTimeout)');
+
+    new Promise(() => {
+        console.log('Micro task 在 Macro task 1 中');
+    });
+}, 0);
+
+new Promise(() => {
+    console.log('Micro task 1');
+});
+
+setTimeout(() => {
+    console.log('Macro task 2 (setTimeout)');
+}, 0);
+
+console.log('結束');
+
+```
+答案如下
+```txt
+開始
+Micro task 1
+結束
+Macro task 1 (setTimeout)
+Micro task 在 Macro task 1 中
+Macro task 2 (setTimeout)
+```
+可以看出`new Promise`是直接同步執行，重要的是要理解
+
+1. new Promise(executor) 中的 executor 函數是同步執行的
+2. 如果 Promise 沒有被 resolve 或 reject，那麼這些回調永遠不會執行，只會 pending
+
+最後推薦一部被推到爛的影片，很好地描述 event loop 與 call stack, web API 之間的關係
+{{< youtube 8aGhZQkoFbQ >}}
