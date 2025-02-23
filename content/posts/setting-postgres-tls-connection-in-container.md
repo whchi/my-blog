@@ -25,11 +25,6 @@ PostgreSQL 客戶端可以以六種不同的方式進行連線：
 5. verify_ca：使用加密，並檢查服務器證書是否由受信任的機構簽發。
 6. verify_full：最安全的選項。檢查加密、證書，並確認服務器名稱是否匹配證書。
 
-連線字串格式如下：
-```
-postgresql://username:password@host:port/database
-```
-
 verify_ca 和 verify_full 是最安全的選項，但需要額外的設定，又分成下面兩種情況
 
 - 單向驗證：您需要根 CA 證書。
