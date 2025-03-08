@@ -35,5 +35,5 @@ https://www.youtube.com/watch?v=I2mWnh66Bkg 12:00
 8. 設定適合的 retention policy 避免 log 過多造成 storage 問題，可以用 log level 搭配環境來設定避免過多垃圾資料
 9. 注意 log 傳輸安全，對 log system 進行 access control 與加密
 10. Sensitive data 要避免紀錄在 log 中，比如密碼、信用卡資訊，真要記錄要做去識別化
-11. 選擇高效能的 log lib，避免 log system 成為 bottleneck
+11. 選擇高效能的 log lib，避免 logging 成為 system bottleneck
 12. 區別 log 跟 metric，use log to debug problem, use metric to know when will you have a problem
