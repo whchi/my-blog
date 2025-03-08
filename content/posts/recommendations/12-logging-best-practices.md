@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=I2mWnh66Bkg 12:00
   - system state data: db / cache state status
   - full error context: stack trace，方便除錯
 5. 對於高流量系統善用 log sampling，降低儲存成本
-6. 使用標準化的 log row，每條 log 要可以捕捉完整的事件，比如在 log 的前面加入關鍵字方便日後查找
+6. canonical log lines，每次完整請求後加上一條描述該 request 完整描述的 log，讓追蹤 log 更容易，比如 `user login attempt [UserAuth]` 這樣就可以直接找 `UserAuth`
 7. 集中管理 log，比如 ELK/LGTM stack
 8. 設定適合的 retention policy 避免 log 過多造成 storage 問題，可以用 log level 搭配環境來設定避免過多垃圾資料
 9. 注意 log 傳輸安全，對 log system 進行 access control 與加密
