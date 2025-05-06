@@ -3,7 +3,7 @@ title: '使用 Burp Suite 進行封包竄改'
 date: 2021-08-26T12:41:03+08:00
 draft: false
 author: 'whchi'
-tags: ['information security']
+tags: ['security']
 summary: '改封包 94 這麼簡單'
 preview_figure: '/images/preview/what-are-you-looking-at.webp'
 preview_figcaption: "I'm watching you"
