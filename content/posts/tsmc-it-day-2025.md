@@ -1,10 +1,10 @@
 ---
 title: '[筆記] TSMC IT Day 2025'
 date: 2025-07-04T16:09:38+08:00
-draft: true
+draft: false
 author: 'whchi'
 tags: ['note']
-summary: ''
+summary: 'TSMC notes'
 preview_figure: ''
 preview_figcaption: ''
 preview_image: ''
