@@ -1,0 +1,109 @@
+---
+title: 'PostgreSQL 遷移時的 ownership 處理'
+date: 2025-08-06T15:15:56+08:00
+draft: false
+author: 'whchi'
+tags: ['postgres']
+summary: '地表上最好的資料庫'
+preview_figure: ''
+preview_figcaption: ''
+preview_image: ''
+toc: true
+---
+
+遷移 PostgreSQL 資料庫不僅僅是複製資料和資料結構而已，還需要妥善處理擁有權（Ownership）與權限（Privileges）。若處理不當，可能會導致應用程式在執行 ALTER、TRUNCATE 或 DROP 等操作時出現權限錯誤。
+本指南將說明如何確保遷移過程順利，並正確設定物件的擁有權。
+
+## Ownership 是什麼
+在 PostgreSQL 中，每個資料庫物件（如 table、view、enum、function、甚至 schema）都只有一個 owner。
+只有 owner 才能執行某些高階操作，除非該權限被明確授予其他角色。
+
+PostgreSQL 的角色（Account）簡單分成：
+
+- Superuser：具有所有權限，可繞過所有擁有權限制，但應謹慎使用。
+- Non-superuser：需被授權或擁有該物件，才能執行相關操作。
+
+在實務上，應避免使用預設的 superuser 來進行 schema 管理或遷移作業，而是指定一個應用程式角色（application role）來管理資料庫物件的擁有權。
+
+- 以下是所有的資料庫物件（database object）
+{{<table "table table-bordered">}}
+| Category            | Objects (Examples)                                            |
+| ------------------- | ------------------------------------------------------------- |
+| Tables & Views      | `TABLE`, `PARTITION`, `VIEW`, `MATERIALIZED VIEW`, `SEQUENCE` |
+| Types               | `ENUM`, `DOMAIN`, `COMPOSITE`, `ARRAY`                        |
+| Code                | `FUNCTION`, `PROCEDURE`, `AGGREGATE`, `TRIGGER FUNCTION`      |
+| Full-text Search    | `TEXT SEARCH CONFIG`, `DICTIONARY`, `PARSER`, `TEMPLATE`      |
+| Indexes             | `INDEX`, `UNIQUE`, `GIN`, `BRIN`, `GiST`                      |
+| Constraints         | `PRIMARY KEY`, `UNIQUE`, `CHECK`, `FOREIGN KEY`               |
+| Privileges/Security | `ROLE`, `GRANT`, `REVOKE`, `POLICY`                           |
+| DDL Events          | `TRIGGER`, `EVENT TRIGGER`                                    |
+| Namespaces          | `DATABASE`, `SCHEMA`, `TABLESPACE`                            |
+| Extensions          | `EXTENSION`, `LANGUAGE`                                       |
+| FDW                 | `FOREIGN TABLE`, `SERVER`, `USER MAPPING`                     |
+| Replication         | `PUBLICATION`, `SUBSCRIPTION`                                 |
+{{</table >}}
+
+## Why ownership matters
+當你使用 `pg_dump` 和 `pg_restore` 將資料庫匯出與還原時，若沒有特別處理，所有物件會保留原來的擁有者。如果在目標環境中這些角色不存在，或不是適當的角色，會導致各種權限錯誤。
+
+常見錯誤包括：
+
+- `ERROR: must be owner of table`
+- 無法執行 schema 修改操作（例如 ALTER TABLE、DROP 等）
+- CI/CD 或初始化腳本在執行時發生權限錯誤
+
+## 解決方法：正確處理 Ownership
+### 1. 正確使用 `pg_dump` 與 `pg_restore`
+當來源與目標環境的角色結構不同時，推薦使用以下方式
+```sh
+# 匯出資料庫，移除 OWNER 與 GRANT 設定
+pg_dump --no-owner --no-privileges -Fc -f db.dump your_db
+
+# 將備份還原到新的資料庫，指定應用程式角色作為物件擁有者
+pg_restore --role=your_app_role -d your_new_db db.dump
+```
+這樣還原的所有物件將會由 your_app_role 所擁有，不會保留來源資料庫的角色或授權設定。
+
+### 2. 在建立資料庫時指定擁有者
+```sh
+CREATE DATABASE your_new_db OWNER your_owner;
+\c your_new_db
+SET ROLE your_owner;
+CREATE SCHEMA my_schema;
+```
+之後建立的所有物件，預設都會屬於 `your_owner`。
+
+### 3.使用一次性 script
+如果在初始化後需要調整擁有權，可以使用 PL/pgSQL 腳本批次處理
+{{<gist d753f513f6819de03d3e958da55af404 >}}
+這種方式適合整體轉移物件所有權，避免未來權限錯誤。
+
+### 4. 若無需轉移擁有權，也可使用 `GRANT` 授權
+當你只需授予某個角色存取權限，但不需轉移擁有權時，可使用 GRANT
+```sql
+-- schema
+GRANT ALL ON SCHEMA my_schema TO new_role;
+-- table
+GRANT ALL ON TABLE my_schema.my_table TO new_role;
+GRANT ALL ON ALL TABLES IN SCHEMA my_schema TO new_role;
+-- sequence
+GRANT ALL ON SEQUENCE my_schema.my_sequence TO new_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA my_schema TO new_role;
+-- view, materialed view
+GRANT ALL ON my_schema.my_view TO new_role;
+GRANT ALL ON my_schema.my_matview TO new_role;
+-- enum
+GRANT ALL ON TYPE my_schema.my_enum TO new_role;
+-- domain
+GRANT ALL ON DOMAIN my_schema.my_domain TO new_role;
+-- function
+GRANT ALL ON FUNCTION my_schema.my_function() TO new_role;
+GRANT ALL ON ALL FUNCTIONS IN SCHEMA my_schema TO new_role;
+```
+**適用於需要多角色協作的場景，但不允許進行 DROP、ALTER 等敏感操作。**
+
+## 遷移建議
+- 提早規劃擁有權：初始化時就設定正確角色比事後修正容易得多。
+- 避免使用 superuser 作為應用程式角色：請使用限定權限的角色處理應用邏輯。
+- 自動化擁有權轉移腳本：可用於 CI/CD 或初始化流程，確保一致性。
+- 遷移前先審核角色與擁有者：可以預先撈出現有的擁有者與對應角色，避免遷移後出現錯誤。
