@@ -8,7 +8,6 @@ summary: ''
 ---
 1. 設定多個 hosts
 ```yml
-version: '3.8'
 x-hosts: &x-hosts
   - 'mysql:172.29.0.3'
   - 'app:172.29.0.4'
@@ -27,47 +26,46 @@ app:
 ```
 3. connect other network
 * bridge
+
+docker-compose-1.yml
+
 ```yml
-# docker-compose-1.yml
-version: '3.7'
-...
+#
 services:
   svc1:
     networks:
-      - custom_name
+      - inner_name
 networks:
-  custom_name: # 這邊是類似 namespace 的概念
+  inner_name: # default 是預設網路，不用特別指定
     driver: bridge
-# docker-compose-2.yml
-version: '3.7'
-...
-services:
-  svc1:
-    networks:
-      - mynet
-...
-networks:
-  mynet:
-    external:
-      name: folder_custom_name
+    name: outer_name
 ```
-* pre-existing
+docker-compose-2.yml
 ```yml
-version: '3.7'
-...
 services:
   svc1:
     networks:
-      - network_name
-# 只要指定 external true 即可
+      - outer_name
 networks:
-  network_name:
+  outer_name:
     external: true
 ```
-4. virtual volume
-用他的好處是不用特別綁定路徑，且也可避免 host 真的要裝該服務時路徑衝突問題，比較適用的場景為一次只有一個專案的情境
+
+4. named volume
+
+- 優勢
+1. 不用手動指定主機路徑（Docker 自動管理）
+2. 避免多個容器或專案綁定同一主機目錄導致衝突
+3. 資料由 Docker 完整管理，安全性高、易備份
+
+- 適合場景
+
+1. 不需要直接在 host 編輯或查看資料
+2. 不需要跨主機共享資料（單機部署）
+3. 資料庫、快取、搜尋引擎等持久化服務
+4. 開發、測試、CI/CD、單機生產環境
+
 ```yml
-...
 services:
   postgres:
     image: postgres:13.2
