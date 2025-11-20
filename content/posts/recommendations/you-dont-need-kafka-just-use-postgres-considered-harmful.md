@@ -1,5 +1,5 @@
 ---
-title: '[推薦] You Don't Need Kafka, Just Use Postgres Considered Harmful'
+title: "[推薦] You Don't Need Kafka, Just Use Postgres Considered Harmful"
 date: 2025-11-12T23:24:48+08:00
 draft: false
 author: 'whchi'
