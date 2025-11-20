@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Interest Calculator</title>
+
+    <!-- Chart.js (用於繪圖) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* --- CSS Reset & Base Styles --- */
+        :root {
+            --primary: #4f46e5; /* Indigo 600 */
+            --primary-light: #e0e7ff;
+            --secondary: #64748b; /* Slate 500 */
+            --accent: #d97706; /* Amber 600 */
+            --success: #16a34a; /* Green 600 */
+            --success-bg: #dcfce7; /* Green 100 */
+            --success-dark: #15803d; /* Green 700 */
+            --danger: #dc2626; /* Red 600 */
+            --bg-color: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e2e8f0;
+            --radius: 12px;
+            --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: transparent; /* 配合 iframe */
+            box-sizing: border-box;
+        }
+
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+
+        /* --- Layout --- */
+        .widget-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .widget-header {
+            background: linear-gradient(to right, #4f46e5, #4338ca);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* --- Layout & Responsive --- */
+        .widget-body {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr; /* 手機版單欄 */
+            gap: 24px;
+        }
+
+        @media (min-width: 932px) {
+            .widget-body {
+                padding: 32px;
+                grid-template-columns: 320px 1fr; /* 電腦版雙欄 */
+                gap: 40px;
+            }
+        }
+
+        /* --- Inputs Section --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .label-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: normal;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fff;
+            padding: 0 10px;
+            transition: ring 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .input-prefix, .input-suffix {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .input-field {
+            width: 100%;
+            border: none;
+            padding: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--text-color);
+            min-width: 0;
+        }
+
+        /* Removing spin buttons */
+        .input-field::-webkit-inner-spin-button,
+        .input-field::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .range-slider {
+            width: 100%;
+            margin-top: 8px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* --- Summary Cards Grid --- */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 預設兩欄 */
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .summary-grid {
+                grid-template-columns: 1fr; /* 手機極窄螢幕 */
+            }
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Hero Card spanning 2 columns */
+        .card.hero {
+            grid-column: 1 / -1; /* 跨滿整行 */
+            background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+            border-left: 4px solid var(--primary);
+        }
+
+        .card.profit-highlight {
+            background-color: var(--success-bg);
+            border: 1px solid #bbf7d0;
+            border-left: 4px solid var(--success);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        /* Accent Colors for Left Border (Fallback) */
+        .card.slate { border-left: 4px solid var(--secondary); }
+        .card.accent { border-left: 4px solid var(--accent); }
+        .card.danger { border-left: 4px solid var(--danger); }
+
+        .card-title {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card.profit-highlight .card-title {
+            color: var(--success-dark);
+        }
+
+        .card-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-color);
+            word-break: break-all;
+        }
+
+        .card.hero .card-value {
+            font-size: 1.75rem; /* Hero value bigger */
+            color: var(--primary);
+        }
+
+        .card.profit-highlight .card-value {
+            color: var(--success-dark);
+            font-size: 1.4rem;
+        }
+
+        .card-sub {
+            font-size: 0.75rem;
+            margin-top: 4px;
+            color: var(--secondary);
+            line-height: 1.3;
+        }
+
+        .highlight-text {
+            font-weight: 600;
+        }
+
+        /* --- Chart Container --- */
+        .chart-container {
+            position: relative;
+            height: 260px; /* Slightly shorter to fit more cards */
+            width: 100%;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-wrapper-title {
+             font-size: 0.85rem;
+             font-weight: 600;
+             color: var(--text-color);
+             margin-bottom: 8px;
+             display: block;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="widget-container">
+        <div class="widget-header">
+            <h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                複利計算機
+            </h2>
+            <span class="badge">把時間當朋友</span>
+        </div>
+
+        <div class="widget-body">
+            <!-- Inputs Side -->
+            <div class="controls">
+                <!-- Principal -->
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>初始本金</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="input-principal" class="input-field" value="100000" min="0" step="10000">
+                    </div>
+                    <input type="range" id="range-principal" class="range-slider" min="0" max="5000000" step="10000" value="100000">
+                </div>
+
+                <!-- Monthly Contribution -->
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>每月投入</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="input-monthly" class="input-field" value="5000" min="0" step="1000">
+                    </div>
+                    <input type="range" id="range-monthly" class="range-slider" min="0" max="200000" step="1000" value="5000">
+                </div>
+
+                <!-- Monthly Expense (New) -->
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>目標/退休每月開銷</span>
+                        <span class="label-hint">現值</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="input-expense" class="input-field" value="30000" min="0" step="1000">
+                    </div>
+                    <input type="range" id="range-expense" class="range-slider" min="0" max="200000" step="1000" value="30000">
+                </div>
+
+                <!-- Interest Rate -->
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>年報酬率 (%)</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="input-rate" class="input-field" value="6" min="0" max="20" step="0.1">
+                        <span class="input-suffix">%</span>
+                    </div>
+                    <input type="range" id="range-rate" class="range-slider" min="0" max="20" step="0.5" value="6">
+                </div>
+
+                <!-- Inflation Rate -->
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>預期通膨 (%)</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="input-inflation" class="input-field" value="2" min="0" max="10" step="0.1">
+                        <span class="input-suffix">%</span>
+                    </div>
+                    <input type="range" id="range-inflation" class="range-slider" min="0" max="10" step="0.5" value="2">
+                </div>
+
+                <!-- Years -->
+                <div class="input-group">
+                    <div class="input-label">
+                        <span>投資年限</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="input-years" class="input-field" value="10" min="1" max="50" step="1">
+                        <span class="input-suffix">年</span>
+                    </div>
+                    <input type="range" id="range-years" class="range-slider" min="1" max="50" step="1" value="10">
+                </div>
+            </div>
+
+            <!-- Results Side -->
+            <div class="results">
+                <!-- Summary Grid -->
+                <div class="summary-grid">
+                    <!-- Card 1: Total Balance (Hero) -->
+                    <div class="card hero">
+                        <div class="card-title">期末總資產 (名目金額)</div>
+                        <div class="card-value" id="val-balance">$0</div>
+                        <div class="card-sub">讓複利為您工作</div>
+                    </div>
+
+                    <!-- Card 2: Total Profit (Highlighted New) -->
+                    <div class="card profit-highlight">
+                        <div class="card-title">總獲利</div>
+                        <div class="card-value" id="val-profit">$0</div>
+                        <div class="card-sub" id="val-roi">報酬率 0%</div>
+                    </div>
+
+                    <!-- Card 3: Total Invested -->
+                    <div class="card slate">
+                        <div class="card-title">總投入成本 (本金)</div>
+                        <div class="card-value" id="val-invested-card">$0</div>
+                        <div class="card-sub">本金 + 累計月存</div>
+                    </div>
+
+                    <!-- Card 4: Passive Income -->
+                    <div class="card" id="card-freedom" style="border-left: 4px solid var(--primary);">
+                        <div class="card-title">每月被動收入 (實質)</div>
+                        <div class="card-value" id="val-passive">$0</div>
+                        <div class="card-sub" id="val-freedom-status">達成率 0%</div>
+                    </div>
+
+                    <!-- Card 5: Real Purchasing Power -->
+                    <div class="card accent">
+                        <div class="card-title">實質購買力</div>
+                        <div class="card-value" id="val-real">$0</div>
+                        <div class="card-sub" style="color: #d97706;">扣除通膨後價值</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <span class="chart-wrapper-title">資產成長趨勢</span>
+                    <canvas id="compoundChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Logic & State ---
+        const state = {
+            principal: 100000,
+            monthly: 5000,
+            expense: 30000, // Target monthly expense
+            rate: 6.0,
+            inflation: 2.0,
+            years: 10
+        };
+
+        let chartInstance = null;
+
+        // Helper: Format Currency
+        const formatCurrency = (num) => {
+            return new Intl.NumberFormat('zh-TW', {
+                style: 'currency',
+                currency: 'TWD',
+                maximumFractionDigits: 0
+            }).format(num);
+        };
+
+        // --- Core Calculation ---
+        function calculate() {
+            const { principal, monthly, rate, inflation, years } = state;
+
+            let currentBalance = principal;
+            let totalInvested = principal;
+
+            const yearlyData = [];
+
+            // Year 0
+            yearlyData.push({
+                year: 0,
+                balance: principal,
+                realBalance: principal,
+                invested: principal
+            });
+
+            for (let year = 1; year <= years; year++) {
+                // Monthly Compounding
+                for (let m = 0; m < 12; m++) {
+                    currentBalance = currentBalance * (1 + (rate / 100) / 12);
+                    currentBalance += monthly;
+                    totalInvested += monthly;
+                }
+
+                // Inflation Adjustment
+                const realBalance = currentBalance / Math.pow(1 + inflation / 100, year);
+
+                yearlyData.push({
+                    year: year,
+                    balance: currentBalance,
+                    realBalance: realBalance,
+                    invested: totalInvested
+                });
+            }
+
+            return yearlyData;
+        }
+
+        // --- Update UI ---
+        function updateUI() {
+            const data = calculate();
+            const final = data[data.length - 1];
+            const profit = final.balance - final.invested;
+            const roi = final.invested > 0 ? (profit / final.invested) * 100 : 0;
+
+            // 1. Total Balance (Hero)
+            document.getElementById('val-balance').textContent = formatCurrency(final.balance);
+
+            // 2. Total Profit (New)
+            document.getElementById('val-profit').textContent = '+' + formatCurrency(profit);
+            document.getElementById('val-roi').textContent = `總報酬率 ${roi.toFixed(1)}%`;
+
+            // 3. Total Invested
+            document.getElementById('val-invested-card').textContent = formatCurrency(final.invested);
+
+            // 4. Real Purchasing Power
+            document.getElementById('val-real').textContent = formatCurrency(final.realBalance);
+
+            // 5. Passive Income Analysis
+            const nominalMonthlyPassive = (final.balance * (state.rate / 100)) / 12;
+            const realMonthlyPassive = nominalMonthlyPassive / Math.pow(1 + state.inflation / 100, state.years);
+
+            document.getElementById('val-passive').textContent = formatCurrency(realMonthlyPassive);
+
+            // Compare with Target Expense
+            const coverageRatio = (realMonthlyPassive / state.expense) * 100;
+            const freedomCard = document.getElementById('card-freedom');
+            const freedomStatus = document.getElementById('val-freedom-status');
+
+            freedomStatus.innerHTML = `可覆蓋開銷 <span class="highlight-text">${coverageRatio.toFixed(1)}%</span>`;
+
+            // Update Freedom Card Color (Border color style)
+            if (coverageRatio >= 100) {
+                freedomCard.style.borderLeftColor = 'var(--success)';
+            } else if (coverageRatio >= 50) {
+                freedomCard.style.borderLeftColor = 'var(--accent)';
+            } else {
+                freedomCard.style.borderLeftColor = 'var(--danger)';
+            }
+
+            // Update Chart
+            updateChart(data);
+        }
+
+        // --- Chart Logic ---
+        function updateChart(data) {
+            const ctx = document.getElementById('compoundChart').getContext('2d');
+            const labels = data.map(d => `Y${d.year}`);
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '名目總資產',
+                            data: data.map(d => d.balance),
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 4
+                        },
+                        {
+                            label: '總投入成本',
+                            data: data.map(d => d.invested),
+                            borderColor: '#64748b',
+                            borderWidth: 1,
+                            borderDash: [2, 2],
+                            fill: false,
+                            pointRadius: 0
+                        },
+                        {
+                            label: '總獲利 (隱藏)',
+                            data: data.map(d => d.balance - d.invested),
+                             // Hidden dataset just for tooltip or calculation reference if needed
+                            hidden: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'top', labels: { boxWidth: 10, usePointStyle: true, font: { size: 11 } } },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+                        y: {
+                            grid: { color: '#f3f4f6' },
+                            ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(0) + '萬' : v, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Event Listeners Sync ---
+        function setupSync(inputId, rangeId, key) {
+            const input = document.getElementById(inputId);
+            const range = document.getElementById(rangeId);
+
+            input.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value) || 0;
+                state[key] = val;
+                range.value = val;
+                updateUI();
+            });
+
+            range.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                state[key] = val;
+                input.value = val;
+                updateUI();
+            });
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            setupSync('input-principal', 'range-principal', 'principal');
+            setupSync('input-monthly', 'range-monthly', 'monthly');
+            setupSync('input-expense', 'range-expense', 'expense');
+            setupSync('input-rate', 'range-rate', 'rate');
+            setupSync('input-inflation', 'range-inflation', 'inflation');
+            setupSync('input-years', 'range-years', 'years');
+
+            // Initial Render
+            updateUI();
+        });
+    </script>
+</body>
+</html>
