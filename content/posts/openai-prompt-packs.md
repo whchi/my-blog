@@ -5,9 +5,6 @@ draft: false
 author: 'whchi'
 tags: ['prompt', 'AI']
 summary: ''
-preview_figure: ''
-preview_figcaption: ''
-preview_image: ''
 toc: true
 ---
 
