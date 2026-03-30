@@ -4,13 +4,16 @@ name: deploy-production
 # events but only for the main/master branch
 on:
   push:
-    branches: [ dev-master ]
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "deploy-production"
   deploy-production:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      deployments: write
 
      # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,29 +33,28 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         env: Production
 
-    # Install Hugo (specific version)
+    # Install latest Hugo extended from official release
     - name: Install Hugo
-      uses: peaceiris/actions-hugo@v3
-      with:
-        hugo-version: 'latest'
-        extended: true
+      run: |
+        set -euo pipefail
+        HUGO_VERSION=0.159.1
+        curl -fsSL -o /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+        sudo dpkg -i /tmp/hugo.deb
+        hugo version
 
     # Builds the site using Hugo
     - name: Build
-      run: hugo --gc --minify
+      run: hugo --gc --minify -d .cloudflare-pages
 
-     # Push our generated Hugo site to Vercel
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v20
-      id: vercel-action
+     # Push our generated Hugo site to Cloudflare Pages
+    - name: Deploy to Cloudflare Pages
+      uses: cloudflare/wrangler-action@v3
+      id: cloudflare-deploy
       with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-        #github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  #Required
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }} #Required
-        github-comment: false
-        vercel-args: '--prod'
-        working-directory: .
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        command: pages deploy .cloudflare-pages --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
     # Update deployment status
     - name: Update Deployment Status
@@ -63,4 +65,4 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         status: ${{ job.status }}
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        env_url: ${{ steps.vercel-action.outputs.preview-url }}
+        env_url: ${{ steps.cloudflare-deploy.outputs.deployment-url }}
