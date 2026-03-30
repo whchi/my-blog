@@ -11,14 +11,14 @@ on:
 jobs:
   # This workflow contains a single job called "deploy-preview"
   deploy-preview:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
      # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
     # Checks-out your repository under $GITHUB_WORKSPACE with submodules
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -33,14 +33,14 @@ jobs:
 
     # Install Hugo (specific version)
     - name: Install Hugo
-      uses: peaceiris/actions-hugo@v2
+      uses: peaceiris/actions-hugo@v3
       with:
-        hugo-version: '0.159.0'
+        hugo-version: 'latest'
         extended: true
 
     # Builds the site using Hugo
     - name: Build
-      run: hugo --gc --minify --config=config.toml
+      run: hugo --gc --minify
 
      # Push our generated Hugo site to Vercel
     - name: Deploy to Vercel
