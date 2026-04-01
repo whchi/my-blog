@@ -3,3 +3,4 @@
 .DS_Store
 .vercel
 public
+.hugo_build.lock
