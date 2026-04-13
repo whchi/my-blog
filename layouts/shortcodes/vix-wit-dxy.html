@@ -10,302 +10,312 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>宏觀市場情境模擬器</title>
 
-    <!-- Chart.js (用於繪圖) -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-light: #e0e7ff;
-            --secondary: #64748b;
-            --accent: #d97706;
-            --success: #16a34a;
-            --danger: #dc2626;
-            --bg-color: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #94a3b8;
-            --border-color: #e2e8f0;
-            --panel-soft: #f8fafc;
-            --radius: 12px;
-            --level-0: #16a34a;
-            --level-1: #d97706;
-            --level-2: #dc2626;
+            --bg-base: #fafaf9;
+            --bg-elevated: #ffffff;
+            --text-primary: #18181b;
+            --text-secondary: #71717a;
+            --text-tertiary: #a1a1aa;
+            --border: #e4e4e7;
+            --border-subtle: #f4f4f5;
+            --accent: #0ea5e9;
+            --accent-light: #e0f2fe;
+            --accent-dark: #0284c7;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            
+            /* Tinted shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(9 9 11 / 0.04);
+            --shadow-md: 0 4px 6px -1px rgb(9 9 11 / 0.05), 0 2px 4px -2px rgb(9 9 11 / 0.05);
+            --shadow-lg: 0 10px 15px -3px rgb(9 9 11 / 0.06), 0 4px 6px -4px rgb(9 9 11 / 0.05);
         }
 
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            background-color: transparent;
-            color: var(--text-main);
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        *, *::before, *::after {
-            box-sizing: inherit;
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background-color: transparent;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .widget-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            background: var(--bg-elevated);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .widget-header {
-            background: linear-gradient(to right, #4f46e5, #4338ca);
-            color: #fff;
-            padding: 16px 24px;
+            padding: 24px 28px;
+            background: var(--bg-base);
+            border-bottom: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .widget-header h2 {
-            margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.125rem;
             font-weight: 600;
-            letter-spacing: 0.2px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
 
         .badge {
-            background: rgba(255, 255, 255, 0.2);
             font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 4px;
-            white-space: nowrap;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-elevated);
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
         }
 
         .widget-body {
-            padding: 20px;
+            padding: 24px 28px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 28px;
         }
 
-        @media (min-width: 932px) {
+        @media (min-width: 900px) {
             .widget-body {
-                padding: 32px;
-                grid-template-columns: 320px 1fr;
-                gap: 40px;
+                padding: 28px 32px;
+                grid-template-columns: 300px 1fr;
+                gap: 32px;
             }
         }
 
+        /* Preset Buttons */
+        .preset-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .preset-group-title {
+            width: 100%;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .preset-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: var(--font-sans);
+        }
+
+        .preset-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+            transform: translateY(-1px);
+        }
+
+        .preset-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .preset-btn.secondary {
+            background: var(--accent-light);
+            border-color: #bae6fd;
+            color: var(--accent-dark);
+        }
+
+        .preset-btn.secondary:hover {
+            background: #bae6fd;
+            border-color: var(--accent);
+        }
+
+        /* Controls */
         .control-group {
             margin-bottom: 20px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
         }
 
         .control-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #374151;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .control-header span:first-child {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
         .value-display {
-            color: var(--secondary);
-            font-family: monospace;
-            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-variant-numeric: tabular-nums;
+            padding: 2px 8px;
+            background: var(--bg-base);
+            border-radius: var(--radius-sm);
         }
 
         .slider-wrap {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: #fff;
-            padding: 0 10px;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0 12px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .slider-wrap:hover {
+            border-color: var(--text-tertiary);
         }
 
         .slider-wrap:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-light);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
         input[type=range] {
             width: 100%;
-            margin: 0;
-            height: 36px;
+            height: 4px;
             background: transparent;
             appearance: none;
             cursor: pointer;
+            outline: none;
         }
 
         input[type=range]::-webkit-slider-runnable-track {
             height: 4px;
             border-radius: 2px;
-            background: #e2e8f0;
+            background: var(--border);
         }
 
         input[type=range]::-webkit-slider-thumb {
             appearance: none;
             width: 16px;
             height: 16px;
+            background: var(--accent);
             border-radius: 50%;
-            border: 2px solid #fff;
-            background: var(--primary);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            border: 3px solid var(--bg-elevated);
+            box-shadow: var(--shadow-sm);
             margin-top: -6px;
+            transition: transform 0.15s ease;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
         }
 
         input[type=range]::-moz-range-track {
             height: 4px;
             border-radius: 2px;
-            background: #e2e8f0;
+            background: var(--border);
         }
 
         input[type=range]::-moz-range-thumb {
             width: 16px;
             height: 16px;
+            background: var(--accent);
             border-radius: 50%;
-            border: 2px solid #fff;
-            background: var(--primary);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            border: 3px solid var(--bg-elevated);
+            box-shadow: var(--shadow-sm);
         }
 
+        /* Result Panel */
         .result-panel {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 16px;
         }
 
-        .dashboard {
-            padding: 20px;
-            border-radius: 8px;
-            background: linear-gradient(to bottom right, #ffffff, #f8fafc);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
         .overview-card {
-            border: 1px solid var(--border-color);
-            border-left: 4px solid var(--secondary);
-            border-radius: 8px;
-            background: #fff;
-            padding: 16px;
+            background: var(--bg-base);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border: 1px solid var(--border-subtle);
         }
 
         .overview-title {
-            font-size: 0.75rem;
-            color: var(--secondary);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
+            letter-spacing: 0.08em;
             margin-bottom: 6px;
         }
 
         .overview-value {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
         }
 
         .overview-sub {
-            font-size: 0.8rem;
-            color: var(--secondary);
-            line-height: 1.4;
-        }
-
-        #gaugeCanvas {
-            margin-bottom: 15px;
-            background: var(--panel-soft);
-            border-radius: 999px;
-        }
-
-        .tag {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            letter-spacing: 0.4px;
-        }
-
-        .message {
-            font-size: 0.95rem;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
             line-height: 1.5;
-            color: #475569;
-        }
-
-        .status-normal {
-            border-top: 4px solid var(--secondary);
-            box-shadow: 0 8px 24px rgba(100, 116, 139, 0.08);
-        }
-
-        .status-level1 {
-            border-top: 4px solid var(--level-1);
-            box-shadow: 0 8px 24px rgba(217, 119, 6, 0.16);
-        }
-
-        .status-level2 {
-            border-top: 4px solid var(--level-2);
-            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.18);
-        }
-
-        .status-good {
-            border-top: 4px solid var(--level-0);
-            box-shadow: 0 8px 24px rgba(22, 163, 74, 0.16);
-        }
-
-        .footer-text {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--secondary);
-            margin-top: 4px;
-        }
-
-        .preset-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .preset-group-title {
-            width: 100%;
-            margin: 0 0 4px;
-            font-size: 0.78rem;
-            color: var(--secondary);
-            font-weight: 700;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-        }
-
-        .preset-btn {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--secondary);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .preset-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .preset-btn.secondary {
-            background: var(--primary-light);
-            border-color: #c7d2fe;
-            color: var(--primary);
-        }
-
-        .preset-btn.secondary:hover {
-            background: #c7d2fe;
-            border-color: var(--primary);
         }
 
         .meta-row {
@@ -313,42 +323,123 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border-color);
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
             flex-wrap: wrap;
         }
 
         .meta-label {
-            font-size: 0.75rem;
-            color: var(--secondary);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            font-weight: 700;
+            letter-spacing: 0.08em;
         }
 
         .meta-value {
-            font-size: 0.88rem;
-            color: var(--text-main);
-            font-weight: 600;
+            font-size: 0.8125rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Dashboard Status Card */
+        .dashboard {
+            background: var(--bg-base);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        #gaugeCanvas {
+            margin-bottom: 16px;
+        }
+
+        .tag {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .message {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 320px;
+        }
+
+        /* Status Variants */
+        .status-normal {
+            border-top: 3px solid var(--text-tertiary);
+        }
+
+        .status-level1 {
+            border-top: 3px solid var(--warning);
+            background: linear-gradient(to bottom, #fffbeb, var(--bg-base));
+        }
+
+        .status-level2 {
+            border-top: 3px solid var(--danger);
+            background: linear-gradient(to bottom, #fef2f2, var(--bg-base));
+        }
+
+        .status-good {
+            border-top: 3px solid var(--success);
+            background: linear-gradient(to bottom, #ecfdf5, var(--bg-base));
+        }
+
+        .status-level1 .tag { color: #b45309; }
+        .status-level2 .tag { color: #dc2626; }
+        .status-good .tag { color: #059669; }
+        .status-normal .tag { color: var(--text-secondary); }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+            text-wrap: balance;
+        }
+
+        /* Chart Section */
+        .chart-section {
+            padding: 0 28px 28px;
+        }
+
+        @media (min-width: 900px) {
+            .chart-section {
+                padding: 0 32px 32px;
+            }
         }
 
         .chart-container {
             width: 100%;
-            height: 380px;
-            background: #fff;
-            border-radius: 8px;
-            position: relative;
+            height: 360px;
+            background: var(--bg-base);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            padding: 16px;
         }
 
-        .chart-section {
-            padding: 0 24px 24px;
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (min-width: 932px) {
-            .chart-section {
-                padding: 0 32px 32px;
-            }
+        .dashboard, .overview-card {
+            animation: fadeIn 0.4s ease-out forwards;
         }
     </style>
 </head>
@@ -356,7 +447,16 @@
 
 <div class="widget-container">
     <div class="widget-header">
-        <h2>宏觀市場情境模擬器</h2>
+        <h2>
+            <div class="header-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <title>市場圖示</title>
+                    <path d="M3 3v18h18"/>
+                    <path d="m19 9-5 5-4-4-3 3"/>
+                </svg>
+            </div>
+            宏觀市場情境模擬器
+        </h2>
         <span class="badge">VIX / WTI / DXY</span>
     </div>
 
@@ -364,7 +464,7 @@
         <div class="controls">
             <div class="preset-group">
                 <div class="preset-group-title">快速情境</div>
-                <button type="button" class="preset-btn secondary" id="resetDefaultsBtn">恢復排程預設值</button>
+                <button type="button" class="preset-btn secondary" id="resetDefaultsBtn">恢復預設值</button>
                 <button type="button" class="preset-btn" data-vix="16" data-wti="-3.5" data-dxy="0.6">流動性危機</button>
                 <button type="button" class="preset-btn" data-vix="16" data-wti="4.5" data-dxy="0.6">停滯性通膨</button>
                 <button type="button" class="preset-btn" data-vix="16" data-wti="-3.5" data-dxy="-0.6">美國本土危機</button>
@@ -418,7 +518,7 @@
             <div class="dashboard status-level2" id="resultBoard">
                 <canvas id="gaugeCanvas" width="120" height="120"></canvas>
                 <div class="tag" id="resultTag">DASH FOR CASH</div>
-                <div class="message" id="resultMsg">嚴重系統性風險！股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。</div>
+                <div class="message" id="resultMsg">嚴重系統性風險。股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。</div>
             </div>
 
             <div class="footer-text">拖曳滑桿或點擊上方預設按鈕，可快速切換不同市場劇本</div>
@@ -433,7 +533,6 @@
 </div>
 
 <script>
-    // 取得 DOM 元素
     const vixSlider = document.getElementById('vixSlider');
     const wtiSlider = document.getElementById('wtiSlider');
     const dxySlider = document.getElementById('dxySlider');
@@ -456,37 +555,35 @@
     const canvas = document.getElementById('gaugeCanvas');
     const ctx = canvas.getContext('2d');
 
-    // 格式化數字 (加上正負號與百分比)
     function formatPct(val) {
         const num = parseFloat(val);
         return (num > 0 ? "+" : "") + num.toFixed(1) + "%";
     }
 
-    // 繪製 Canvas 甜甜圈儀表板
     function drawGauge(level) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const radius = 50;
 
-        // 背景圓環
+        // Background ring
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.lineWidth = 10;
-        ctx.strokeStyle = '#e2e8f0';
+        ctx.strokeStyle = '#e4e4e7';
         ctx.stroke();
 
-        // 決定顏色與進度
-        let color = '#94a3b8';
+        // Color and progress
+        let color = '#a1a1aa';
         let endAngle = 0;
-        let text = 'N/A';
+        let text = 'NORM';
 
-        if (level === 2) { color = '#dc2626'; endAngle = 1.8 * Math.PI; text = 'LV 2'; } // 紅色警戒
-        else if (level === 1) { color = '#d97706'; endAngle = Math.PI; text = 'LV 1'; } // 黃色觀察
-        else if (level === -1) { color = '#16a34a'; endAngle = 2 * Math.PI; text = 'SAFE'; } // 綠色安全 (如軟著陸)
-        else { color = '#94a3b8'; endAngle = 0.1 * Math.PI; text = 'NORM'; } // 正常狀態
+        if (level === 2) { color = '#ef4444'; endAngle = 1.8 * Math.PI; text = 'LV 2'; }
+        else if (level === 1) { color = '#f59e0b'; endAngle = Math.PI; text = 'LV 1'; }
+        else if (level === -1) { color = '#10b981'; endAngle = 2 * Math.PI; text = 'SAFE'; }
+        else { color = '#a1a1aa'; endAngle = 0.1 * Math.PI; text = 'NORM'; }
 
-        // 動態進度條
+        // Progress arc
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, -0.5 * Math.PI, endAngle - 0.5 * Math.PI);
         ctx.lineWidth = 10;
@@ -494,8 +591,8 @@
         ctx.strokeStyle = color;
         ctx.stroke();
 
-        // 內部文字
-        ctx.font = 'bold 24px sans-serif';
+        // Center text
+        ctx.font = 'bold 22px Inter, sans-serif';
         ctx.fillStyle = color;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -507,10 +604,10 @@
     function drawXYChart(vix, wti, uiClass) {
         const ctxChart = document.getElementById('xyChart').getContext('2d');
 
-        let pointColor = '#64748b';
-        if (uiClass.includes('level2')) pointColor = '#dc2626';
-        else if (uiClass.includes('level1')) pointColor = '#d97706';
-        else if (uiClass.includes('good')) pointColor = '#16a34a';
+        let pointColor = '#71717a';
+        if (uiClass.includes('level2')) pointColor = '#ef4444';
+        else if (uiClass.includes('level1')) pointColor = '#f59e0b';
+        else if (uiClass.includes('good')) pointColor = '#10b981';
 
         if (xyChartInstance) {
             xyChartInstance.data.datasets[0].data = [{x: vix, y: wti}];
@@ -526,8 +623,10 @@
                     label: '目前情境',
                     data: [{x: vix, y: wti}],
                     backgroundColor: pointColor,
-                    pointRadius: 8,
-                    pointHoverRadius: 10,
+                    pointRadius: 10,
+                    pointHoverRadius: 12,
+                    pointBorderWidth: 2,
+                    pointBorderColor: '#ffffff'
                 }]
             },
             options: {
@@ -536,6 +635,11 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
+                        backgroundColor: 'rgba(24, 24, 27, 0.95)',
+                        titleFont: { size: 13, family: "'Inter', sans-serif" },
+                        bodyFont: { size: 12, family: "'Inter', sans-serif" },
+                        padding: 12,
+                        cornerRadius: 8,
                         callbacks: {
                             label: (context) => `VIX: ${context.parsed.x}%, WTI: ${context.parsed.y}%`
                         }
@@ -543,19 +647,37 @@
                 },
                 scales: {
                     x: {
-                        title: { display: true, text: 'VIX 波動率 (%)' },
+                        title: { 
+                            display: true, 
+                            text: 'VIX 波動率 (%)',
+                            font: { size: 12, family: "'Inter', sans-serif", weight: '500' },
+                            color: '#71717a'
+                        },
                         min: -20, max: 30,
                         grid: {
-                            color: (context) => context.tick.value === 0 ? '#94a3b8' : '#f1f5f9',
+                            color: (context) => context.tick.value === 0 ? '#d4d4d8' : '#f4f4f5',
                             lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+                        },
+                        ticks: {
+                            font: { size: 11, family: "'Inter', sans-serif" },
+                            color: '#71717a'
                         }
                     },
                     y: {
-                        title: { display: true, text: 'WTI 原油 (%)' },
+                        title: { 
+                            display: true, 
+                            text: 'WTI 原油 (%)',
+                            font: { size: 12, family: "'Inter', sans-serif", weight: '500' },
+                            color: '#71717a'
+                        },
                         min: -10, max: 10,
                         grid: {
-                            color: (context) => context.tick.value === 0 ? '#94a3b8' : '#f1f5f9',
+                            color: (context) => context.tick.value === 0 ? '#d4d4d8' : '#f4f4f5',
                             lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+                        },
+                        ticks: {
+                            font: { size: 11, family: "'Inter', sans-serif" },
+                            color: '#71717a'
                         }
                     }
                 }
@@ -570,83 +692,77 @@
         evaluateMarket();
     }
 
-    // 核心邏輯判斷
     function evaluateMarket() {
         const vix = parseFloat(vixSlider.value);
         const wti = parseFloat(wtiSlider.value);
         const dxy = parseFloat(dxySlider.value);
 
-        // 更新 UI 顯示數字
         vixVal.innerText = formatPct(vix);
         wtiVal.innerText = formatPct(wti);
         dxyVal.innerText = formatPct(dxy);
 
-        let res = { level: 0, tag: "⚪ STATUS: NORMAL", msg: "市場波動在正常範圍內，無明顯宏觀情境觸發。", uiClass: "status-normal", gaugeLevel: 0 };
+        let res = { level: 0, tag: "STATUS: NORMAL", msg: "市場波動在正常範圍內，無明顯宏觀情境觸發。", uiClass: "status-normal", gaugeLevel: 0 };
 
-        // 1. Dash for Cash
+        // Dash for Cash
         if (vix > 15 && wti < -3.0 && dxy > 0.5) {
-            res = { level: 2, tag: "🔴 DASH FOR CASH (流動性危機)", msg: "嚴重系統性風險！股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。", uiClass: "status-level2", gaugeLevel: 2 };
+            res = { level: 2, tag: "DASH FOR CASH (流動性危機)", msg: "嚴重系統性風險。股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。", uiClass: "status-level2", gaugeLevel: 2 };
         } else if (vix > 5 && wti < -1.5 && dxy > 0.2) {
-            res = { level: 1, tag: "🟡 DASH FOR CASH (觀察區)", msg: "初級流動性緊縮訊號，風險資產與能源同步遭到拋售，資金轉向美元。", uiClass: "status-level1", gaugeLevel: 1 };
+            res = { level: 1, tag: "DASH FOR CASH (觀察區)", msg: "初級流動性緊縮訊號，風險資產與能源同步遭到拋售，資金轉向美元。", uiClass: "status-level1", gaugeLevel: 1 };
         }
-        // 2. Stagflation
+        // Stagflation
         else if (vix > 15 && wti > 4.0 && dxy > 0.5) {
-            res = { level: 2, tag: "🔴 STAGFLATION (停滯性通膨)", msg: "停滯性通膨危機！能源供給衝擊引發恐慌，資金轉向避險板塊，避開科技成長股。", uiClass: "status-level2", gaugeLevel: 2 };
+            res = { level: 2, tag: "STAGFLATION (停滯性通膨)", msg: "停滯性通膨危機。能源供給衝擊引發恐慌，資金轉向避險板塊，避開科技成長股。", uiClass: "status-level2", gaugeLevel: 2 };
         } else if (vix > 5 && wti > 2.0 && dxy > 0.2) {
-            res = { level: 1, tag: "🟡 STAGFLATION (觀察區)", msg: "通膨壓力訊號，油價與美元同步轉強，市場擔憂高利率維持更久。", uiClass: "status-level1", gaugeLevel: 1 };
+            res = { level: 1, tag: "STAGFLATION (觀察區)", msg: "通膨壓力訊號，油價與美元同步轉強，市場擔憂高利率維持更久。", uiClass: "status-level1", gaugeLevel: 1 };
         }
-        // 3. US-Centric Shock
+        // US-Centric Shock
         else if (vix > 15 && wti < -3.0 && dxy < -0.5) {
-            res = { level: 2, tag: "🔴 US-CENTRIC SHOCK (美國本土危機)", msg: "美系資產信任危機！VIX 飆升且美元重挫，震央位於美國本土，美股將承受劇烈打擊。", uiClass: "status-level2", gaugeLevel: 2 };
+            res = { level: 2, tag: "US-CENTRIC SHOCK (美國本土危機)", msg: "美系資產信任危機。VIX飆升且美元重挫，震央位於美國本土，美股將承受劇烈打擊。", uiClass: "status-level2", gaugeLevel: 2 };
         } else if (vix > 5 && wti < -1.5 && dxy < -0.2) {
-            res = { level: 1, tag: "🟡 US-CENTRIC SHOCK (觀察區)", msg: "美國內部雜訊，市場恐慌但資金撤出美元。", uiClass: "status-level1", gaugeLevel: 1 };
+            res = { level: 1, tag: "US-CENTRIC SHOCK (觀察區)", msg: "美國內部雜訊，市場恐慌但資金撤出美元。", uiClass: "status-level1", gaugeLevel: 1 };
         }
-        // 4. Goldilocks
+        // Goldilocks
         else if (vix < -10 && wti > 2.0 && dxy < -0.5) {
-            res = { level: 2, tag: "🟢 GOLDILOCKS (金髮女孩經濟)", msg: "完美多頭！市場無懼風險，實質需求強勁，是有利於做多大盤與週期股的絕佳時機。", uiClass: "status-good", gaugeLevel: -1 };
+            res = { level: 2, tag: "GOLDILOCKS (金髮女孩經濟)", msg: "完美多頭。市場無懼風險，實質需求強勁，是有利於做多大盤與週期股的絕佳時機。", uiClass: "status-good", gaugeLevel: -1 };
         } else if (vix < -5 && wti > 1.0 && dxy < -0.2) {
-            res = { level: 1, tag: "🟡 GOLDILOCKS (觀察區)", msg: "健康復甦訊號，弱美元推升能源需求，情緒樂觀。", uiClass: "status-good", gaugeLevel: -1 };
+            res = { level: 1, tag: "GOLDILOCKS (觀察區)", msg: "健康復甦訊號，弱美元推升能源需求，情緒樂觀。", uiClass: "status-good", gaugeLevel: -1 };
         }
-        // 5. Soft Landing
+        // Soft Landing
         else if (vix < -10 && wti < -3.0 && dxy <= 0) {
-            res = { level: 2, tag: "🟢 SOFT LANDING (軟著陸)", msg: "軟著陸確認！油價重挫解除通膨警報，VIX 探底，利好 Tech 巨頭與成長股加碼。", uiClass: "status-good", gaugeLevel: -1 };
+            res = { level: 2, tag: "SOFT LANDING (軟著陸)", msg: "軟著陸確認。油價重挫解除通膨警報，VIX探底，利好Tech巨頭與成長股加碼。", uiClass: "status-good", gaugeLevel: -1 };
         } else if (vix < -5 && wti < -1.5 && dxy >= -0.2 && dxy <= 0.2) {
-            res = { level: 1, tag: "🟡 SOFT LANDING (觀察區)", msg: "通膨降溫訊號，油價下跌有利 Fed 鴿派預期。", uiClass: "status-good", gaugeLevel: -1 };
+            res = { level: 1, tag: "SOFT LANDING (觀察區)", msg: "通膨降溫訊號，油價下跌有利Fed鴿派預期。", uiClass: "status-good", gaugeLevel: -1 };
         }
-        // 6. Geopolitical Noise
+        // Geopolitical Noise
         else if (vix >= -5 && vix <= 5 && Math.abs(wti) > 4.0 && dxy >= -0.2 && dxy <= 0.2) {
-            res = { level: 2, tag: "ℹ️ GEOPOLITICAL (地緣政治雜訊)", msg: "極端供給雜訊！WTI 劇烈震盪但 VIX 與 DXY 毫無波瀾，不屬於系統性風險。", uiClass: "status-normal", gaugeLevel: 0 };
+            res = { level: 2, tag: "GEOPOLITICAL (地緣政治雜訊)", msg: "極端供給雜訊。WTI劇烈震盪但VIX與DXY毫無波瀾，不屬於系統性風險。", uiClass: "status-normal", gaugeLevel: 0 };
         } else if (vix >= -5 && vix <= 5 && Math.abs(wti) > 2.0 && dxy >= -0.2 && dxy <= 0.2) {
-            res = { level: 1, tag: "🟡 GEOPOLITICAL (觀察區)", msg: "能源盤面事件，油價波動但未引發整體市場情緒變化。", uiClass: "status-level1", gaugeLevel: 1 };
+            res = { level: 1, tag: "GEOPOLITICAL (觀察區)", msg: "能源盤面事件，油價波動但未引發整體市場情緒變化。", uiClass: "status-level1", gaugeLevel: 1 };
         }
 
-        // 更新 UI
         resultTag.innerText = res.tag;
         resultMsg.innerText = res.msg;
         resultBoard.className = `dashboard ${res.uiClass}`;
 
-        // 更新 Canvas
         drawGauge(res.gaugeLevel);
         drawXYChart(vix, wti, res.uiClass);
     }
 
-    // 綁定事件監聽器
     vixSlider.addEventListener('input', evaluateMarket);
     wtiSlider.addEventListener('input', evaluateMarket);
     dxySlider.addEventListener('input', evaluateMarket);
+    
     presetButtons.forEach((button) => {
-        if (button === resetDefaultsBtn) {
-            return;
-        }
+        if (button === resetDefaultsBtn) return;
         button.addEventListener('click', () => {
             setPreset(button.dataset.vix, button.dataset.wti, button.dataset.dxy);
         });
     });
+    
     resetDefaultsBtn.addEventListener('click', () => {
         setPreset(defaultPreset.vix, defaultPreset.wti, defaultPreset.dxy);
     });
 
-    // 初始化執行一次
     evaluateMarket();
 </script>
 
