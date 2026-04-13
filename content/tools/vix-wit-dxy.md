@@ -9,9 +9,9 @@ noshowdate: true
 nocomments: true
 nopagination: true
 market_defaults:
-  vix: 16.0
-  wti: -3.5
-  dxy: 0.6
-  updated_at: '手動預設'
+  vix: 10.0
+  wti: 7.2
+  dxy: 0.3
+  updated_at: '2026-04-13 15:56 CST'
 ---
 {{< vix-wit-dxy >}}
