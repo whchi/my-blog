@@ -1,0 +1,44 @@
+# .github/workflows/update-market.yml
+name: 更新宏觀市場情境
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: '30 21 * * *'    # 台灣時間 21:30
+      timezone: 'Asia/Taipei'
+    - cron: '30 3 * * *'    # 台灣時間 03:30（隔天）
+      timezone: 'Asia/Taipei'
+  workflow_dispatch:         # 允許手動執行測試
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉取最新程式碼
+        uses: actions/checkout@v6
+
+      - name: 設定 Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: 安裝依賴套件
+        run: pip install yfinance
+
+      - name: 抓取即時市場數據並更新
+        run: python scripts/fetch_market.py
+
+      - name: Commit & Push 更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/tools/vix-wit-dxy.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: 每日市場數據更新 $(date +'%Y-%m-%d %H:%M')"
+            git push
+          fi
