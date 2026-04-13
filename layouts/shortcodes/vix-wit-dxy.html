@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宏觀市場情境模擬器</title>
+
+    <!-- Chart.js (用於繪圖) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --secondary: #64748b;
+            --accent: #d97706;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg-color: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --panel-soft: #f8fafc;
+            --radius: 12px;
+            --level-0: #16a34a;
+            --level-1: #d97706;
+            --level-2: #dc2626;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: transparent;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+
+        .widget-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .widget-header {
+            background: linear-gradient(to right, #4f46e5, #4338ca);
+            color: #fff;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .widget-body {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 932px) {
+            .widget-body {
+                padding: 32px;
+                grid-template-columns: 320px 1fr;
+                gap: 40px;
+            }
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+
+        .value-display {
+            color: var(--secondary);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .slider-wrap {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fff;
+            padding: 0 10px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .slider-wrap:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        input[type=range] {
+            width: 100%;
+            margin: 0;
+            height: 36px;
+            background: transparent;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 4px;
+            border-radius: 2px;
+            background: #e2e8f0;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: var(--primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            margin-top: -6px;
+        }
+
+        input[type=range]::-moz-range-track {
+            height: 4px;
+            border-radius: 2px;
+            background: #e2e8f0;
+        }
+
+        input[type=range]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            background: var(--primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        }
+
+        .result-panel {
+            display: grid;
+            gap: 16px;
+        }
+
+        .dashboard {
+            padding: 20px;
+            border-radius: 8px;
+            background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .overview-card {
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            background: #fff;
+            padding: 16px;
+        }
+
+        .overview-title {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .overview-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .overview-sub {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            line-height: 1.4;
+        }
+
+        #gaugeCanvas {
+            margin-bottom: 15px;
+            background: var(--panel-soft);
+            border-radius: 999px;
+        }
+
+        .tag {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 0.4px;
+        }
+
+        .message {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        .status-normal {
+            border-top: 4px solid var(--secondary);
+            box-shadow: 0 8px 24px rgba(100, 116, 139, 0.08);
+        }
+
+        .status-level1 {
+            border-top: 4px solid var(--level-1);
+            box-shadow: 0 8px 24px rgba(217, 119, 6, 0.16);
+        }
+
+        .status-level2 {
+            border-top: 4px solid var(--level-2);
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.18);
+        }
+
+        .status-good {
+            border-top: 4px solid var(--level-0);
+            box-shadow: 0 8px 24px rgba(22, 163, 74, 0.16);
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            margin-top: 4px;
+        }
+
+        .preset-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .preset-btn {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 380px;
+            background: #fff;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        @media (min-width: 932px) {
+            .chart-section {
+                padding: 0 32px 32px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="widget-container">
+    <div class="widget-header">
+        <h2>宏觀市場情境模擬器</h2>
+        <span class="badge">VIX / WTI / DXY</span>
+    </div>
+
+    <div class="widget-body">
+        <div class="controls">
+            <div class="preset-group">
+                <button type="button" class="preset-btn" onclick="setPreset(16, -3.5, 0.6)">流動性危機</button>
+                <button type="button" class="preset-btn" onclick="setPreset(16, 4.5, 0.6)">停滯性通膨</button>
+                <button type="button" class="preset-btn" onclick="setPreset(16, -3.5, -0.6)">美國本土危機</button>
+                <button type="button" class="preset-btn" onclick="setPreset(-11, 2.5, -0.6)">金髮女孩經濟</button>
+                <button type="button" class="preset-btn" onclick="setPreset(-11, -3.5, 0)">軟著陸</button>
+                <button type="button" class="preset-btn" onclick="setPreset(2, 4.5, 0)">地緣政治干擾</button>
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span>VIX 波動率指數漲跌幅</span>
+                    <span class="value-display" id="vixVal">16.0%</span>
+                </div>
+                <div class="slider-wrap">
+                    <input type="range" id="vixSlider" min="-20" max="30" step="0.5" value="16">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span>WTI 原油期貨漲跌幅</span>
+                    <span class="value-display" id="wtiVal">-3.5%</span>
+                </div>
+                <div class="slider-wrap">
+                    <input type="range" id="wtiSlider" min="-10" max="10" step="0.1" value="-3.5">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <span>DXY 美元指數漲跌幅</span>
+                    <span class="value-display" id="dxyVal">0.6%</span>
+                </div>
+                <div class="slider-wrap">
+                    <input type="range" id="dxySlider" min="-2" max="2" step="0.1" value="0.6">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div class="overview-card">
+                <div class="overview-title">情境判讀</div>
+                <div class="overview-value">即時監控風險偏好</div>
+                <div class="overview-sub">此工具以三個宏觀變數推估市場可能情境，不構成投資建議。</div>
+            </div>
+
+            <div class="dashboard status-level2" id="resultBoard">
+                <canvas id="gaugeCanvas" width="120" height="120"></canvas>
+                <div class="tag" id="resultTag">DASH FOR CASH</div>
+                <div class="message" id="resultMsg">嚴重系統性風險！股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。</div>
+            </div>
+
+            <div class="footer-text">拖曳滑桿或點擊上方預設按鈕，可快速切換不同市場劇本</div>
+        </div>
+    </div>
+
+    <div class="chart-section" style="padding: 0 24px 24px;">
+        <div class="chart-container" style="border: none; padding: 0;">
+            <canvas id="xyChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 取得 DOM 元素
+    const vixSlider = document.getElementById('vixSlider');
+    const wtiSlider = document.getElementById('wtiSlider');
+    const dxySlider = document.getElementById('dxySlider');
+
+    const vixVal = document.getElementById('vixVal');
+    const wtiVal = document.getElementById('wtiVal');
+    const dxyVal = document.getElementById('dxyVal');
+
+    const resultBoard = document.getElementById('resultBoard');
+    const resultTag = document.getElementById('resultTag');
+    const resultMsg = document.getElementById('resultMsg');
+
+    const canvas = document.getElementById('gaugeCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 格式化數字 (加上正負號與百分比)
+    function formatPct(val) {
+        const num = parseFloat(val);
+        return (num > 0 ? "+" : "") + num.toFixed(1) + "%";
+    }
+
+    // 繪製 Canvas 甜甜圈儀表板
+    function drawGauge(level) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 50;
+
+        // 背景圓環
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.stroke();
+
+        // 決定顏色與進度
+        let color = '#94a3b8';
+        let endAngle = 0;
+        let text = 'N/A';
+
+        if (level === 2) { color = '#dc2626'; endAngle = 1.8 * Math.PI; text = 'LV 2'; } // 紅色警戒
+        else if (level === 1) { color = '#d97706'; endAngle = Math.PI; text = 'LV 1'; } // 黃色觀察
+        else if (level === -1) { color = '#16a34a'; endAngle = 2 * Math.PI; text = 'SAFE'; } // 綠色安全 (如軟著陸)
+        else { color = '#94a3b8'; endAngle = 0.1 * Math.PI; text = 'NORM'; } // 正常狀態
+
+        // 動態進度條
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, -0.5 * Math.PI, endAngle - 0.5 * Math.PI);
+        ctx.lineWidth = 10;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = color;
+        ctx.stroke();
+
+        // 內部文字
+        ctx.font = 'bold 24px sans-serif';
+        ctx.fillStyle = color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, centerX, centerY);
+    }
+
+    let xyChartInstance = null;
+
+    function drawXYChart(vix, wti, uiClass) {
+        const ctxChart = document.getElementById('xyChart').getContext('2d');
+
+        let pointColor = '#64748b';
+        if (uiClass.includes('level2')) pointColor = '#dc2626';
+        else if (uiClass.includes('level1')) pointColor = '#d97706';
+        else if (uiClass.includes('good')) pointColor = '#16a34a';
+
+        if (xyChartInstance) {
+            xyChartInstance.data.datasets[0].data = [{x: vix, y: wti}];
+            xyChartInstance.data.datasets[0].backgroundColor = pointColor;
+            xyChartInstance.update();
+            return;
+        }
+
+        xyChartInstance = new Chart(ctxChart, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: '目前情境',
+                    data: [{x: vix, y: wti}],
+                    backgroundColor: pointColor,
+                    pointRadius: 8,
+                    pointHoverRadius: 10,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `VIX: ${context.parsed.x}%, WTI: ${context.parsed.y}%`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'VIX 波動率 (%)' },
+                        min: -20, max: 30,
+                        grid: {
+                            color: (context) => context.tick.value === 0 ? '#94a3b8' : '#f1f5f9',
+                            lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'WTI 原油 (%)' },
+                        min: -10, max: 10,
+                        grid: {
+                            color: (context) => context.tick.value === 0 ? '#94a3b8' : '#f1f5f9',
+                            lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function setPreset(vix, wti, dxy) {
+        vixSlider.value = vix;
+        wtiSlider.value = wti;
+        dxySlider.value = dxy;
+        evaluateMarket();
+    }
+
+    // 核心邏輯判斷
+    function evaluateMarket() {
+        const vix = parseFloat(vixSlider.value);
+        const wti = parseFloat(wtiSlider.value);
+        const dxy = parseFloat(dxySlider.value);
+
+        // 更新 UI 顯示數字
+        vixVal.innerText = formatPct(vix);
+        wtiVal.innerText = formatPct(wti);
+        dxyVal.innerText = formatPct(dxy);
+
+        let res = { level: 0, tag: "⚪ STATUS: NORMAL", msg: "市場波動在正常範圍內，無明顯宏觀情境觸發。", uiClass: "status-normal", gaugeLevel: 0 };
+
+        // 1. Dash for Cash
+        if (vix > 15 && wti < -3.0 && dxy > 0.5) {
+            res = { level: 2, tag: "🔴 DASH FOR CASH (流動性危機)", msg: "嚴重系統性風險！股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。", uiClass: "status-level2", gaugeLevel: 2 };
+        } else if (vix > 5 && wti < -1.5 && dxy > 0.2) {
+            res = { level: 1, tag: "🟡 DASH FOR CASH (觀察區)", msg: "初級流動性緊縮訊號，風險資產與能源同步遭到拋售，資金轉向美元。", uiClass: "status-level1", gaugeLevel: 1 };
+        }
+        // 2. Stagflation
+        else if (vix > 15 && wti > 4.0 && dxy > 0.5) {
+            res = { level: 2, tag: "🔴 STAGFLATION (停滯性通膨)", msg: "停滯性通膨危機！能源供給衝擊引發恐慌，資金轉向避險板塊，避開科技成長股。", uiClass: "status-level2", gaugeLevel: 2 };
+        } else if (vix > 5 && wti > 2.0 && dxy > 0.2) {
+            res = { level: 1, tag: "🟡 STAGFLATION (觀察區)", msg: "通膨壓力訊號，油價與美元同步轉強，市場擔憂高利率維持更久。", uiClass: "status-level1", gaugeLevel: 1 };
+        }
+        // 3. US-Centric Shock
+        else if (vix > 15 && wti < -3.0 && dxy < -0.5) {
+            res = { level: 2, tag: "🔴 US-CENTRIC SHOCK (美國本土危機)", msg: "美系資產信任危機！VIX 飆升且美元重挫，震央位於美國本土，美股將承受劇烈打擊。", uiClass: "status-level2", gaugeLevel: 2 };
+        } else if (vix > 5 && wti < -1.5 && dxy < -0.2) {
+            res = { level: 1, tag: "🟡 US-CENTRIC SHOCK (觀察區)", msg: "美國內部雜訊，市場恐慌但資金撤出美元。", uiClass: "status-level1", gaugeLevel: 1 };
+        }
+        // 4. Goldilocks
+        else if (vix < -10 && wti > 2.0 && dxy < -0.5) {
+            res = { level: 2, tag: "🟢 GOLDILOCKS (金髮女孩經濟)", msg: "完美多頭！市場無懼風險，實質需求強勁，是有利於做多大盤與週期股的絕佳時機。", uiClass: "status-good", gaugeLevel: -1 };
+        } else if (vix < -5 && wti > 1.0 && dxy < -0.2) {
+            res = { level: 1, tag: "🟡 GOLDILOCKS (觀察區)", msg: "健康復甦訊號，弱美元推升能源需求，情緒樂觀。", uiClass: "status-good", gaugeLevel: -1 };
+        }
+        // 5. Soft Landing
+        else if (vix < -10 && wti < -3.0 && dxy <= 0) {
+            res = { level: 2, tag: "🟢 SOFT LANDING (軟著陸)", msg: "軟著陸確認！油價重挫解除通膨警報，VIX 探底，利好 Tech 巨頭與成長股加碼。", uiClass: "status-good", gaugeLevel: -1 };
+        } else if (vix < -5 && wti < -1.5 && dxy >= -0.2 && dxy <= 0.2) {
+            res = { level: 1, tag: "🟡 SOFT LANDING (觀察區)", msg: "通膨降溫訊號，油價下跌有利 Fed 鴿派預期。", uiClass: "status-good", gaugeLevel: -1 };
+        }
+        // 6. Geopolitical Noise
+        else if (vix >= -5 && vix <= 5 && Math.abs(wti) > 4.0 && dxy >= -0.2 && dxy <= 0.2) {
+            res = { level: 2, tag: "ℹ️ GEOPOLITICAL (地緣政治雜訊)", msg: "極端供給雜訊！WTI 劇烈震盪但 VIX 與 DXY 毫無波瀾，不屬於系統性風險。", uiClass: "status-normal", gaugeLevel: 0 };
+        } else if (vix >= -5 && vix <= 5 && Math.abs(wti) > 2.0 && dxy >= -0.2 && dxy <= 0.2) {
+            res = { level: 1, tag: "🟡 GEOPOLITICAL (觀察區)", msg: "能源盤面事件，油價波動但未引發整體市場情緒變化。", uiClass: "status-level1", gaugeLevel: 1 };
+        }
+
+        // 更新 UI
+        resultTag.innerText = res.tag;
+        resultMsg.innerText = res.msg;
+        resultBoard.className = `dashboard ${res.uiClass}`;
+
+        // 更新 Canvas
+        drawGauge(res.gaugeLevel);
+        drawXYChart(vix, wti, res.uiClass);
+    }
+
+    // 綁定事件監聽器
+    vixSlider.addEventListener('input', evaluateMarket);
+    wtiSlider.addEventListener('input', evaluateMarket);
+    dxySlider.addEventListener('input', evaluateMarket);
+
+    // 初始化執行一次
+    evaluateMarket();
+</script>
+
+</body>
+</html>
