@@ -8,5 +8,10 @@ nodate: true
 noshowdate: true
 nocomments: true
 nopagination: true
+market_defaults:
+  vix: 16.0
+  wti: -3.5
+  dxy: 0.6
+  updated_at: '手動預設'
 ---
 {{< vix-wit-dxy >}}

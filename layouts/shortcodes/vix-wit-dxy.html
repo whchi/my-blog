@@ -1,3 +1,8 @@
+{{ $market := .Page.Params.market_defaults }}
+{{ $defaultVix := default 16.0 $market.vix }}
+{{ $defaultWti := default -3.5 $market.wti }}
+{{ $defaultDxy := default 0.6 $market.dxy }}
+{{ $updatedAt := default "手動預設" $market.updated_at }}
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -264,6 +269,16 @@
             margin-bottom: 20px;
         }
 
+        .preset-group-title {
+            width: 100%;
+            margin: 0 0 4px;
+            font-size: 0.78rem;
+            color: var(--secondary);
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
         .preset-btn {
             background: #fff;
             border: 1px solid var(--border-color);
@@ -282,6 +297,42 @@
             background: var(--primary-light);
         }
 
+        .preset-btn.secondary {
+            background: var(--primary-light);
+            border-color: #c7d2fe;
+            color: var(--primary);
+        }
+
+        .preset-btn.secondary:hover {
+            background: #c7d2fe;
+            border-color: var(--primary);
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 700;
+        }
+
+        .meta-value {
+            font-size: 0.88rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
         .chart-container {
             width: 100%;
             height: 380px;
@@ -290,9 +341,13 @@
             position: relative;
         }
 
+        .chart-section {
+            padding: 0 24px 24px;
+        }
+
         @media (min-width: 932px) {
             .chart-section {
-                padding: 0 32px 32px !important;
+                padding: 0 32px 32px;
             }
         }
     </style>
@@ -308,41 +363,43 @@
     <div class="widget-body">
         <div class="controls">
             <div class="preset-group">
-                <button type="button" class="preset-btn" onclick="setPreset(16, -3.5, 0.6)">流動性危機</button>
-                <button type="button" class="preset-btn" onclick="setPreset(16, 4.5, 0.6)">停滯性通膨</button>
-                <button type="button" class="preset-btn" onclick="setPreset(16, -3.5, -0.6)">美國本土危機</button>
-                <button type="button" class="preset-btn" onclick="setPreset(-11, 2.5, -0.6)">金髮女孩經濟</button>
-                <button type="button" class="preset-btn" onclick="setPreset(-11, -3.5, 0)">軟著陸</button>
-                <button type="button" class="preset-btn" onclick="setPreset(2, 4.5, 0)">地緣政治干擾</button>
+                <div class="preset-group-title">快速情境</div>
+                <button type="button" class="preset-btn secondary" id="resetDefaultsBtn">恢復排程預設值</button>
+                <button type="button" class="preset-btn" data-vix="16" data-wti="-3.5" data-dxy="0.6">流動性危機</button>
+                <button type="button" class="preset-btn" data-vix="16" data-wti="4.5" data-dxy="0.6">停滯性通膨</button>
+                <button type="button" class="preset-btn" data-vix="16" data-wti="-3.5" data-dxy="-0.6">美國本土危機</button>
+                <button type="button" class="preset-btn" data-vix="-11" data-wti="2.5" data-dxy="-0.6">金髮女孩經濟</button>
+                <button type="button" class="preset-btn" data-vix="-11" data-wti="-3.5" data-dxy="0">軟著陸</button>
+                <button type="button" class="preset-btn" data-vix="2" data-wti="4.5" data-dxy="0">地緣政治干擾</button>
             </div>
 
             <div class="control-group">
                 <div class="control-header">
                     <span>VIX 波動率指數漲跌幅</span>
-                    <span class="value-display" id="vixVal">16.0%</span>
+                    <span class="value-display" id="vixVal">{{ printf "%.1f%%" (float $defaultVix) }}</span>
                 </div>
                 <div class="slider-wrap">
-                    <input type="range" id="vixSlider" min="-20" max="30" step="0.5" value="16">
+                    <input type="range" id="vixSlider" min="-20" max="30" step="0.5" value="{{ $defaultVix }}">
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="control-header">
                     <span>WTI 原油期貨漲跌幅</span>
-                    <span class="value-display" id="wtiVal">-3.5%</span>
+                    <span class="value-display" id="wtiVal">{{ printf "%.1f%%" (float $defaultWti) }}</span>
                 </div>
                 <div class="slider-wrap">
-                    <input type="range" id="wtiSlider" min="-10" max="10" step="0.1" value="-3.5">
+                    <input type="range" id="wtiSlider" min="-10" max="10" step="0.1" value="{{ $defaultWti }}">
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="control-header">
                     <span>DXY 美元指數漲跌幅</span>
-                    <span class="value-display" id="dxyVal">0.6%</span>
+                    <span class="value-display" id="dxyVal">{{ printf "%.1f%%" (float $defaultDxy) }}</span>
                 </div>
                 <div class="slider-wrap">
-                    <input type="range" id="dxySlider" min="-2" max="2" step="0.1" value="0.6">
+                    <input type="range" id="dxySlider" min="-2" max="2" step="0.1" value="{{ $defaultDxy }}">
                 </div>
             </div>
         </div>
@@ -352,6 +409,10 @@
                 <div class="overview-title">情境判讀</div>
                 <div class="overview-value">即時監控風險偏好</div>
                 <div class="overview-sub">此工具以三個宏觀變數推估市場可能情境，不構成投資建議。</div>
+                <div class="meta-row">
+                    <span class="meta-label">資料更新時間</span>
+                    <span class="meta-value">{{ $updatedAt }}</span>
+                </div>
             </div>
 
             <div class="dashboard status-level2" id="resultBoard">
@@ -364,8 +425,8 @@
         </div>
     </div>
 
-    <div class="chart-section" style="padding: 0 24px 24px;">
-        <div class="chart-container" style="border: none; padding: 0;">
+    <div class="chart-section">
+        <div class="chart-container">
             <canvas id="xyChart"></canvas>
         </div>
     </div>
@@ -384,6 +445,13 @@
     const resultBoard = document.getElementById('resultBoard');
     const resultTag = document.getElementById('resultTag');
     const resultMsg = document.getElementById('resultMsg');
+    const presetButtons = document.querySelectorAll('.preset-btn');
+    const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+    const defaultPreset = {
+        vix: {{ $defaultVix }},
+        wti: {{ $defaultWti }},
+        dxy: {{ $defaultDxy }}
+    };
 
     const canvas = document.getElementById('gaugeCanvas');
     const ctx = canvas.getContext('2d');
@@ -566,6 +634,17 @@
     vixSlider.addEventListener('input', evaluateMarket);
     wtiSlider.addEventListener('input', evaluateMarket);
     dxySlider.addEventListener('input', evaluateMarket);
+    presetButtons.forEach((button) => {
+        if (button === resetDefaultsBtn) {
+            return;
+        }
+        button.addEventListener('click', () => {
+            setPreset(button.dataset.vix, button.dataset.wti, button.dataset.dxy);
+        });
+    });
+    resetDefaultsBtn.addEventListener('click', () => {
+        setPreset(defaultPreset.vix, defaultPreset.wti, defaultPreset.dxy);
+    });
 
     // 初始化執行一次
     evaluateMarket();
