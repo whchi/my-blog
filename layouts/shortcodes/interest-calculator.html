@@ -5,293 +5,421 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compound Interest Calculator</title>
 
-    <!-- Chart.js (用於繪圖) -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Geist Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* --- CSS Reset & Base Styles --- */
+        /* --- CSS Reset & Base --- */
         :root {
-            --primary: #4f46e5; /* Indigo 600 */
-            --primary-light: #e0e7ff;
-            --secondary: #64748b; /* Slate 500 */
-            --accent: #d97706; /* Amber 600 */
-            --success: #16a34a; /* Green 600 */
-            --success-bg: #dcfce7; /* Green 100 */
-            --success-dark: #15803d; /* Green 700 */
-            --danger: #dc2626; /* Red 600 */
-            --bg-color: #ffffff;
-            --text-color: #1f2937;
-            --border-color: #e2e8f0;
-            --radius: 12px;
-            --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            --bg-base: #fafaf9;
+            --bg-elevated: #ffffff;
+            --text-primary: #18181b;
+            --text-secondary: #71717a;
+            --text-tertiary: #a1a1aa;
+            --border: #e4e4e7;
+            --border-subtle: #f4f4f5;
+            --accent: #059669;
+            --accent-light: #d1fae5;
+            --accent-dark: #047857;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            
+            /* Tinted shadows for warmth */
+            --shadow-sm: 0 1px 2px 0 rgb(9 9 11 / 0.04);
+            --shadow-md: 0 4px 6px -1px rgb(9 9 11 / 0.05), 0 2px 4px -2px rgb(9 9 11 / 0.05);
+            --shadow-lg: 0 10px 15px -3px rgb(9 9 11 / 0.06), 0 4px 6px -4px rgb(9 9 11 / 0.05);
+            --shadow-accent: 0 4px 14px 0 rgb(5 150 105 / 0.25);
         }
 
-        body {
-            font-family: var(--font-family);
-            color: var(--text-color);
+        * {
             margin: 0;
             padding: 0;
-            background-color: transparent; /* 配合 iframe */
             box-sizing: border-box;
         }
 
-        *, *::before, *::after {
-            box-sizing: inherit;
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background-color: transparent;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* --- Layout --- */
         .widget-container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            background: var(--bg-elevated);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .widget-header {
-            background: linear-gradient(to right, #4f46e5, #4338ca);
-            color: white;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 28px 32px;
+            background: var(--bg-base);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .widget-header h2 {
-            margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
 
         .badge {
-            background: rgba(255, 255, 255, 0.2);
             font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 4px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--bg-base);
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            margin-left: auto;
         }
 
-        /* --- Layout & Responsive --- */
+        /* --- Main Layout Grid --- */
         .widget-body {
-            padding: 20px;
             display: grid;
-            grid-template-columns: 1fr; /* 手機版單欄 */
-            gap: 24px;
+            grid-template-columns: 1fr;
+            gap: 0;
         }
 
-        @media (min-width: 932px) {
+        @media (min-width: 900px) {
             .widget-body {
-                padding: 32px;
-                grid-template-columns: 320px 1fr; /* 電腦版雙欄 */
-                gap: 40px;
+                grid-template-columns: 340px 1fr;
             }
         }
 
-        /* --- Inputs Section --- */
+        /* --- Controls Panel --- */
+        .controls {
+            padding: 28px 32px;
+            background: var(--bg-base);
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        @media (max-width: 899px) {
+            .controls {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+        }
+
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
         }
 
         .input-label {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 6px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .input-label span:first-child {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
         .label-hint {
             font-size: 0.75rem;
-            color: #94a3b8;
-            font-weight: normal;
+            color: var(--text-tertiary);
+            font-weight: 400;
         }
 
         .input-wrapper {
             display: flex;
             align-items: center;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: #fff;
-            padding: 0 10px;
-            transition: ring 0.2s;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 0 14px;
+            height: 44px;
+            transition: all 0.2s ease;
+        }
+
+        .input-wrapper:hover {
+            border-color: var(--text-tertiary);
         }
 
         .input-wrapper:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-light);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
         .input-prefix, .input-suffix {
-            color: var(--secondary);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
             user-select: none;
-            white-space: nowrap;
         }
 
         .input-field {
-            width: 100%;
+            flex: 1;
             border: none;
-            padding: 10px;
-            font-size: 0.95rem;
+            background: transparent;
+            padding: 0 8px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
             outline: none;
-            color: var(--text-color);
             min-width: 0;
         }
 
-        /* Removing spin buttons */
+        .input-field::placeholder {
+            color: var(--text-tertiary);
+        }
+
         .input-field::-webkit-inner-spin-button,
         .input-field::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
 
+        /* Range Slider */
         .range-slider {
             width: 100%;
-            margin-top: 8px;
             height: 4px;
-            background: #e2e8f0;
+            margin-top: 10px;
+            background: var(--border);
             border-radius: 2px;
             appearance: none;
-            outline: none;
             cursor: pointer;
+            outline: none;
         }
 
         .range-slider::-webkit-slider-thumb {
             appearance: none;
-            width: 16px;
-            height: 16px;
-            background: var(--primary);
+            width: 18px;
+            height: 18px;
+            background: var(--accent);
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            border: 3px solid var(--bg-elevated);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* --- Summary Cards Grid --- */
+        .range-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-accent);
+        }
+
+        .range-slider::-webkit-slider-thumb:active {
+            transform: scale(0.95);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid var(--bg-elevated);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* --- Results Panel --- */
+        .results {
+            padding: 28px 32px;
+            background: var(--bg-elevated);
+        }
+
+        /* Summary Cards - Asymmetric Grid */
         .summary-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 預設兩欄 */
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .summary-grid {
-                grid-template-columns: 1fr; /* 手機極窄螢幕 */
+                grid-template-columns: 1fr;
             }
         }
 
         .card {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            background: var(--bg-base);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            transition: all 0.2s ease;
         }
 
-        /* Hero Card spanning 2 columns */
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Hero Card - spans full width */
         .card.hero {
-            grid-column: 1 / -1; /* 跨滿整行 */
-            background: linear-gradient(to bottom right, #ffffff, #f8fafc);
-            border-left: 4px solid var(--primary);
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
         }
 
-        .card.profit-highlight {
-            background-color: var(--success-bg);
-            border: 1px solid #bbf7d0;
-            border-left: 4px solid var(--success);
+        .card.hero:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-accent);
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-        }
-
-        /* Accent Colors for Left Border (Fallback) */
-        .card.slate { border-left: 4px solid var(--secondary); }
-        .card.accent { border-left: 4px solid var(--accent); }
-        .card.danger { border-left: 4px solid var(--danger); }
-
-        .card-title {
-            font-size: 0.75rem;
-            color: var(--secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .card.profit-highlight .card-title {
-            color: var(--success-dark);
-        }
-
-        .card-value {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--text-color);
-            word-break: break-all;
+        .card.hero .card-title {
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .card.hero .card-value {
-            font-size: 1.75rem; /* Hero value bigger */
-            color: var(--primary);
+            color: white;
+            font-size: 1.75rem;
         }
 
-        .card.profit-highlight .card-value {
-            color: var(--success-dark);
-            font-size: 1.4rem;
+        .card.hero .card-sub {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Profit Card */
+        .card.profit {
+            background: var(--accent-light);
+            border: 1px solid #a7f3d0;
+        }
+
+        .card.profit .card-title {
+            color: var(--accent-dark);
+        }
+
+        .card.profit .card-value {
+            color: var(--accent-dark);
+        }
+
+        /* Standard Cards */
+        .card.slate .card-title {
+            color: var(--text-secondary);
+        }
+
+        .card.accent .card-title {
+            color: var(--warning);
+        }
+
+        .card.accent .card-value {
+            color: var(--warning);
+        }
+
+        .card.accent .card-sub {
+            color: #b45309;
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.01em;
         }
 
         .card-sub {
-            font-size: 0.75rem;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
             margin-top: 4px;
-            color: var(--secondary);
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
         .highlight-text {
             font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Freedom Card Status Colors */
+        #card-freedom {
+            transition: all 0.3s ease;
         }
 
         /* --- Chart Container --- */
-        .chart-container {
-            position: relative;
-            height: 260px; /* Slightly shorter to fit more cards */
-            width: 100%;
-            background: #f9fafb;
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid var(--border-color);
+        .chart-section {
+            margin-top: 8px;
         }
 
         .chart-wrapper-title {
-             font-size: 0.85rem;
-             font-weight: 600;
-             color: var(--text-color);
-             margin-bottom: 8px;
-             display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+            background: var(--bg-base);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            border: 1px solid var(--border-subtle);
         }
 
         .footer-text {
             text-align: center;
-            font-size: 0.8rem;
-            color: var(--secondary);
-            margin-top: 16px;
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
+            margin-top: 20px;
+            text-wrap: balance;
         }
+
+        /* --- Animation --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0ms; }
+        .card:nth-child(2) { animation-delay: 50ms; }
+        .card:nth-child(3) { animation-delay: 100ms; }
+        .card:nth-child(4) { animation-delay: 150ms; }
+        .card:nth-child(5) { animation-delay: 200ms; }
     </style>
 </head>
 <body>
@@ -299,14 +427,25 @@
     <div class="widget-container">
         <div class="widget-header">
             <h2>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                <div class="header-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <title>計算機圖示</title>
+                        <rect width="16" height="20" x="4" y="2" rx="2"/>
+                        <line x1="8" x2="16" y1="6" y2="6"/>
+                        <line x1="16" x2="16" y1="14" y2="18"/>
+                        <path d="M16 10h.01"/><path d="M12 10h.01"/>
+                        <path d="M8 10h.01"/><path d="M12 14h.01"/>
+                        <path d="M8 14h.01"/><path d="M12 18h.01"/>
+                        <path d="M8 18h.01"/>
+                    </svg>
+                </div>
                 複利計算機
             </h2>
             <span class="badge">把時間當朋友</span>
         </div>
 
         <div class="widget-body">
-            <!-- Inputs Side -->
+            <!-- Controls Side -->
             <div class="controls">
                 <!-- Principal -->
                 <div class="input-group">
@@ -332,10 +471,10 @@
                     <input type="range" id="range-monthly" class="range-slider" min="0" max="200000" step="1000" value="5000">
                 </div>
 
-                <!-- Monthly Expense (New) -->
+                <!-- Monthly Expense -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>目標/退休每月開銷</span>
+                        <span>目標每月開銷</span>
                         <span class="label-hint">現值</span>
                     </div>
                     <div class="input-wrapper">
@@ -348,7 +487,7 @@
                 <!-- Interest Rate -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>年報酬率 (%)</span>
+                        <span>年報酬率</span>
                     </div>
                     <div class="input-wrapper">
                         <input type="number" id="input-rate" class="input-field" value="6" min="0" max="20" step="0.1">
@@ -360,7 +499,7 @@
                 <!-- Inflation Rate -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>預期通膨 (%)</span>
+                        <span>預期通膨</span>
                     </div>
                     <div class="input-wrapper">
                         <input type="number" id="input-inflation" class="input-field" value="2" min="0" max="10" step="0.1">
@@ -388,13 +527,13 @@
                 <div class="summary-grid">
                     <!-- Card 1: Total Balance (Hero) -->
                     <div class="card hero">
-                        <div class="card-title">期末總資產 (名目金額)</div>
+                        <div class="card-title">期末總資產</div>
                         <div class="card-value" id="val-balance">$0</div>
                         <div class="card-sub">讓複利為您工作</div>
                     </div>
 
-                    <!-- Card 2: Total Profit (Highlighted New) -->
-                    <div class="card profit-highlight">
+                    <!-- Card 2: Total Profit -->
+                    <div class="card profit">
                         <div class="card-title">總獲利</div>
                         <div class="card-value" id="val-profit">$0</div>
                         <div class="card-sub" id="val-roi">報酬率 0%</div>
@@ -402,14 +541,14 @@
 
                     <!-- Card 3: Total Invested -->
                     <div class="card slate">
-                        <div class="card-title">總投入成本 (本金)</div>
+                        <div class="card-title">總投入成本</div>
                         <div class="card-value" id="val-invested-card">$0</div>
                         <div class="card-sub">本金 + 累計月存</div>
                     </div>
 
                     <!-- Card 4: Passive Income -->
-                    <div class="card" id="card-freedom" style="border-left: 4px solid var(--primary);">
-                        <div class="card-title">每月被動收入 (實質)</div>
+                    <div class="card" id="card-freedom">
+                        <div class="card-title">每月被動收入</div>
                         <div class="card-value" id="val-passive">$0</div>
                         <div class="card-sub" id="val-freedom-status">達成率 0%</div>
                     </div>
@@ -418,13 +557,15 @@
                     <div class="card accent">
                         <div class="card-title">實質購買力</div>
                         <div class="card-value" id="val-real">$0</div>
-                        <div class="card-sub" style="color: #d97706;">扣除通膨後價值</div>
+                        <div class="card-sub">扣除通膨後價值</div>
                     </div>
                 </div>
 
-                <div class="chart-container">
+                <div class="chart-section">
                     <span class="chart-wrapper-title">資產成長趨勢</span>
-                    <canvas id="compoundChart"></canvas>
+                    <div class="chart-container">
+                        <canvas id="compoundChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -435,7 +576,7 @@
         const state = {
             principal: 100000,
             monthly: 5000,
-            expense: 30000, // Target monthly expense
+            expense: 30000,
             rate: 6.0,
             inflation: 2.0,
             years: 10
@@ -458,10 +599,8 @@
 
             let currentBalance = principal;
             let totalInvested = principal;
-
             const yearlyData = [];
 
-            // Year 0
             yearlyData.push({
                 year: 0,
                 balance: principal,
@@ -470,14 +609,12 @@
             });
 
             for (let year = 1; year <= years; year++) {
-                // Monthly Compounding
                 for (let m = 0; m < 12; m++) {
                     currentBalance = currentBalance * (1 + (rate / 100) / 12);
                     currentBalance += monthly;
                     totalInvested += monthly;
                 }
 
-                // Inflation Adjustment
                 const realBalance = currentBalance / Math.pow(1 + inflation / 100, year);
 
                 yearlyData.push({
@@ -498,11 +635,12 @@
             const profit = final.balance - final.invested;
             const roi = final.invested > 0 ? (profit / final.invested) * 100 : 0;
 
-            // 1. Total Balance (Hero)
+            // 1. Total Balance
             document.getElementById('val-balance').textContent = formatCurrency(final.balance);
 
-            // 2. Total Profit (New)
-            document.getElementById('val-profit').textContent = '+' + formatCurrency(profit);
+            // 2. Total Profit
+            const profitEl = document.getElementById('val-profit');
+            profitEl.textContent = (profit >= 0 ? '+' : '') + formatCurrency(profit);
             document.getElementById('val-roi').textContent = `總報酬率 ${roi.toFixed(1)}%`;
 
             // 3. Total Invested
@@ -517,30 +655,31 @@
 
             document.getElementById('val-passive').textContent = formatCurrency(realMonthlyPassive);
 
-            // Compare with Target Expense
             const coverageRatio = (realMonthlyPassive / state.expense) * 100;
             const freedomCard = document.getElementById('card-freedom');
             const freedomStatus = document.getElementById('val-freedom-status');
 
             freedomStatus.innerHTML = `可覆蓋開銷 <span class="highlight-text">${coverageRatio.toFixed(1)}%</span>`;
 
-            // Update Freedom Card Color (Border color style)
+            // Update Freedom Card Color
             if (coverageRatio >= 100) {
-                freedomCard.style.borderLeftColor = 'var(--success)';
+                freedomCard.style.background = '#dcfce7';
+                freedomCard.style.border = '1px solid #86efac';
             } else if (coverageRatio >= 50) {
-                freedomCard.style.borderLeftColor = 'var(--accent)';
+                freedomCard.style.background = '#fef3c7';
+                freedomCard.style.border = '1px solid #fcd34d';
             } else {
-                freedomCard.style.borderLeftColor = 'var(--danger)';
+                freedomCard.style.background = '#fee2e2';
+                freedomCard.style.border = '1px solid #fca5a5';
             }
 
-            // Update Chart
             updateChart(data);
         }
 
         // --- Chart Logic ---
         function updateChart(data) {
             const ctx = document.getElementById('compoundChart').getContext('2d');
-            const labels = data.map(d => `Y${d.year}`);
+            const labels = data.map(d => `第${d.year}年`);
 
             if (chartInstance) {
                 chartInstance.destroy();
@@ -554,58 +693,90 @@
                         {
                             label: '名目總資產',
                             data: data.map(d => d.balance),
-                            borderColor: '#4f46e5',
-                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                            borderWidth: 2,
+                            borderColor: '#059669',
+                            backgroundColor: 'rgba(5, 150, 105, 0.08)',
+                            borderWidth: 2.5,
                             fill: true,
                             tension: 0.4,
                             pointRadius: 0,
-                            pointHoverRadius: 4
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: '#059669'
                         },
                         {
                             label: '總投入成本',
                             data: data.map(d => d.invested),
-                            borderColor: '#64748b',
-                            borderWidth: 1,
-                            borderDash: [2, 2],
+                            borderColor: '#71717a',
+                            borderWidth: 2,
+                            borderDash: [4, 4],
                             fill: false,
-                            pointRadius: 0
-                        },
-                        {
-                            label: '總獲利 (隱藏)',
-                            data: data.map(d => d.balance - d.invested),
-                             // Hidden dataset just for tooltip or calculation reference if needed
-                            hidden: true
+                            pointRadius: 0,
+                            pointHoverRadius: 4
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
                     plugins: {
-                        legend: { display: true, position: 'top', labels: { boxWidth: 10, usePointStyle: true, font: { size: 11 } } },
+                        legend: { 
+                            display: true, 
+                            position: 'top',
+                            align: 'end',
+                            labels: { 
+                                boxWidth: 12, 
+                                usePointStyle: true,
+                                padding: 16,
+                                font: { 
+                                    size: 12,
+                                    family: "'Inter', sans-serif"
+                                } 
+                            } 
+                        },
                         tooltip: {
-                            mode: 'index',
-                            intersect: false,
+                            backgroundColor: 'rgba(24, 24, 27, 0.95)',
+                            titleFont: { size: 13, family: "'Inter', sans-serif" },
+                            bodyFont: { size: 12, family: "'Inter', sans-serif" },
+                            padding: 12,
+                            cornerRadius: 8,
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 }).format(context.parsed.y);
-                                    }
+                                    if (label) label += ': ';
+                                    label += new Intl.NumberFormat('zh-TW', { 
+                                        style: 'currency', 
+                                        currency: 'TWD', 
+                                        maximumFractionDigits: 0 
+                                    }).format(context.parsed.y);
                                     return label;
                                 }
                             }
                         }
                     },
                     scales: {
-                        x: { grid: { display: false }, ticks: { maxTicksLimit: 6, font: { size: 10 } } },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { 
+                                maxTicksLimit: 6, 
+                                font: { size: 11, family: "'Inter', sans-serif" },
+                                color: '#71717a'
+                            }
+                        },
                         y: {
-                            grid: { color: '#f3f4f6' },
-                            ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(0) + '萬' : v, font: { size: 10 } }
+                            grid: { 
+                                color: '#f4f4f5',
+                                drawBorder: false
+                            },
+                            ticks: { 
+                                callback: v => v >= 10000 ? (v/10000).toFixed(0) + '萬' : v,
+                                font: { size: 11, family: "'Inter', sans-serif" },
+                                color: '#71717a',
+                                padding: 8
+                            },
+                            border: { display: false }
                         }
                     }
                 }
@@ -641,7 +812,6 @@
             setupSync('input-inflation', 'range-inflation', 'inflation');
             setupSync('input-years', 'range-years', 'years');
 
-            // Initial Render
             updateUI();
         });
     </script>
