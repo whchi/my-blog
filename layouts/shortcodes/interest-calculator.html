@@ -375,6 +375,21 @@
             transition: all 0.3s ease;
         }
 
+        #card-freedom.status-success {
+            background: var(--accent-light);
+            border: 1px solid #a7f3d0;
+        }
+
+        #card-freedom.status-warning {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+        }
+
+        #card-freedom.status-danger {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+        }
+
         /* --- Chart Container --- */
         .chart-section {
             margin-top: 8px;
@@ -403,6 +418,24 @@
             color: var(--text-tertiary);
             margin-top: 20px;
             text-wrap: balance;
+        }
+
+        /* Focus visible for keyboard navigation */
+        .input-field:focus-visible,
+        .range-slider:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         /* --- Animation --- */
@@ -450,104 +483,103 @@
                 <!-- Principal -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>初始本金</span>
+                        <label for="input-principal">初始本金</label>
                     </div>
                     <div class="input-wrapper">
                         <span class="input-prefix">$</span>
-                        <input type="number" id="input-principal" class="input-field" value="100000" min="0" step="10000">
+                        <input type="number" id="input-principal" class="input-field" value="100000" min="0" step="10000" aria-label="初始本金金額">
                     </div>
-                    <input type="range" id="range-principal" class="range-slider" min="0" max="5000000" step="10000" value="100000">
+                    <input type="range" id="range-principal" class="range-slider" min="0" max="5000000" step="10000" value="100000" aria-label="初始本金滑桿">
                 </div>
 
                 <!-- Monthly Contribution -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>每月投入</span>
+                        <label for="input-monthly">每月投入</label>
                     </div>
                     <div class="input-wrapper">
                         <span class="input-prefix">$</span>
-                        <input type="number" id="input-monthly" class="input-field" value="5000" min="0" step="1000">
+                        <input type="number" id="input-monthly" class="input-field" value="5000" min="0" step="1000" aria-label="每月投入金額">
                     </div>
-                    <input type="range" id="range-monthly" class="range-slider" min="0" max="200000" step="1000" value="5000">
+                    <input type="range" id="range-monthly" class="range-slider" min="0" max="200000" step="1000" value="5000" aria-label="每月投入滑桿">
                 </div>
 
                 <!-- Monthly Expense -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>目標每月開銷</span>
-                        <span class="label-hint">現值</span>
+                        <label for="input-expense">目標每月開銷 <span class="label-hint">現值</span></label>
                     </div>
                     <div class="input-wrapper">
                         <span class="input-prefix">$</span>
-                        <input type="number" id="input-expense" class="input-field" value="30000" min="0" step="1000">
+                        <input type="number" id="input-expense" class="input-field" value="30000" min="0" step="1000" aria-label="目標每月開銷金額">
                     </div>
-                    <input type="range" id="range-expense" class="range-slider" min="0" max="200000" step="1000" value="30000">
+                    <input type="range" id="range-expense" class="range-slider" min="0" max="200000" step="1000" value="30000" aria-label="目標每月開銷滑桿">
                 </div>
 
                 <!-- Interest Rate -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>年報酬率</span>
+                        <label for="input-rate">年報酬率</label>
                     </div>
                     <div class="input-wrapper">
-                        <input type="number" id="input-rate" class="input-field" value="6" min="0" max="20" step="0.1">
+                        <input type="number" id="input-rate" class="input-field" value="6" min="0" max="20" step="0.1" aria-label="年報酬率百分比">
                         <span class="input-suffix">%</span>
                     </div>
-                    <input type="range" id="range-rate" class="range-slider" min="0" max="20" step="0.5" value="6">
+                    <input type="range" id="range-rate" class="range-slider" min="0" max="20" step="0.5" value="6" aria-label="年報酬率滑桿">
                 </div>
 
                 <!-- Inflation Rate -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>預期通膨</span>
+                        <label for="input-inflation">預期通膨</label>
                     </div>
                     <div class="input-wrapper">
-                        <input type="number" id="input-inflation" class="input-field" value="2" min="0" max="10" step="0.1">
+                        <input type="number" id="input-inflation" class="input-field" value="2" min="0" max="10" step="0.1" aria-label="預期通膨率百分比">
                         <span class="input-suffix">%</span>
                     </div>
-                    <input type="range" id="range-inflation" class="range-slider" min="0" max="10" step="0.5" value="2">
+                    <input type="range" id="range-inflation" class="range-slider" min="0" max="10" step="0.5" value="2" aria-label="預期通膨滑桿">
                 </div>
 
                 <!-- Years -->
                 <div class="input-group">
                     <div class="input-label">
-                        <span>投資年限</span>
+                        <label for="input-years">投資年限</label>
                     </div>
                     <div class="input-wrapper">
-                        <input type="number" id="input-years" class="input-field" value="10" min="1" max="50" step="1">
+                        <input type="number" id="input-years" class="input-field" value="10" min="1" max="50" step="1" aria-label="投資年限年數">
                         <span class="input-suffix">年</span>
                     </div>
-                    <input type="range" id="range-years" class="range-slider" min="1" max="50" step="1" value="10">
+                    <input type="range" id="range-years" class="range-slider" min="1" max="50" step="1" value="10" aria-label="投資年限滑桿">
                 </div>
             </div>
 
             <!-- Results Side -->
             <div class="results">
                 <!-- Summary Grid -->
-                <div class="summary-grid">
+                <div class="summary-grid" role="region" aria-label="複利計算結果">
                     <!-- Card 1: Total Balance (Hero) -->
                     <div class="card hero">
                         <div class="card-title">期末總資產</div>
-                        <div class="card-value" id="val-balance">$0</div>
+                        <div class="card-value" id="val-balance" aria-live="polite" aria-atomic="true">$0</div>
                         <div class="card-sub">讓複利為您工作</div>
                     </div>
 
                     <!-- Card 2: Total Profit -->
                     <div class="card profit">
                         <div class="card-title">總獲利</div>
-                        <div class="card-value" id="val-profit">$0</div>
-                        <div class="card-sub" id="val-roi">報酬率 0%</div>
+                        <div class="card-value" id="val-profit" aria-live="polite" aria-atomic="true">$0</div>
+                        <div class="card-sub" id="val-roi" aria-live="polite" aria-atomic="true">報酬率 0%</div>
                     </div>
 
                     <!-- Card 3: Total Invested -->
                     <div class="card slate">
                         <div class="card-title">總投入成本</div>
-                        <div class="card-value" id="val-invested-card">$0</div>
+                        <div class="card-value" id="val-invested-card" aria-live="polite" aria-atomic="true">$0</div>
                         <div class="card-sub">本金 + 累計月存</div>
                     </div>
 
                     <!-- Card 4: Passive Income -->
-                    <div class="card" id="card-freedom">
+                    <div class="card" id="card-freedom" aria-live="polite" aria-atomic="true">
                         <div class="card-title">每月被動收入</div>
                         <div class="card-value" id="val-passive">$0</div>
                         <div class="card-sub" id="val-freedom-status">達成率 0%</div>
@@ -556,7 +588,7 @@
                     <!-- Card 5: Real Purchasing Power -->
                     <div class="card accent">
                         <div class="card-title">實質購買力</div>
-                        <div class="card-value" id="val-real">$0</div>
+                        <div class="card-value" id="val-real" aria-live="polite" aria-atomic="true">$0</div>
                         <div class="card-sub">扣除通膨後價值</div>
                     </div>
                 </div>
@@ -564,7 +596,7 @@
                 <div class="chart-section">
                     <span class="chart-wrapper-title">資產成長趨勢</span>
                     <div class="chart-container">
-                        <canvas id="compoundChart"></canvas>
+                        <canvas id="compoundChart" role="img" aria-label="資產成長趨勢圖：顯示名目總資產與總投入成本隨時間變化"></canvas>
                     </div>
                 </div>
             </div>
@@ -661,25 +693,33 @@
 
             freedomStatus.innerHTML = `可覆蓋開銷 <span class="highlight-text">${coverageRatio.toFixed(1)}%</span>`;
 
-            // Update Freedom Card Color
+            // Update Freedom Card Color using CSS classes instead of inline styles
+            freedomCard.classList.remove('status-success', 'status-warning', 'status-danger');
             if (coverageRatio >= 100) {
-                freedomCard.style.background = '#dcfce7';
-                freedomCard.style.border = '1px solid #86efac';
+                freedomCard.classList.add('status-success');
             } else if (coverageRatio >= 50) {
-                freedomCard.style.background = '#fef3c7';
-                freedomCard.style.border = '1px solid #fcd34d';
+                freedomCard.classList.add('status-warning');
             } else {
-                freedomCard.style.background = '#fee2e2';
-                freedomCard.style.border = '1px solid #fca5a5';
+                freedomCard.classList.add('status-danger');
             }
 
             updateChart(data);
+        }
+
+        // Get colors from CSS custom properties
+        function getCssColor(varName, fallback) {
+            return getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || fallback;
         }
 
         // --- Chart Logic ---
         function updateChart(data) {
             const ctx = document.getElementById('compoundChart').getContext('2d');
             const labels = data.map(d => `第${d.year}年`);
+
+            // Get colors from CSS
+            const accent = getCssColor('--accent', '#059669');
+            const textSecondary = getCssColor('--text-secondary', '#71717a');
+            const bgElevated = getCssColor('--bg-elevated', '#ffffff');
 
             if (chartInstance) {
                 chartInstance.destroy();
@@ -693,19 +733,19 @@
                         {
                             label: '名目總資產',
                             data: data.map(d => d.balance),
-                            borderColor: '#059669',
-                            backgroundColor: 'rgba(5, 150, 105, 0.08)',
+                            borderColor: accent,
+                            backgroundColor: accent + '14', // 8% opacity in hex
                             borderWidth: 2.5,
                             fill: true,
                             tension: 0.4,
                             pointRadius: 0,
                             pointHoverRadius: 5,
-                            pointHoverBackgroundColor: '#059669'
+                            pointHoverBackgroundColor: accent
                         },
                         {
                             label: '總投入成本',
                             data: data.map(d => d.invested),
-                            borderColor: '#71717a',
+                            borderColor: textSecondary,
                             borderWidth: 2,
                             borderDash: [4, 4],
                             fill: false,
@@ -722,19 +762,19 @@
                         intersect: false
                     },
                     plugins: {
-                        legend: { 
-                            display: true, 
+                        legend: {
+                            display: true,
                             position: 'top',
                             align: 'end',
-                            labels: { 
-                                boxWidth: 12, 
+                            labels: {
+                                boxWidth: 12,
                                 usePointStyle: true,
                                 padding: 16,
-                                font: { 
+                                font: {
                                     size: 12,
                                     family: "'Inter', sans-serif"
-                                } 
-                            } 
+                                }
+                            }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(24, 24, 27, 0.95)',
@@ -746,10 +786,10 @@
                                 label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) label += ': ';
-                                    label += new Intl.NumberFormat('zh-TW', { 
-                                        style: 'currency', 
-                                        currency: 'TWD', 
-                                        maximumFractionDigits: 0 
+                                    label += new Intl.NumberFormat('zh-TW', {
+                                        style: 'currency',
+                                        currency: 'TWD',
+                                        maximumFractionDigits: 0
                                     }).format(context.parsed.y);
                                     return label;
                                 }
@@ -757,23 +797,23 @@
                         }
                     },
                     scales: {
-                        x: { 
+                        x: {
                             grid: { display: false },
-                            ticks: { 
-                                maxTicksLimit: 6, 
+                            ticks: {
+                                maxTicksLimit: 6,
                                 font: { size: 11, family: "'Inter', sans-serif" },
-                                color: '#71717a'
+                                color: textSecondary
                             }
                         },
                         y: {
-                            grid: { 
-                                color: '#f4f4f5',
+                            grid: {
+                                color: getCssColor('--border-subtle', '#f4f4f5'),
                                 drawBorder: false
                             },
-                            ticks: { 
+                            ticks: {
                                 callback: v => v >= 10000 ? (v/10000).toFixed(0) + '萬' : v,
                                 font: { size: 11, family: "'Inter', sans-serif" },
-                                color: '#71717a',
+                                color: textSecondary,
                                 padding: 8
                             },
                             border: { display: false }
