@@ -12,6 +12,6 @@ market_defaults:
   vix: 0.6
   wti: -3.0
   dxy: 0.1
-  updated_at: '2026-05-02 21:57 CST'
+  updated_at: '2026-05-03 03:46 CST'
 ---
 {{< vix-wit-dxy >}}
