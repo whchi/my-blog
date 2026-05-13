@@ -9,9 +9,9 @@ noshowdate: true
 nocomments: true
 nopagination: true
 market_defaults:
-  vix: -1.9
-  wti: 4.4
-  dxy: 0.3
-  updated_at: '2026-05-13 04:08 CST'
+  vix: 0.6
+  wti: 1.0
+  dxy: 0.2
+  updated_at: '2026-05-13 22:19 CST'
 ---
 {{< vix-wit-dxy >}}
