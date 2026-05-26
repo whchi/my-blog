@@ -60,6 +60,14 @@ export function formatDate(value, locale = "zh-TW") {
   }).format(toDate(value));
 }
 
+export function formatDateParts(value, locale = "zh-TW") {
+  const d = toDate(value);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return { day, monthYear: `${year}/${month}` };
+}
+
 export function getSummary(entry, fallback = "") {
   return entry?.data?.summary || entry?.data?.description || fallback;
 }

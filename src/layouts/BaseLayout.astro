@@ -23,6 +23,9 @@ const canonicalUrl = canonical ? new URL(canonical, Astro.site) : Astro.url;
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/images/favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="社畜人生 RSS" href="/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet" />
     <title>{pageTitle}</title>
     <script is:inline>
       const savedTheme = localStorage.getItem("theme");
@@ -38,10 +41,17 @@ const canonicalUrl = canonical ? new URL(canonical, Astro.site) : Astro.url;
     </main>
     <Footer />
     <script is:inline>
+      function updateThemeIcons() {
+        const isDark = document.documentElement.dataset.theme === "dark";
+        document.querySelectorAll(".theme-icon-moon").forEach((el) => el.style.display = isDark ? "none" : "");
+        document.querySelectorAll(".theme-icon-sun").forEach((el) => el.style.display = isDark ? "" : "none");
+      }
+      updateThemeIcons();
       document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
         const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = next;
         localStorage.setItem("theme", next);
+        updateThemeIcons();
       });
     </script>
   </body>

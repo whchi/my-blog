@@ -1,5 +1,6 @@
 ---
 import { render } from "astro:content";
+import AboutProfile from "../../components/AboutProfile.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPageById } from "../../lib/content.js";
 
@@ -9,11 +10,8 @@ const { Content } = await render(page);
 ---
 
 <BaseLayout title="About" canonical="/about/">
+  <AboutProfile />
   <article class="article-shell">
-    <header class="article-header">
-      <p class="eyebrow">About</p>
-      <h1>About</h1>
-    </header>
     <div class="prose">
       <Content />
     </div>
