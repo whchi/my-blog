@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 import yfinance as yf
 
 
-CONTENT_PATH = Path("content/tools/vix-wit-dxy.md")
+CONTENT_PATH = Path("content/tools/vix-wit-dxy.mdx")
 SYMBOLS = {
     "vix": "^VIX",
     "wti": "CL=F",
@@ -52,7 +52,7 @@ def update_content_file(content: str, market_block: str) -> str:
 
     front_matter_end = content.find("---\n", 4)
     if front_matter_end == -1:
-        raise RuntimeError("Unable to find front matter in content/tools/vix-wit-dxy.md")
+        raise RuntimeError("Unable to find front matter in content/tools/vix-wit-dxy.mdx")
 
     insert_at = front_matter_end
     return content[:insert_at] + market_block + "\n" + content[insert_at:]

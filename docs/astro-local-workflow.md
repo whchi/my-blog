@@ -6,7 +6,7 @@ This site is migrated from Hugo to Astro while keeping the existing authoring mo
 
 - Write articles as Markdown under `content/posts/`.
 - Write tool pages as Markdown under `content/tools/`.
-- Keep `content/tools/vix-wit-dxy.md` in place because `.github/workflows/update-vix-wit-dxy.yml` updates that file.
+- Keep `content/tools/vix-wit-dxy.mdx` in place because `.github/workflows/update-vix-wit-dxy.yml` updates that file.
 - Existing Hugo-style post URLs are preserved as `/:year/:month/:contentbasename/`.
 - Existing tool URLs are preserved as `/tools/:slug.html`.
 - Astro reads generated compatibility Markdown from `.astro/content/`; keep editing the source files in `content/`.
