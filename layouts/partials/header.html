@@ -65,8 +65,8 @@
   {{ if (fileExists "layouts/partials/body-tracking.html") }}
   {{ partial "body-tracking.html" . }}
   {{ end }}
-  {{ if isset .Params "preview_image" }}
-  <header class="global-header" style="background-image:url({{ .Params.preview_image }})">
+  {{ with .Params.preview_image }}
+  <header class="global-header" style="background-image:url({{ . }})">
     {{ else }}
     <header class="global-header" style="background-image:url({{ "//assets.d6i.dev/blog/background.webp" | absURL }})">
       {{ end }}
