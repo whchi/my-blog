@@ -68,7 +68,7 @@
   {{ if isset .Params "preview_image" }}
   <header class="global-header" style="background-image:url({{ .Params.preview_image }})">
     {{ else }}
-    <header class="global-header" style="background-image:url({{ "images/background.webp" | absURL }})">
+    <header class="global-header" style="background-image:url({{ "//assets.d6i.dev/blog/background.webp" | absURL }})">
       {{ end }}
       <section class="header-text">
         <div class="header-desc">

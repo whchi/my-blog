@@ -86,7 +86,7 @@ APP_URL=http://local-project.dev
 ```
 ### 成果
 都設定成功的話直接下 `php artisan dusk` 應該會看到畫面如下
-![](/images/laravel-dusk-testing.webp)
+![](https://assets.d6i.dev/blog/laravel-dusk-testing.webp)
 
 ## Reference
 * [laravel-dusk official doc](https://laravel.com/docs/5.6/dusk#using-other-browsers)

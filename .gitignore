@@ -4,3 +4,6 @@
 .vercel
 public
 .hugo_build.lock
+.wrangler
+.agents
+node_modules

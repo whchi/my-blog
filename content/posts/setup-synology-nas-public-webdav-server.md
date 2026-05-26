@@ -19,7 +19,7 @@ toc: false
 
 # Cloudfare Tunnel 設定
 這裡 tunnel 都已經設定好了，只有 ip 位置需要注意必須要指向你的 NAS 內部 IP。
-{{< figure src="https://i.imgur.com/lDjKFtO.png" title="cloudflare tunnel 設定" caption="cloudflare tunnel 設定" >}}
+{{< figure src="https://assets.d6i.dev/blog/lDjKFtO.png" title="cloudflare tunnel 設定" caption="cloudflare tunnel 設定" >}}
 記得要複製你的 tunnel token，以下是一個 docker-compose 的範例
 ```yaml
 services:
@@ -34,32 +34,32 @@ services:
 # Synology NAS 設定
 ## WebDAV 伺服器設定
 
-{{< figure src="https://i.imgur.com/X1ZPwgy.png"
+{{< figure src="https://assets.d6i.dev/blog/X1ZPwgy.png"
            title="安裝 WebDAV Server"
            caption="點開 package center，搜尋 WebDAV Sever 並安裝" >}}
-{{< figure src="https://i.imgur.com/dTAgaYn.png"
+{{< figure src="https://assets.d6i.dev/blog/dTAgaYn.png"
            title="WebDAV Server 設定"
            caption="啟用 http 即可" >}}
 
 ## Container Manager 設定
 
-{{< figure src="https://i.imgur.com/lhBfsGX.png"
+{{< figure src="https://assets.d6i.dev/blog/lhBfsGX.png"
            title="安裝 Container manager"
            caption="點開 package center，搜尋 Container Manager 並安裝" >}}
 接著打開 Container Manager，到 registry 上 cloudflared image
-{{< figure src="https://i.imgur.com/BPHDrEJ.png"
+{{< figure src="https://assets.d6i.dev/blog/BPHDrEJ.png"
            title="下載 cloudflared image"
            caption="cloudflare/cloudflared 安裝" >}}
 裝好之後到 File Station 的 docker 資料夾底下建立一個給 cloudflared image 用的資料夾，這裡我建立 `cloudflare-tunnel`
-{{< figure src="https://i.imgur.com/rZfrVjR.png"
+{{< figure src="https://assets.d6i.dev/blog/rZfrVjR.png"
            title="建立 cloudflare-tunnel 資料夾"
            caption="建立 cloudflare-tunnel 資料夾" >}}
 然後回到 Container Manager，從 Project 頁面新增一個新的專案，選取剛剛建立的資料夾撰寫 docker-compose.yml
-{{< figure src="https://i.imgur.com/sbH9jgN.png"
+{{< figure src="https://assets.d6i.dev/blog/sbH9jgN.png"
               title="新增專案"
               caption="新增專案與 docker-compose.yml" >}}
 
 設定完成後啟用它，然後你就可以獲得一個對外的 NAS 服務了。
-{{< figure src="https://i.imgur.com/y4gMI5u.png"
+{{< figure src="https://assets.d6i.dev/blog/y4gMI5u.png"
                 title="啟用專案"
                 caption="啟用專案" >}}

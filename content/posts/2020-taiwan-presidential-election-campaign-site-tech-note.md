@@ -5,9 +5,9 @@ draft: false
 author: 'whchi'
 tags: ['medium']
 summary: 'medium 搬過來的'
-preview_figure: '/images/preview/taiwan-election-map.webp'
+preview_figure: 'https://assets.d6i.dev/blog/preview/taiwan-election-map.webp'
 preview_figcaption: '美美的台灣地圖'
-preview_image: '/images/preview/taiwan-election-map.webp'
+preview_image: 'https://assets.d6i.dev/blog/preview/taiwan-election-map.webp'
 ---
 > #### **Originally published at https://medium.com/cw-it-group on Jan 15, 2020. [原文網址](https://medium.com/cw-itgroup/%E5%A4%A9%E4%B8%8B%E9%9B%9C%E8%AA%8C2020%E7%B8%BD%E7%B5%B1%E5%A4%A7%E9%81%B8%E5%B0%88%E9%A1%8C-%E6%8A%80%E8%A1%93%E7%B4%80%E9%8C%84-84d2482d713d)**
 
@@ -55,7 +55,7 @@ preview_image: '/images/preview/taiwan-election-map.webp'
 
 ### 系統架構
 {{< figure
-    src="/images/2020tw-election-infra.webp"
+    src="https://assets.d6i.dev/blog/2020tw-election-infra.webp"
     title="系統架構"
     caption="Cloud CDN 獨立於 GKE 之外">}}
 
@@ -106,7 +106,7 @@ preview_image: '/images/preview/taiwan-election-map.webp'
 
 平行化後原本要產 **3 小時**的圖縮減到只要 **25 分鐘**真的很有成就感。
 {{< figure
-    src="/images/2020tw-election-robot.webp"
+    src="https://assets.d6i.dev/blog/2020tw-election-robot.webp"
     title="機器人分析"
     caption="分享畫面示意圖，圖片總數為 33320 張">}}
 
@@ -122,7 +122,7 @@ preview_image: '/images/preview/taiwan-election-map.webp'
 
 黃色按鈕可以下載縣市/鄉鎮/村里等級的全台地圖，藍色按鈕則是先選擇要下載的區域後，依你點選的區域決定要往下幾個層級抓（比如點擊區域+lv1 ，會抓選擇區域到達鄉鎮層級的 svg），越底層功能越單一。
 {{< figure
-    src="/images/2020tw-election-easter-egg.webp"
+    src="https://assets.d6i.dev/blog/2020tw-election-easter-egg.webp"
     title="easter egg"
     caption="先開聲音後輸入 konami 的祕技你就可以得到它">}}
 
