@@ -1,0 +1,12 @@
+---
+const { id } = Astro.props;
+---
+
+<lite-youtube videoid={id}>
+  <iframe
+    src={`https://www.youtube.com/embed/${id}`}
+    title="YouTube video player"
+    loading="lazy"
+    allowfullscreen
+  />
+</lite-youtube>

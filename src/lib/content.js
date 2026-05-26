@@ -25,12 +25,14 @@ export async function getAllTags() {
     }
   }
 
-  return [...bySlug.values()].sort((a, b) => a.label.localeCompare(b.label, "zh-TW"));
+  return [...bySlug.values()].sort((a, b) =>
+    a.label.localeCompare(b.label, "zh-TW"),
+  );
 }
 
 export async function getPageById(id) {
   const pages = await getCollection("pages");
-  return pages.find((page) => page.id === `${id}.md` || page.id === id);
+  return pages.find((page) => page.id === `${id}.mdx` || page.id === id);
 }
 
 export async function getTagWithPosts(labelOrSlug) {

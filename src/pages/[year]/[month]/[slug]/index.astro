@@ -1,6 +1,12 @@
 ---
 import { render } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Figure from "../../../../components/shortcodes/Figure.astro";
+import Gist from "../../../../components/shortcodes/Gist.astro";
+import Gppt from "../../../../components/shortcodes/Gppt.astro";
+import Mermaid from "../../../../components/shortcodes/Mermaid.astro";
+import TableWrapper from "../../../../components/shortcodes/TableWrapper.astro";
+import YouTube from "../../../../components/shortcodes/YouTube.astro";
 import { getAllPosts } from "../../../../lib/content.js";
 import {
   formatDate,
@@ -24,9 +30,18 @@ const posts = await getAllPosts();
 const currentIndex = posts.findIndex((entry) => entry.id === post.id);
 const newer = posts[currentIndex - 1];
 const older = posts[currentIndex + 1];
+
+const components = {
+  Figure,
+  Gist,
+  Gppt,
+  Mermaid,
+  TableWrapper,
+  YouTube,
+};
 ---
 
-<BaseLayout title={post.data.title} description={getSummary(post)} canonical={getPostPermalink(post)}>
+<BaseLayout title={post.data.title} description={getSummary(post)} canonical={getPostPermalink(post)} image={post.data.preview_image || post.data.preview_figure}>
   <article class="article-shell">
     <header class="article-header">
       <p class="eyebrow">Article</p>
@@ -36,6 +51,13 @@ const older = posts[currentIndex + 1];
         {normalizeTags(post.data.tags).map((tag) => <a href={`/tags/${tag.slug}/`}>#{tag.label}</a>)}
       </div>
     </header>
+
+    {post.data.preview_figure && (
+      <figure class="post-hero-figure">
+        <img src={post.data.preview_figure} alt={post.data.preview_figcaption ?? ""} loading="eager" decoding="async" />
+        {post.data.preview_figcaption && <figcaption>{post.data.preview_figcaption}</figcaption>}
+      </figure>
+    )}
 
     {post.data.toc && headings.length > 1 && (
       <aside class="toc" aria-label="文章目錄">
@@ -47,7 +69,7 @@ const older = posts[currentIndex + 1];
     )}
 
     <div class="prose">
-      <Content />
+      <Content components={components} />
     </div>
 
     <nav class="article-nav" aria-label="前後文章">

@@ -91,9 +91,7 @@ a:hover {
   top: 0;
   z-index: 10;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg), transparent 6%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--bg);
 }
 
 .brand {
@@ -470,11 +468,11 @@ h1 {
   color: var(--muted);
 }
 
-.prose img {
+.prose :is(p, figure) > img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 1px 3px color-mix(in srgb, var(--text), transparent 90%);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--text), transparent 92%);
 }
 
 .prose pre {
@@ -855,6 +853,27 @@ h1 {
 
 .article-header .post-meta {
   margin: 0;
+}
+
+.post-hero-figure {
+  margin: 0 0 2.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.post-hero-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.post-hero-figure figcaption {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--muted);
+  background: var(--surface-muted);
 }
 
 @media (max-width: 700px) {

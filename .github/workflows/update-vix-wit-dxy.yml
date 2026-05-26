@@ -6,11 +6,11 @@ permissions:
 
 on:
   schedule:
-    - cron: '30 21 * * *'    # 台灣時間 21:30
-      timezone: 'Asia/Taipei'
-    - cron: '30 3 * * *'    # 台灣時間 03:30（隔天）
-      timezone: 'Asia/Taipei'
-  workflow_dispatch:         # 允許手動執行測試
+    - cron: "30 21 * * *" # 台灣時間 21:30
+      timezone: "Asia/Taipei"
+    - cron: "30 3 * * *" # 台灣時間 03:30（隔天）
+      timezone: "Asia/Taipei"
+  workflow_dispatch: # 允許手動執行測試
 
 jobs:
   update:
@@ -23,7 +23,7 @@ jobs:
       - name: 設定 Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: 安裝依賴套件
         run: pip install yfinance
