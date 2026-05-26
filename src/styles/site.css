@@ -372,6 +372,28 @@ h1 {
   max-width: 52ch;
 }
 
+.post-thumb {
+  flex-shrink: 0;
+  width: 7.5rem;
+  height: 5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.post-thumb:hover {
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+
+.post-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .pager,
 .article-nav {
   display: grid;
@@ -866,6 +888,13 @@ h1 {
 
   .post-item::before {
     display: none;
+  }
+
+  .post-thumb {
+    width: 100%;
+    height: 8rem;
+    order: -1;
+    margin-bottom: 0.25rem;
   }
 
   .archive-list li {

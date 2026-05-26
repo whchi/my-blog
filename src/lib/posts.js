@@ -71,3 +71,9 @@ export function formatDateParts(value, locale = "zh-TW") {
 export function getSummary(entry, fallback = "") {
   return entry?.data?.summary || entry?.data?.description || fallback;
 }
+
+export function getPostPreviewImage(entry) {
+  const data = entry?.data ?? {};
+  const img = data.preview_image || data.preview_figure || "";
+  return typeof img === "string" && img.trim().length > 0 ? img.trim() : null;
+}

@@ -129,4 +129,3 @@ preview_image: 'https://assets.d6i.dev/blog/preview/taiwan-election-map.webp'
 關閉彩蛋也很簡單，輸入 gg 即可，沒反應就多按幾次～
 
 技術方面的紀錄就寫到這，感謝各位。
-
