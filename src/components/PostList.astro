@@ -1,5 +1,5 @@
 ---
-import { formatDateParts, getPostPermalink, getSummary, normalizeTags } from "../lib/posts.js";
+import { formatDateParts, getPostPermalink, getPostPreviewImage, getSummary, normalizeTags } from "../lib/posts.js";
 
 const { posts } = Astro.props;
 ---
@@ -8,6 +8,7 @@ const { posts } = Astro.props;
   {
     posts.map((post) => {
       const date = formatDateParts(post.data.date);
+      const previewImage = getPostPreviewImage(post);
       return (
         <li class="post-item">
           <div class="post-date-badge" aria-label="發佈日期">
@@ -25,6 +26,11 @@ const { posts } = Astro.props;
             </div>
             {getSummary(post) && <p>{getSummary(post)}</p>}
           </div>
+          {previewImage && (
+            <a class="post-thumb" href={getPostPermalink(post)} aria-hidden="true" tabindex="-1">
+              <img src={previewImage} alt="" loading="lazy" />
+            </a>
+          )}
         </li>
       );
     })

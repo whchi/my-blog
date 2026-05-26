@@ -30,19 +30,19 @@ const markdownSchema = z
   .passthrough();
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./.astro/content/posts" }),
+  loader: glob({ pattern: "**/*.md", base: "./content/posts" }),
   schema: markdownSchema.extend({
     date: z.coerce.date(),
   }),
 });
 
 const tools = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./.astro/content/tools" }),
+  loader: glob({ pattern: "**/*.md", base: "./content/tools" }),
   schema: markdownSchema,
 });
 
 const pages = defineCollection({
-  loader: glob({ pattern: "*.md", base: "./.astro/content" }),
+  loader: glob({ pattern: "*.md", base: "./content" }),
   schema: markdownSchema,
 });
 

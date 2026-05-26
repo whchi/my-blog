@@ -21,8 +21,11 @@ export default defineConfig({
         enforce: "pre",
         transform(code, id) {
           if (!id.includes("/content/") || !id.endsWith(".md")) return null;
+          const transformed = transformHugoShortcodes(code);
+          // Skip if no change to avoid unnecessary re-processing
+          if (transformed === code) return null;
           return {
-            code: transformHugoShortcodes(code),
+            code: transformed,
             map: null,
           };
         },
