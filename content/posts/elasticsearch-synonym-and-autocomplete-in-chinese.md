@@ -5,7 +5,7 @@ draft: false
 author: 'whchi'
 tags: ['elasticsearch', 'medium']
 summary: 'medium 搬過來的'
-preview_figure: '/images/preview/synonym-demo.webp'
+preview_figure: 'https://assets.d6i.dev/blog/preview/synonym-demo.webp'
 preview_figcaption: '康健知識庫自動完成示意圖，Elasticsearch 版本 7.6.2'
 ---
 > #### **Originally published at https://medium.com/@whccchi on May 2, 2020. [原文網址](https://medium.com/cw-itgroup/elasticsearch-%E4%B8%AD%E6%96%87%E5%90%8C%E7%BE%A9%E8%A9%9E%E8%88%87%E8%87%AA%E5%8B%95%E5%AE%8C%E6%88%90-693410e68b0a?source=collection_home---4------0-----------------------)**
@@ -14,7 +14,7 @@ preview_figcaption: '康健知識庫自動完成示意圖，Elasticsearch 版本
 
 ## 專有名詞
 {{< figure
-    src="/images/elasticsearch-terms.webp"
+    src="https://assets.d6i.dev/blog/elasticsearch-terms.webp"
     title="elasticsearch terms"
     caption="右側是 RDBMS 的名詞，用類比的方式比較有帶入感">}}
 其中有幾個概念跟這篇文章比較有關
@@ -35,7 +35,7 @@ preview_figcaption: '康健知識庫自動完成示意圖，Elasticsearch 版本
 
 ## index概念簡介
 {{< figure
-    src="/images/elasticsearch-index-intro.webp"
+    src="https://assets.d6i.dev/blog/elasticsearch-index-intro.webp"
     title="elasticsearch index intro"
     caption="Inverted Index 也是經過 Analyzer 之後才走">}}
 doc 透過 analyzer 處理後儲存成類似圖中的表，搜尋時用 [Inverted index](https://en.wikipedia.org/wiki/Inverted_index) 的方法找出其於表中出現的次數，再去推出要找的doc，如圖中輸入”somethin funny” 查找後發現 “something”跟”funny”都有出現在 doc1 中，因此回傳 doc1 作為搜尋結果。
@@ -43,7 +43,7 @@ doc 透過 analyzer 處理後儲存成類似圖中的表，搜尋時用 [Inverte
 ## analyzer概念簡介
 analyzer 由三個部分組成由處理順序左到右如圖，只有 **text field** 才支援 analyzer 設定。
 {{< figure
-    src="/images/elasticsearch-analyzer-intro.webp"
+    src="https://assets.d6i.dev/blog/elasticsearch-analyzer-intro.webp"
     title="elasticsearch analyzer intro"
     caption="Character Filter + Tokenizer + Token Filter = Analyzer">}}
 輸入字串透過 character filter 把字串的 html tag 去除後經過 whitespace tokenizer 去掉空白字元，最後經過 synonym filter 把同義字替換後再存到Inverted index 中準備提供查詢。

@@ -5,9 +5,9 @@ draft: false
 author: 'whchi'
 tags: ['stock', 'chives']
 summary: '對韭當割，等我賠光大概就有（2）了'
-preview_figure: '/images/preview/give-my-money-back.webp'
+preview_figure: 'https://assets.d6i.dev/blog/preview/give-my-money-back.webp'
 preview_figcaption: '投資理財有賺有賠 謹慎理財信用至上'
-preview_image: '/images/preview/give-my-money-back.webp'
+preview_image: 'https://assets.d6i.dev/blog/preview/give-my-money-back.webp'
 ---
 這篇是很粗淺的心得，畢竟才踏入半年左右
 

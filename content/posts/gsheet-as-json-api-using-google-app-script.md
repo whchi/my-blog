@@ -15,7 +15,7 @@ google 有個東西叫 [google app script](https://developers.google.com/apps-sc
 參考以下步驟
 1. 建立sheet
 2. 進入 script editor
-![](/images/script-editor.webp)
+![](https://assets.d6i.dev/blog/script-editor.webp)
 3. write code\
 只需要你的 sheet id 即可\
 https://docs.google.com/spreadsheets/d/{your-sheet-id}/edit#gid=0
@@ -50,7 +50,7 @@ function doPost(e){
 // 其實就是 javascript
 ```
 script editor 有提供中斷點進行 debug 如圖
-![](/images/script-editor-debugger.webp)
+![](https://assets.d6i.dev/blog/script-editor-debugger.webp)
 4. publish\
 點擊上方的`publish::Deploy as web app`，存取權限選擇`Anyone,even anonymous`後發布\
 會取得一個 uri，這串就直接把 sheet 內的東西做為 json 取回拉～

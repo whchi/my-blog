@@ -39,7 +39,7 @@ TTL 隨意，可參考 [https://www.varonis.com/blog/dns-ttl/](https://www.varon
 
     於 repository 的 Settings::Pages 底下增加 domain 如圖（實際上他就是把你的根目錄增加 CNAME file）
     {{< figure
-    src="/images/setup-domain.webp"
+    src="https://assets.d6i.dev/blog/setup-domain.webp"
     title="於 github 介面 domain"
     caption="於 github 介面 domain">}}
 

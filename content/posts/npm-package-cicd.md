@@ -23,11 +23,11 @@ toc: false
 ## 1. 申請 bypass 2fa 的 token
 1. 登入 <https://npmjs.org>
 2. 進入 Access Tokens 頁面產出 token，記得勾選 Bypass 2FA
-![bypass 2FA](/images/npm-package-cicd-1.png)
+![bypass 2FA](https://assets.d6i.dev/blog/npm-package-cicd-1.png)
 3. 複製產生的 token 把它記起來
 ## 2. 設定 github secrets & release
 1. 進入您的 Repository -> Settings -> Secrets and variables -> Actions
-![action secret](/images/npm-package-cicd-2.png)
+![action secret](https://assets.d6i.dev/blog/npm-package-cicd-2.png)
 2. 把複製的 token 命名 `NPM_TOKEN` 並存入讓 github action 執行 publish 時可以取得
 3. 給予 Action 寫入權限
 
@@ -110,6 +110,6 @@ jobs:
 2. 透過 `npm version patch|minor|major` 自動更新 tag 與版號
 3. push tag `git push origin main --tags`
 4. 在 github 上建立 release 執行發佈
-![release new version](/images/npm-package-cicd-3.png)
+![release new version](https://assets.d6i.dev/blog/npm-package-cicd-3.png)
 這樣就能做到同時用 tag 管理版本與自動發佈到 npm package 的流程了
-![deploy to npm package](/images/npm-package-cicd-4.png)
+![deploy to npm package](https://assets.d6i.dev/blog/npm-package-cicd-4.png)

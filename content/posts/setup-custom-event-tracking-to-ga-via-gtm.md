@@ -16,17 +16,17 @@ preview_figcaption: ''
 有許多不同種類的 trigger 可以設定，這裡列舉 click 事件的 `url` 和 `element` 的 trigger 作為範例
 
 {{< figure
-src="/images/setup-gtm-trigger-type.webp"
+src="https://assets.d6i.dev/blog/setup-gtm-trigger-type.webp"
 caption="以 link 為主，且 path 為 tags/.+">}}
 
 {{< figure
-src="/images/setup-gtm-trigger-type-1.webp"
+src="https://assets.d6i.dev/blog/setup-gtm-trigger-type-1.webp"
 caption="以 element 為主，id 等於 switch_theme">}}
 
 此外還有 page view、user engagement 以及其他還無法歸納的類型可以使用，可依照自己的需求決定要埋設的類型 trigger
 # 設置 tag 並綁定 trigger
 {{< figure
-    src="/images/setup-gtm-tag.webp"
+    src="https://assets.d6i.dev/blog/setup-gtm-tag.webp"
     caption="新增 tag 綁定 trigger">}}
 1. tag type 選擇 **GA4 Event**
 2. Configuration Tag 選擇 **Google Analytics GA4 Configuration**
@@ -37,7 +37,7 @@ caption="以 element 為主，id 等於 switch_theme">}}
 # 檢驗結果
 前往 GA console，過一段時間在 **Engagement::Events** 畫面就能看到自訂義事件的結果摟
 {{< figure
-    src="/images/setup-gtm-event-result-review.webp"
+    src="https://assets.d6i.dev/blog/setup-gtm-event-result-review.webp"
     caption="額外設定的 switch_theme 事件呈現在 console 上">}}
 ## 補充
 regex 不熟悉的話可以到 [https://regex101.com/](https://regex101.com/) 或是 [https://ihateregex.io/](https://ihateregex.io/) 先找到 pattern，再貼回來
