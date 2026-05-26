@@ -1,0 +1,51 @@
+<section class="tool-widget calculator" data-interest-tool>
+  <div class="tool-grid">
+    <label>本金<input class="tool-input" data-principal type="number" value="100000" /></label>
+    <label>年化報酬率<input class="tool-input" data-rate type="number" value="7" step="0.1" /></label>
+    <label>年數<input class="tool-input" data-years type="number" value="20" /></label>
+    <label>每月投入<input class="tool-input" data-monthly type="number" value="10000" /></label>
+  </div>
+  <output class="tool-output" data-output></output>
+  <canvas data-chart height="120"></canvas>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // @ts-nocheck
+  const root = document.querySelector("[data-interest-tool]");
+  const output = root?.querySelector("[data-output]");
+  const chartCanvas = root?.querySelector("[data-chart]");
+  let chart;
+
+  function currency(value) {
+    return new Intl.NumberFormat("zh-TW", { style: "currency", currency: "TWD", maximumFractionDigits: 0 }).format(value);
+  }
+
+  function calculate() {
+    const principal = Number(root.querySelector("[data-principal]").value);
+    const rate = Number(root.querySelector("[data-rate]").value) / 100 / 12;
+    const years = Number(root.querySelector("[data-years]").value);
+    const monthly = Number(root.querySelector("[data-monthly]").value);
+    const points = [];
+    let value = principal;
+
+    for (let month = 1; month <= years * 12; month += 1) {
+      value = value * (1 + rate) + monthly;
+      if (month % 12 === 0) points.push(Math.round(value));
+    }
+
+    output.textContent = `期末資產 ${currency(value)}`;
+    chart?.destroy();
+    chart = new Chart(chartCanvas, {
+      type: "line",
+      data: {
+        labels: points.map((_, index) => `Y${index + 1}`),
+        datasets: [{ label: "資產", data: points, borderColor: "#2563eb", tension: 0.25 }],
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } },
+    });
+  }
+
+  root?.querySelectorAll("input").forEach((input) => input.addEventListener("input", calculate));
+  calculate();
+</script>
