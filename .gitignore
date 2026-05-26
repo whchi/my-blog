@@ -3,7 +3,12 @@
 .DS_Store
 .vercel
 public
+dist
 .hugo_build.lock
 .wrangler
 .agents
+.astro
 node_modules
+.codex
+skills-lock.json
+.opencode

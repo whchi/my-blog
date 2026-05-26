@@ -1,0 +1,80 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Figure from "../../../../components/shortcodes/Figure.astro";
+import Gist from "../../../../components/shortcodes/Gist.astro";
+import Gppt from "../../../../components/shortcodes/Gppt.astro";
+import Mermaid from "../../../../components/shortcodes/Mermaid.astro";
+import TableWrapper from "../../../../components/shortcodes/TableWrapper.astro";
+import YouTube from "../../../../components/shortcodes/YouTube.astro";
+import { getAllPosts } from "../../../../lib/content.js";
+import {
+  formatDate,
+  getPostPermalink,
+  getSummary,
+  normalizeTags,
+} from "../../../../lib/posts.js";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post) => {
+    const permalink = getPostPermalink(post);
+    const [, year, month, slug] = permalink.split("/");
+    return { params: { year, month, slug }, props: { post } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const posts = await getAllPosts();
+const currentIndex = posts.findIndex((entry) => entry.id === post.id);
+const newer = posts[currentIndex - 1];
+const older = posts[currentIndex + 1];
+
+const components = {
+  Figure,
+  Gist,
+  Gppt,
+  Mermaid,
+  TableWrapper,
+  YouTube,
+};
+---
+
+<BaseLayout title={post.data.title} description={getSummary(post)} canonical={getPostPermalink(post)} image={post.data.preview_image || post.data.preview_figure}>
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">Article</p>
+      <h1>{post.data.title}</h1>
+      <div class="post-meta">
+        <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+        {normalizeTags(post.data.tags).map((tag) => <a href={`/tags/${tag.slug}/`}>#{tag.label}</a>)}
+      </div>
+    </header>
+
+    {post.data.preview_figure && (
+      <figure class="post-hero-figure">
+        <img src={post.data.preview_figure} alt={post.data.preview_figcaption ?? ""} loading="eager" decoding="async" />
+        {post.data.preview_figcaption && <figcaption>{post.data.preview_figcaption}</figcaption>}
+      </figure>
+    )}
+
+    {post.data.toc && headings.length > 1 && (
+      <aside class="toc" aria-label="文章目錄">
+        <div class="toc-title">目錄</div>
+        {headings.filter((heading) => heading.depth <= 3).map((heading) => (
+          <a style={`--depth:${heading.depth}`} href={`#${heading.slug}`}>{heading.text}</a>
+        ))}
+      </aside>
+    )}
+
+    <div class="prose">
+      <Content components={components} />
+    </div>
+
+    <nav class="article-nav" aria-label="前後文章">
+      {newer ? <a href={getPostPermalink(newer)}>← {newer.data.title}</a> : <span />}
+      {older ? <a href={getPostPermalink(older)}>{older.data.title} →</a> : <span />}
+    </nav>
+  </article>
+</BaseLayout>

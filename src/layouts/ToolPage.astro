@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from "astro:content";
+import AsciiSearch from "../components/tools/AsciiSearch.astro";
+import InterestCalculator from "../components/tools/InterestCalculator.astro";
+import MarketSimulator from "../components/tools/MarketSimulator.astro";
+import Figure from "../components/shortcodes/Figure.astro";
+import Gist from "../components/shortcodes/Gist.astro";
+import Gppt from "../components/shortcodes/Gppt.astro";
+import Mermaid from "../components/shortcodes/Mermaid.astro";
+import TableWrapper from "../components/shortcodes/TableWrapper.astro";
+import YouTube from "../components/shortcodes/YouTube.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+const { slug } = Astro.props;
+const tools = await getCollection("tools");
+const tool = tools.find((entry) => entry.id === slug || entry.id === `${slug}.md` || entry.id === `${slug}.mdx`);
+if (!tool) throw new Error(`content/tools/${slug}.mdx is missing`);
+
+const { Content } = await render(tool);
+const toolComponents = {
+  "search-html-ascii": AsciiSearch,
+  "interest-calculator": InterestCalculator,
+  "vix-wit-dxy": MarketSimulator,
+};
+const ToolComponent = toolComponents[slug];
+
+const components = {
+  Figure,
+  Gist,
+  Gppt,
+  Mermaid,
+  TableWrapper,
+  YouTube,
+};
+---
+
+<BaseLayout title={tool.data.title} canonical={`/tools/${slug}.html`}>
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">Tool</p>
+      <h1>{tool.data.title}</h1>
+    </header>
+    <div class="prose">
+      <Content components={components} />
+    </div>
+    {ToolComponent && <ToolComponent defaults={tool.data.market_defaults} />}
+  </article>
+</BaseLayout>

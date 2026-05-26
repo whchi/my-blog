@@ -1,0 +1,675 @@
+---
+const { defaults = {} } = Astro.props;
+const vix = defaults.vix ?? -0.7;
+const wti = defaults.wti ?? -3.5;
+const dxy = defaults.dxy ?? -0.1;
+const updatedAt = defaults.updated_at ?? "手動預設";
+---
+
+<section
+  class="tool-widget market"
+  data-market-tool
+  data-default-vix={vix}
+  data-default-wti={wti}
+  data-default-dxy={dxy}
+>
+  <div class="market-head">
+    <strong>宏觀市場情境模擬器</strong>
+    <span>VIX / WTI / DXY</span>
+  </div>
+
+  <div class="market-body">
+    <div class="market-controls">
+      <div class="preset-group">
+        <div class="preset-group-title">快速情境</div>
+        <button type="button" class="preset-btn preset-active" id="resetDefaultsBtn" aria-label="恢復預設市場數值">恢復預設值</button>
+        <button type="button" class="preset-btn" data-vix="16" data-wti="-3.5" data-dxy="0.6" aria-label="套用流動性危機情境">流動性危機</button>
+        <button type="button" class="preset-btn" data-vix="16" data-wti="4.5" data-dxy="0.6" aria-label="套用停滯性通膨情境">停滯性通膨</button>
+        <button type="button" class="preset-btn" data-vix="16" data-wti="-3.5" data-dxy="-0.6" aria-label="套用美國本土危機情境">美國本土危機</button>
+        <button type="button" class="preset-btn" data-vix="-11" data-wti="2.5" data-dxy="-0.6" aria-label="套用金髮女孩經濟情境">金髮女孩經濟</button>
+        <button type="button" class="preset-btn" data-vix="-11" data-wti="-3.5" data-dxy="0" aria-label="套用軟著陸情境">軟著陸</button>
+        <button type="button" class="preset-btn" data-vix="2" data-wti="4.5" data-dxy="0" aria-label="套用地緣政治干擾情境">地緣政治干擾</button>
+      </div>
+
+      <div class="control-group">
+        <div class="control-header">
+          <label for="vixSlider">VIX 波動率指數漲跌幅</label>
+          <span class="value-display" id="vixVal" aria-live="polite" aria-atomic="true">-0.7%</span>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="vixSlider" min="-20" max="30" step="0.5" value={vix} aria-label="VIX 波動率指數漲跌幅" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="control-header">
+          <label for="wtiSlider">WTI 原油期貨漲跌幅</label>
+          <span class="value-display" id="wtiVal" aria-live="polite" aria-atomic="true">-3.5%</span>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="wtiSlider" min="-10" max="10" step="0.1" value={wti} aria-label="WTI 原油期貨漲跌幅" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="control-header">
+          <label for="dxySlider">DXY 美元指數漲跌幅</label>
+          <span class="value-display" id="dxyVal" aria-live="polite" aria-atomic="true">-0.1%</span>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="dxySlider" min="-2" max="2" step="0.1" value={dxy} aria-label="DXY 美元指數漲跌幅" />
+        </div>
+      </div>
+    </div>
+
+    <div class="market-result">
+      <div class="overview-card">
+        <div class="overview-title">情境判讀</div>
+        <div class="overview-value">即時監控風險偏好</div>
+        <div class="overview-sub">此工具以三個宏觀變數推估市場可能情境，不構成投資建議。</div>
+        <div class="meta-row">
+          <span class="meta-label">資料更新時間</span>
+          <span class="meta-value">{updatedAt}</span>
+        </div>
+      </div>
+
+      <div class="dashboard status-level2" id="resultBoard" aria-live="polite" aria-atomic="true" role="region" aria-label="市場情境判讀結果">
+        <canvas id="gaugeCanvas" width="120" height="120" role="img" aria-label="風險等級儀表板"></canvas>
+        <div class="tag" id="resultTag">DASH FOR CASH</div>
+        <div class="message" id="resultMsg">嚴重系統性風險。股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。</div>
+      </div>
+
+      <div class="footer-text">拖曳滑桿或點擊上方預設按鈕，可快速切換不同市場劇本</div>
+    </div>
+  </div>
+
+  <div class="market-chart-section">
+    <div class="chart-container">
+      <canvas id="xyChart" role="img" aria-label="VIX 與 WTI 關聯散佈圖"></canvas>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // @ts-nocheck
+  const root = document.querySelector("[data-market-tool]");
+  const defaultPreset = {
+    vix: parseFloat(root.dataset.defaultVix),
+    wti: parseFloat(root.dataset.defaultWti),
+    dxy: parseFloat(root.dataset.defaultDxy),
+  };
+
+  const vixSlider = document.getElementById('vixSlider');
+  const wtiSlider = document.getElementById('wtiSlider');
+  const dxySlider = document.getElementById('dxySlider');
+
+  const vixVal = document.getElementById('vixVal');
+  const wtiVal = document.getElementById('wtiVal');
+  const dxyVal = document.getElementById('dxyVal');
+
+  const resultBoard = document.getElementById('resultBoard');
+  const resultTag = document.getElementById('resultTag');
+  const resultMsg = document.getElementById('resultMsg');
+  const presetButtons = document.querySelectorAll('.preset-btn');
+  const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+
+  const canvas = document.getElementById('gaugeCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function formatPct(val) {
+    const num = parseFloat(val);
+    return (num > 0 ? "+" : "") + num.toFixed(1) + "%";
+  }
+
+  function drawGauge(level) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 50;
+
+    const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--line').trim() || '#e4e4e7';
+    const textTertiary = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#a1a1aa';
+    const danger = getComputedStyle(document.documentElement).getPropertyValue('--danger') || '#ef4444';
+    const warning = getComputedStyle(document.documentElement).getPropertyValue('--warning') || '#f59e0b';
+    const success = getComputedStyle(document.documentElement).getPropertyValue('--success') || '#10b981';
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = borderColor;
+    ctx.stroke();
+
+    let color = textTertiary;
+    let endAngle = 0;
+    let text = 'NORM';
+
+    if (level === 2) { color = danger; endAngle = 1.8 * Math.PI; text = 'LV 2'; }
+    else if (level === 1) { color = warning; endAngle = Math.PI; text = 'LV 1'; }
+    else if (level === -1) { color = success; endAngle = 2 * Math.PI; text = 'SAFE'; }
+    else { color = textTertiary; endAngle = 0.1 * Math.PI; text = 'NORM'; }
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, -0.5 * Math.PI, endAngle - 0.5 * Math.PI);
+    ctx.lineWidth = 10;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = color;
+    ctx.stroke();
+
+    ctx.font = 'bold 22px var(--font-sans), sans-serif';
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, centerX, centerY);
+  }
+
+  let xyChartInstance = null;
+
+  function drawXYChart(vix, wti, uiClass) {
+    const ctxChart = document.getElementById('xyChart').getContext('2d');
+
+    const textSecondary = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#71717a';
+    const danger = getComputedStyle(document.documentElement).getPropertyValue('--danger') || '#ef4444';
+    const warning = getComputedStyle(document.documentElement).getPropertyValue('--warning') || '#f59e0b';
+    const success = getComputedStyle(document.documentElement).getPropertyValue('--success') || '#10b981';
+
+    let pointColor = textSecondary;
+    if (uiClass.includes('level2')) pointColor = danger;
+    else if (uiClass.includes('level1')) pointColor = warning;
+    else if (uiClass.includes('good')) pointColor = success;
+
+    const fontFamily = getComputedStyle(document.documentElement).getPropertyValue('--font-sans').trim().replace(/"/g, "'") || "'Inter', sans-serif";
+
+    if (xyChartInstance) {
+      xyChartInstance.data.datasets[0].data = [{x: vix, y: wti}];
+      xyChartInstance.data.datasets[0].backgroundColor = pointColor;
+      xyChartInstance.update();
+      return;
+    }
+
+    xyChartInstance = new Chart(ctxChart, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: '目前情境',
+          data: [{x: vix, y: wti}],
+          backgroundColor: pointColor,
+          pointRadius: 10,
+          pointHoverRadius: 12,
+          pointBorderWidth: 2,
+          pointBorderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(24, 24, 27, 0.95)',
+            titleFont: { size: 13, family: fontFamily },
+            bodyFont: { size: 12, family: fontFamily },
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: (context) => `VIX: ${context.parsed.x}%, WTI: ${context.parsed.y}%`
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'VIX 波動率 (%)',
+              font: { size: 12, family: fontFamily, weight: '500' },
+              color: textSecondary
+            },
+            min: -20, max: 30,
+            grid: {
+              color: (context) => context.tick.value === 0 ? '#d4d4d8' : '#f4f4f5',
+              lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+            },
+            ticks: {
+              font: { size: 11, family: fontFamily },
+              color: textSecondary
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'WTI 原油 (%)',
+              font: { size: 12, family: fontFamily, weight: '500' },
+              color: textSecondary
+            },
+            min: -10, max: 10,
+            grid: {
+              color: (context) => context.tick.value === 0 ? '#d4d4d8' : '#f4f4f5',
+              lineWidth: (context) => context.tick.value === 0 ? 2 : 1
+            },
+            ticks: {
+              font: { size: 11, family: fontFamily },
+              color: textSecondary
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function setPreset(vix, wti, dxy) {
+    vixSlider.value = vix;
+    wtiSlider.value = wti;
+    dxySlider.value = dxy;
+    evaluateMarket();
+  }
+
+  function setActivePresetButton(activeButton) {
+    presetButtons.forEach(btn => {
+      btn.classList.remove('preset-active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    if (activeButton) {
+      activeButton.classList.add('preset-active');
+      activeButton.setAttribute('aria-pressed', 'true');
+    }
+  }
+
+  function evaluateMarket() {
+    const vix = parseFloat(vixSlider.value);
+    const wti = parseFloat(wtiSlider.value);
+    const dxy = parseFloat(dxySlider.value);
+
+    vixVal.innerText = formatPct(vix);
+    wtiVal.innerText = formatPct(wti);
+    dxyVal.innerText = formatPct(dxy);
+
+    let res = { level: 0, tag: "STATUS: NORMAL", msg: "市場波動在正常範圍內，無明顯宏觀情境觸發。", uiClass: "status-normal", gaugeLevel: 0 };
+
+    if (vix > 15 && wti < -3.0 && dxy > 0.5) {
+      res = { level: 2, tag: "DASH FOR CASH (流動性危機)", msg: "嚴重系統性風險。股油雙殺且美元暴衝，考慮避險或暫緩加碼美股。", uiClass: "status-level2", gaugeLevel: 2 };
+    } else if (vix > 5 && wti < -1.5 && dxy > 0.2) {
+      res = { level: 1, tag: "DASH FOR CASH (觀察區)", msg: "初級流動性緊縮訊號，風險資產與能源同步遭到拋售，資金轉向美元。", uiClass: "status-level1", gaugeLevel: 1 };
+    }
+    else if (vix > 15 && wti > 4.0 && dxy > 0.5) {
+      res = { level: 2, tag: "STAGFLATION (停滯性通膨)", msg: "停滯性通膨危機。能源供給衝擊引發恐慌，資金轉向避險板塊，避開科技成長股。", uiClass: "status-level2", gaugeLevel: 2 };
+    } else if (vix > 5 && wti > 2.0 && dxy > 0.2) {
+      res = { level: 1, tag: "STAGFLATION (觀察區)", msg: "通膨壓力訊號，油價與美元同步轉強，市場擔憂高利率維持更久。", uiClass: "status-level1", gaugeLevel: 1 };
+    }
+    else if (vix > 15 && wti < -3.0 && dxy < -0.5) {
+      res = { level: 2, tag: "US-CENTRIC SHOCK (美國本土危機)", msg: "美系資產信任危機。VIX飆升且美元重挫，震央位於美國本土，美股將承受劇烈打擊。", uiClass: "status-level2", gaugeLevel: 2 };
+    } else if (vix > 5 && wti < -1.5 && dxy < -0.2) {
+      res = { level: 1, tag: "US-CENTRIC SHOCK (觀察區)", msg: "美國內部雜訊，市場恐慌但資金撤出美元。", uiClass: "status-level1", gaugeLevel: 1 };
+    }
+    else if (vix < -10 && wti > 2.0 && dxy < -0.5) {
+      res = { level: 2, tag: "GOLDILOCKS (金髮女孩經濟)", msg: "完美多頭。市場無懼風險，實質需求強勁，是有利於做多大盤與週期股的絕佳時機。", uiClass: "status-good", gaugeLevel: -1 };
+    } else if (vix < -5 && wti > 1.0 && dxy < -0.2) {
+      res = { level: 1, tag: "GOLDILOCKS (觀察區)", msg: "健康復甦訊號，弱美元推升能源需求，情緒樂觀。", uiClass: "status-good", gaugeLevel: -1 };
+    }
+    else if (vix < -10 && wti < -3.0 && dxy <= 0) {
+      res = { level: 2, tag: "SOFT LANDING (軟著陸)", msg: "軟著陸確認。油價重挫解除通膨警報，VIX探底，利好Tech巨頭與成長股加碼。", uiClass: "status-good", gaugeLevel: -1 };
+    } else if (vix < -5 && wti < -1.5 && dxy >= -0.2 && dxy <= 0.2) {
+      res = { level: 1, tag: "SOFT LANDING (觀察區)", msg: "通膨降溫訊號，油價下跌有利Fed鴿派預期。", uiClass: "status-good", gaugeLevel: -1 };
+    }
+    else if (vix >= -5 && vix <= 5 && Math.abs(wti) > 4.0 && dxy >= -0.2 && dxy <= 0.2) {
+      res = { level: 2, tag: "GEOPOLITICAL (地緣政治雜訊)", msg: "極端供給雜訊。WTI劇烈震盪但VIX與DXY毫無波瀾，不屬於系統性風險。", uiClass: "status-normal", gaugeLevel: 0 };
+    } else if (vix >= -5 && vix <= 5 && Math.abs(wti) > 2.0 && dxy >= -0.2 && dxy <= 0.2) {
+      res = { level: 1, tag: "GEOPOLITICAL (觀察區)", msg: "能源盤面事件，油價波動但未引發整體市場情緒變化。", uiClass: "status-level1", gaugeLevel: 1 };
+    }
+
+    resultTag.innerText = res.tag;
+    resultMsg.innerText = res.msg;
+    resultBoard.className = `dashboard ${res.uiClass}`;
+
+    drawGauge(res.gaugeLevel);
+    drawXYChart(vix, wti, res.uiClass);
+  }
+
+  vixSlider.addEventListener('input', evaluateMarket);
+  wtiSlider.addEventListener('input', evaluateMarket);
+  dxySlider.addEventListener('input', evaluateMarket);
+
+  presetButtons.forEach((button) => {
+    if (button === resetDefaultsBtn) return;
+    button.addEventListener('click', () => {
+      setActivePresetButton(button);
+      setPreset(button.dataset.vix, button.dataset.wti, button.dataset.dxy);
+    });
+  });
+
+  resetDefaultsBtn.addEventListener('click', () => {
+    setActivePresetButton(resetDefaultsBtn);
+    setPreset(defaultPreset.vix, defaultPreset.wti, defaultPreset.dxy);
+  });
+
+  evaluateMarket();
+</script>
+
+<style>
+  .market {
+    max-width: 100%;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .market-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: var(--surface-muted);
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .market-head strong {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-strong);
+  }
+
+  .market-head span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--surface);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+
+  .market-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .market-body {
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+    }
+  }
+
+  .preset-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .preset-group-title {
+    width: 100%;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+
+  .preset-btn {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: var(--font-sans);
+  }
+
+  .preset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+
+  .preset-btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .preset-btn.preset-active {
+    background: var(--accent-soft);
+    border-color: var(--accent-muted);
+    color: var(--accent-text);
+  }
+
+  .control-group {
+    margin-bottom: 1rem;
+  }
+
+  .control-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .control-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .control-header label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .value-display {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    padding: 0.15rem 0.5rem;
+    background: var(--surface-muted);
+    border-radius: 4px;
+  }
+
+  .slider-wrap {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0 0.75rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.2s ease;
+  }
+
+  .slider-wrap:hover {
+    border-color: var(--muted);
+  }
+
+  .slider-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  input[type=range] {
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid var(--surface);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    margin-top: -6px;
+    transition: transform 0.15s ease;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  input[type=range]::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid var(--surface);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .market-result {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .overview-card {
+    background: var(--surface-muted);
+    border-radius: 8px;
+    padding: 1.25rem;
+    border: 1px solid var(--line-subtle);
+  }
+
+  .overview-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+  }
+
+  .overview-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-strong);
+    margin-bottom: 0.35rem;
+  }
+
+  .overview-sub {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .meta-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .meta-value {
+    font-size: 0.8rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .dashboard {
+    background: var(--surface-muted);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid var(--line-subtle);
+    transition: all 0.3s ease;
+  }
+
+  .dashboard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .dashboard .tag {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+
+  .dashboard .message {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 320px;
+  }
+
+  .status-normal { border-top: 3px solid var(--muted); }
+  .status-level1 { border-top: 3px solid #f59e0b; background: linear-gradient(to bottom, #fffbeb, var(--surface-muted)); }
+  .status-level2 { border-top: 3px solid #ef4444; background: linear-gradient(to bottom, #fef2f2, var(--surface-muted)); }
+  .status-good { border-top: 3px solid #10b981; background: linear-gradient(to bottom, #ecfdf5, var(--surface-muted)); }
+
+  .status-level1 .tag { color: #b45309; }
+  .status-level2 .tag { color: #dc2626; }
+  .status-good .tag { color: #059669; }
+  .status-normal .tag { color: var(--muted); }
+
+  .footer-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  .market-chart-section {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .market-chart-section {
+      padding: 0 2rem 2rem;
+    }
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 320px;
+    background: var(--surface-muted);
+    border-radius: 8px;
+    border: 1px solid var(--line-subtle);
+    padding: 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dashboard, .overview-card {
+      animation: none;
+    }
+  }
+</style>

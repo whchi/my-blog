@@ -1,0 +1,38 @@
+---
+import { formatDateParts, getPostPermalink, getPostPreviewImage, getSummary, normalizeTags } from "../lib/posts.js";
+
+const { posts } = Astro.props;
+---
+
+<ol class="post-list">
+  {
+    posts.map((post) => {
+      const date = formatDateParts(post.data.date);
+      const previewImage = getPostPreviewImage(post);
+      return (
+        <li class="post-item">
+          <div class="post-date-badge" aria-label="發佈日期">
+            <span class="day">{date.day}</span>
+            <span class="month-year">{date.monthYear}</span>
+          </div>
+          <div class="post-body">
+            <a class="post-title-link" href={getPostPermalink(post)}>
+              {post.data.title}
+            </a>
+            <div class="post-meta">
+              {normalizeTags(post.data.tags).map((tag) => (
+                <a href={`/tags/${tag.slug}/`}>#{tag.label}</a>
+              ))}
+            </div>
+            {getSummary(post) && <p>{getSummary(post)}</p>}
+          </div>
+          {previewImage && (
+            <a class="post-thumb" href={getPostPermalink(post)} aria-hidden="true" tabindex="-1">
+              <img src={previewImage} alt="" loading="lazy" decoding="async" />
+            </a>
+          )}
+        </li>
+      );
+    })
+  }
+</ol>

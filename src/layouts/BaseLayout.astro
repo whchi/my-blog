@@ -1,0 +1,69 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import SearchOverlay from "../components/SearchOverlay.astro";
+import "../styles/site.css";
+
+const {
+  title = "社畜人生",
+  description = "技術筆記、工具與一些工程現場的碎念。",
+  canonical,
+  image,
+} = Astro.props;
+
+const pageTitle = title === "社畜人生" ? title : `${title} | 社畜人生`;
+const canonicalUrl = canonical ? new URL(canonical, Astro.site) : Astro.url;
+const ogImage = image ? new URL(image, Astro.site) : null;
+const GTM_ID = "GTM-N2DN7CD";
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <script is:inline define:vars={{GTM_ID}}>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',GTM_ID);</script>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="社畜人生 RSS" href="/rss.xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <title>{pageTitle}</title>
+    <script is:inline>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+    </script>
+  </head>
+  <body>
+    <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <Header />
+    <SearchOverlay />
+    <main class="site-main">
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      function updateThemeIcons() {
+        const isDark = document.documentElement.dataset.theme === "dark";
+        document.querySelectorAll(".theme-icon-moon").forEach((el) => el.style.display = isDark ? "none" : "");
+        document.querySelectorAll(".theme-icon-sun").forEach((el) => el.style.display = isDark ? "" : "none");
+      }
+      updateThemeIcons();
+      document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+        const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("theme", next);
+        updateThemeIcons();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+import Pager from "../../components/Pager.astro";
+import PostList from "../../components/PostList.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllPosts } from "../../lib/content.js";
+import { PAGE_SIZE } from "../../lib/posts.js";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = await getAllPosts();
+  return paginate(posts, { pageSize: PAGE_SIZE }).filter((path) => path.params.page !== "1");
+}
+
+const { page } = Astro.props as any;
+---
+
+<BaseLayout title={`文章第 ${page.currentPage} 頁`} canonical={Astro.url.pathname}>
+  <section class="page-heading">
+    <p class="eyebrow">Articles</p>
+    <h1>文章</h1>
+  </section>
+  <PostList posts={page.data} />
+  <Pager page={page} />
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Figure from "../../components/shortcodes/Figure.astro";
+import Gist from "../../components/shortcodes/Gist.astro";
+import Gppt from "../../components/shortcodes/Gppt.astro";
+import Mermaid from "../../components/shortcodes/Mermaid.astro";
+import TableWrapper from "../../components/shortcodes/TableWrapper.astro";
+import YouTube from "../../components/shortcodes/YouTube.astro";
+import { getPageById } from "../../lib/content.js";
+
+const page = await getPageById("tools");
+if (!page) throw new Error("content/tools.mdx is missing");
+const { Content } = await render(page);
+
+const components = {
+  Figure,
+  Gist,
+  Gppt,
+  Mermaid,
+  TableWrapper,
+  YouTube,
+};
+---
+
+<BaseLayout title="Tools" canonical="/tools/">
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">Tools</p>
+      <h1>Tools</h1>
+    </header>
+    <div class="prose">
+      <Content components={components} />
+    </div>
+  </article>
+</BaseLayout>

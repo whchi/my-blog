@@ -1,0 +1,15 @@
+---
+const { page, base = "" } = Astro.props;
+
+const current = page.currentPage;
+const total = page.lastPage;
+const prev = current === 2 && base === "" ? "/" : page.url.prev;
+---
+
+{total > 1 && (
+  <nav class="pager" aria-label="分頁">
+    {page.url.prev ? <a href={prev}>上一頁</a> : <span />}
+    <span>{current} / {total}</span>
+    {page.url.next ? <a href={page.url.next}>下一頁</a> : <span />}
+  </nav>
+)}
