@@ -1,0 +1,21 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPageById } from "../../lib/content.js";
+
+const page = await getPageById("about");
+if (!page) throw new Error("content/about.md is missing");
+const { Content } = await render(page);
+---
+
+<BaseLayout title="About" canonical="/about/">
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">About</p>
+      <h1>About</h1>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

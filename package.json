@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/prepare-astro-content.mjs",
+    "dev": "astro dev --host 0.0.0.0",
+    "prebuild": "node scripts/prepare-astro-content.mjs",
+    "build": "astro build",
+    "prepreview": "node scripts/prepare-astro-content.mjs",
+    "preview": "astro preview --host 0.0.0.0",
+    "test": "node --test tests/*.test.mjs",
+    "precheck": "node scripts/prepare-astro-content.mjs",
+    "check": "astro check"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^6.3.1",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.94.0"
+  }
+}

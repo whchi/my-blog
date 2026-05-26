@@ -1,0 +1,58 @@
+---
+const { defaults = {} } = Astro.props;
+const vix = defaults.vix ?? 16;
+const wti = defaults.wti ?? 0;
+const dxy = defaults.dxy ?? 0;
+const updatedAt = defaults.updated_at ?? "手動預設";
+---
+
+<section
+  class="tool-widget market"
+  data-market-tool
+  data-vix={vix}
+  data-wti={wti}
+  data-dxy={dxy}
+>
+  <div class="market-head">
+    <strong>宏觀市場情境模擬器</strong>
+    <span>updated {updatedAt}</span>
+  </div>
+  <div class="tool-grid">
+    <label>VIX<input class="tool-input" data-vix-input type="range" min="-10" max="60" step="0.1" value={vix} /></label>
+    <label>WTI<input class="tool-input" data-wti-input type="range" min="-10" max="10" step="0.1" value={wti} /></label>
+    <label>DXY<input class="tool-input" data-dxy-input type="range" min="-5" max="5" step="0.1" value={dxy} /></label>
+  </div>
+  <output class="tool-output" data-output></output>
+  <canvas data-chart height="130"></canvas>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // @ts-nocheck
+  const root = document.querySelector("[data-market-tool]");
+  const output = root?.querySelector("[data-output]");
+  const chartCanvas = root?.querySelector("[data-chart]");
+  let chart;
+
+  function calculate() {
+    const vix = Number(root.querySelector("[data-vix-input]").value);
+    const wti = Number(root.querySelector("[data-wti-input]").value);
+    const dxy = Number(root.querySelector("[data-dxy-input]").value);
+    const risk = Math.max(0, Math.min(100, Math.round(vix * 1.2 - wti * 2 + dxy * 5)));
+    output.textContent = `風險分數 ${risk} / 100`;
+
+    chart?.destroy();
+    chart = new Chart(chartCanvas, {
+      type: "scatter",
+      data: {
+        datasets: [{ label: "Scenario", data: [{ x: dxy, y: vix }], backgroundColor: "#2563eb", pointRadius: 8 }],
+      },
+      options: {
+        scales: { x: { title: { display: true, text: "DXY" } }, y: { title: { display: true, text: "VIX" } } },
+      },
+    });
+  }
+
+  root?.querySelectorAll("input").forEach((input) => input.addEventListener("input", calculate));
+  calculate();
+</script>

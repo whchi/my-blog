@@ -1,0 +1,57 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { getAllPosts } from "../../../../lib/content.js";
+import {
+  formatDate,
+  getPostPermalink,
+  getSummary,
+  normalizeTags,
+} from "../../../../lib/posts.js";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post) => {
+    const permalink = getPostPermalink(post);
+    const [, year, month, slug] = permalink.split("/");
+    return { params: { year, month, slug }, props: { post } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const posts = await getAllPosts();
+const currentIndex = posts.findIndex((entry) => entry.id === post.id);
+const newer = posts[currentIndex - 1];
+const older = posts[currentIndex + 1];
+---
+
+<BaseLayout title={post.data.title} description={getSummary(post)} canonical={getPostPermalink(post)}>
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">Article</p>
+      <h1>{post.data.title}</h1>
+      <div class="post-meta">
+        <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+        {normalizeTags(post.data.tags).map((tag) => <a href={`/tags/${tag.slug}/`}>#{tag.label}</a>)}
+      </div>
+    </header>
+
+    {post.data.toc && headings.length > 1 && (
+      <aside class="toc" aria-label="文章目錄">
+        {headings.filter((heading) => heading.depth <= 3).map((heading) => (
+          <a style={`--depth:${heading.depth}`} href={`#${heading.slug}`}>{heading.text}</a>
+        ))}
+      </aside>
+    )}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <nav class="article-nav" aria-label="前後文章">
+      {newer ? <a href={getPostPermalink(newer)}>← {newer.data.title}</a> : <span />}
+      {older ? <a href={getPostPermalink(older)}>{older.data.title} →</a> : <span />}
+    </nav>
+  </article>
+</BaseLayout>

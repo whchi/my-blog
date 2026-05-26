@@ -1,0 +1,44 @@
+<section class="tool-widget" data-ascii-tool>
+  <label class="tool-label" for="ascii-search">HTML ASCII Search</label>
+  <input id="ascii-search" class="tool-input" placeholder="search char you want" />
+  <div class="ascii-results" data-results>
+    <article class="ascii-card">
+      <strong>char</strong>
+      <span>desc</span>
+      <code>ascii</code>
+      <code>unicode</code>
+    </article>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  const root = document.querySelector("[data-ascii-tool]");
+  const input = root?.querySelector("input");
+  const results = root?.querySelector("[data-results]");
+  let asciiData = [];
+
+  fetch("https://gist.githubusercontent.com/whchi/45463b3e89178d662c2d0c20d6b8d342/raw/8c9b7137e2f2384d57117cf7e2e749057fc425b7/html_ascii_unicode_map.json")
+    .then((response) => response.json())
+    .then((data) => {
+      asciiData = data;
+    });
+
+  input?.addEventListener("input", () => {
+    const keyword = input.value.toLowerCase();
+    const matches = keyword.trim()
+      ? asciiData.filter((item) => item.char.includes(keyword) || item.desc.includes(keyword)).slice(0, 10)
+      : [];
+
+    results.innerHTML = matches.length
+      ? matches.map((item) => `
+        <article class="ascii-card">
+          <strong>${item.ascii === "&Tab;" ? "\\t" : item.ascii === "&NewLine;" ? "\\n" : item.char}</strong>
+          <span>${item.desc}</span>
+          <code>${item.ascii}</code>
+          <code>${item.unicode}</code>
+        </article>
+      `).join("")
+      : '<p class="empty-state">empty result</p>';
+  });
+</script>

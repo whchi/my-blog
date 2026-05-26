@@ -1,0 +1,25 @@
+---
+import Pager from "../components/Pager.astro";
+import PostList from "../components/PostList.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllPosts } from "../lib/content.js";
+import { PAGE_SIZE, SITE_DESCRIPTION, SITE_TITLE } from "../lib/posts.js";
+
+const posts = await getAllPosts();
+const page = {
+  data: posts.slice(0, PAGE_SIZE),
+  currentPage: 1,
+  lastPage: Math.ceil(posts.length / PAGE_SIZE),
+  url: { prev: undefined, next: posts.length > PAGE_SIZE ? "/page/2/" : undefined },
+};
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} canonical="/">
+  <section class="home-intro">
+    <p class="eyebrow">Blog</p>
+    <h1>技術筆記、工具與工程現場紀錄</h1>
+    <p>{SITE_DESCRIPTION}</p>
+  </section>
+  <PostList posts={page.data} />
+  <Pager page={page} />
+</BaseLayout>

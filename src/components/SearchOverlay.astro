@@ -1,0 +1,76 @@
+<dialog class="search-dialog" data-search-dialog>
+  <form method="dialog" class="search-panel">
+    <div class="search-head">
+      <label for="site-search">搜尋文章</label>
+      <button class="icon-button" value="close" aria-label="關閉搜尋">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <input id="site-search" data-search-input autocomplete="off" placeholder="輸入標題、標籤或內文" />
+    <div class="search-results" data-search-results></div>
+  </form>
+</dialog>
+
+<script>
+  // @ts-nocheck
+  const dialog = document.querySelector("[data-search-dialog]");
+  const input = document.querySelector("[data-search-input]");
+  const results = document.querySelector("[data-search-results]");
+  let index = [];
+
+  async function loadIndex() {
+    if (index.length) return;
+    const response = await fetch("/index.json");
+    index = await response.json();
+  }
+
+  function render(items) {
+    results.innerHTML = items.length
+      ? items
+          .slice(0, 8)
+          .map(
+            (item) => `
+              <a class="search-result" href="${item.permalink}">
+                <strong>${item.title}</strong>
+                <span>${item.summary || ""}</span>
+              </a>
+            `,
+          )
+          .join("")
+      : '<p class="empty-state">沒有找到結果</p>';
+  }
+
+  function search(term) {
+    const keyword = term.trim().toLowerCase();
+    if (!keyword) {
+      results.innerHTML = "";
+      return;
+    }
+    render(
+      index.filter((item) =>
+        [item.title, item.summary, item.content, item.contents, item.tags?.join(" ")]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(keyword),
+      ),
+    );
+  }
+
+  document.querySelector("[data-search-open]")?.addEventListener("click", async () => {
+    await loadIndex();
+    dialog.showModal();
+    input.focus();
+  });
+
+  input?.addEventListener("input", (event) => search(event.target.value));
+
+  window.addEventListener("keydown", async (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === "/") {
+      event.preventDefault();
+      await loadIndex();
+      dialog.showModal();
+      input.focus();
+    }
+  });
+</script>
