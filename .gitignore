@@ -2,6 +2,7 @@
 .vscode
 .DS_Store
 .vercel
+public
 dist
 .hugo_build.lock
 .wrangler
