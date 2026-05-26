@@ -39,6 +39,7 @@ const older = posts[currentIndex + 1];
 
     {post.data.toc && headings.length > 1 && (
       <aside class="toc" aria-label="文章目錄">
+        <div class="toc-title">目錄</div>
         {headings.filter((heading) => heading.depth <= 3).map((heading) => (
           <a style={`--depth:${heading.depth}`} href={`#${heading.slug}`}>{heading.text}</a>
         ))}
