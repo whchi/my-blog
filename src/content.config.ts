@@ -30,19 +30,19 @@ const markdownSchema = z
   .passthrough();
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./content/posts" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./content/posts" }),
   schema: markdownSchema.extend({
     date: z.coerce.date(),
   }),
 });
 
 const tools = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./content/tools" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./content/tools" }),
   schema: markdownSchema,
 });
 
 const pages = defineCollection({
-  loader: glob({ pattern: "*.md", base: "./content" }),
+  loader: glob({ pattern: "*.{md,mdx}", base: "./content" }),
   schema: markdownSchema,
 });
 

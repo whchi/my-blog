@@ -1,0 +1,9 @@
+---
+const { src, title, caption, alt } = Astro.props;
+const altText = alt ?? title ?? "";
+---
+
+<figure class="post-figure">
+  <img src={src} alt={altText} loading="lazy" decoding="async" title={title || undefined} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

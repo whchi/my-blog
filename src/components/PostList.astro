@@ -28,7 +28,7 @@ const { posts } = Astro.props;
           </div>
           {previewImage && (
             <a class="post-thumb" href={getPostPermalink(post)} aria-hidden="true" tabindex="-1">
-              <img src={previewImage} alt="" loading="lazy" />
+              <img src={previewImage} alt="" loading="lazy" decoding="async" />
             </a>
           )}
         </li>

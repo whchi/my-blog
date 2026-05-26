@@ -1,0 +1,43 @@
+---
+title: '綁定 domain 給 github page'
+date: 2021-07-05T15:39:25+08:00
+draft: false
+author: 'whchi'
+tags: ['godaddy', 'github']
+summary: '買了 domain 就是要用'
+preview_figure: ''
+preview_figcaption: ''
+---
+
+之前很無聊在 godaddy 買了一個 domain，試試把它掛進來
+
+# Step1. settings in godaddy
+於 godaddy DNS 管理介面的 records 增加與修改設定如下
+<TableWrapper className="table table-bordered table-hover">
+| type  | name  | value                |
+| :---: | :---: | :------------------- |
+|   A   |   @   | 185.199.108.153      |
+|   A   |   @   | 185.199.109.153      |
+|   A   |   @   | 185.199.110.153      |
+|   A   |   @   | 185.199.111.153      |
+| CNAME |  www  | `{yourname}.github.io` |
+</TableWrapper>
+TTL 隨意，可參考 [https://www.varonis.com/blog/dns-ttl/](https://www.varonis.com/blog/dns-ttl/)
+
+# Step2. setup github page
+有兩種設定方式
+
+1. 程式
+
+    在根目錄增加 `CNAME` 內容設定為要綁定的網域
+    ```txt
+    yourdomain.com
+    ```
+    如果是用 hugo 架站就增加 `static/CNAME`
+
+2. 介面
+
+    於 repository 的 Settings::Pages 底下增加 domain 如圖（實際上他就是把你的根目錄增加 CNAME file）
+    <Figure src="https://assets.d6i.dev/blog/setup-domain.webp" title="於 github 介面 domain" caption="於 github 介面 domain" />
+
+設定完之後等 DNS 生效後，就可以用新的 domain 訪問 github page 了

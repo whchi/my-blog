@@ -9,9 +9,8 @@ import {
   isPublished,
   normalizeTags,
 } from "../src/lib/posts.js";
-import { transformHugoShortcodes } from "../src/lib/shortcodes.js";
 
-describe("Hugo migration compatibility", () => {
+describe("content compatibility", () => {
   it("keeps the existing year/month/contentbasename post permalink", () => {
     const post = {
       id: "recommendations/how-to-do-great-work.md",
@@ -42,42 +41,5 @@ describe("Hugo migration compatibility", () => {
       { label: "AI/LLM", slug: "ai-llm" },
     ]);
     assert.equal(getTagSlug("中文 標籤"), encodeURIComponent("中文-標籤"));
-  });
-
-  it("converts common Hugo shortcodes to static Astro-safe HTML", () => {
-    const markdown = [
-      '{{< figure src="/images/demo.webp" alt="Demo" caption="A demo" >}}',
-      '{{< youtube dQw4w9WgXcQ >}}',
-      "{{< mermaid >}}",
-      "graph TD; A-->B;",
-      "{{< /mermaid >}}",
-      "{{< figure",
-      '    src="/images/multiline.webp"',
-      '    title="Multiline"',
-      '    caption="Wrapped attrs">}}',
-    ].join("\n");
-
-    const html = transformHugoShortcodes(markdown, {
-      resolveRef: (target) => `/2024/01/${target}/`,
-    });
-
-    assert.match(html, /<figure class="post-figure">/);
-    assert.match(html, /<img src="\/images\/demo.webp" alt="Demo" loading="lazy"/);
-    assert.match(html, /<figcaption>A demo<\/figcaption>/);
-    assert.match(html, /youtube\.com\/embed\/dQw4w9WgXcQ/);
-    assert.match(html, /<pre class="mermaid">graph TD; A--&gt;B;<\/pre>/);
-    assert.match(html, /src="\/images\/multiline.webp"/);
-  });
-
-  it("handles compact shortcode variants found in existing posts", () => {
-    const html = transformHugoShortcodes(
-      '{{<!-- table -->}}\n{{<table "table table-bordered" >}}\n| A |\n| - |\n{{</table>}}\n{{<gist d753f513f6819de03d3e958da55af404="">}}',
-    );
-
-    assert.match(html, /<div class="table-scroll table table-bordered">/);
-    assert.doesNotMatch(html, /\{\{<!--/);
-    assert.doesNotMatch(html, /\{\{<\/?table/);
-    assert.match(html, /https:\/\/gist\.github\.com\/d753f513f6819de03d3e958da55af404\.js/);
-    assert.doesNotMatch(html, /\{\{<gist/);
   });
 });

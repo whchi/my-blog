@@ -1,11 +1,10 @@
 import { getAllPosts } from "../lib/content.js";
 import { getPostPermalink, getSummary } from "../lib/posts.js";
-import { transformHugoShortcodes } from "../lib/shortcodes.js";
 
 export async function GET() {
   const posts = await getAllPosts();
   const items = posts.map((post) => {
-    const content = stripMarkdown(transformHugoShortcodes(post.body ?? ""));
+    const content = stripMarkdown(post.body ?? "");
     return {
       title: post.data.title,
       permalink: getPostPermalink(post),
