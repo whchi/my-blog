@@ -20,7 +20,7 @@ export function getPostPermalink(entry) {
   const date = toDate(entry?.data?.date);
   const year = String(date.getFullYear()).padStart(4, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
-  return `/${year}/${month}/${getPostSlug(entry)}/`;
+  return `/${year}/${month}/${getPostSlug(entry)}`;
 }
 
 export function normalizeTags(tags = []) {
