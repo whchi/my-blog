@@ -65,10 +65,10 @@ const focusItems = [
       </div>
     </div>
     <div class="profile-info">
-      <p class="profile-kicker">Practical SWE</p>
+      <p class="profile-kicker">產品化導向的軟體工程師</p>
       <h2 class="profile-name">whchi</h2>
       <p class="profile-tagline">
-        AI Application · Backend · Production Observability
+        AI 應用、後端系統與上線維運
       </p>
       <a class="profile-email" href="mailto:whccchi@gmail.com">whccchi@gmail.com</a>
     </div>
@@ -135,7 +135,7 @@ const focusItems = [
 <style>
   .about-profile {
     display: grid;
-    grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.5fr);
+    grid-template-columns: minmax(220px, 0.74fr) minmax(0, 1.56fr);
     gap: clamp(1.25rem, 4vw, 2.5rem);
     align-items: start;
     margin-bottom: 3rem;
@@ -149,9 +149,7 @@ const focusItems = [
     background:
       linear-gradient(180deg, color-mix(in srgb, var(--surface), white 10%), var(--surface)),
       var(--surface);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, white, transparent 20%),
-      0 24px 70px color-mix(in srgb, var(--text-strong), transparent 92%);
+    box-shadow: var(--shadow-soft);
   }
 
   .profile-panel::before,
@@ -171,9 +169,9 @@ const focusItems = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.35rem;
     padding: clamp(1.75rem, 4vw, 2.25rem);
-    border-radius: 18px;
+    border-radius: 22px;
     text-align: center;
   }
 
@@ -181,9 +179,9 @@ const focusItems = [
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 155px;
-    height: 155px;
-    border-radius: 50%;
+    width: 158px;
+    height: 158px;
+    border-radius: 32px;
     overflow: hidden;
     background:
       conic-gradient(from 150deg, var(--line), var(--accent), var(--line) 44%, var(--line-subtle)),
@@ -191,7 +189,7 @@ const focusItems = [
     box-shadow:
       0 0 0 7px color-mix(in srgb, var(--surface-muted), transparent 30%),
       0 18px 40px color-mix(in srgb, var(--accent), transparent 84%);
-    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 520ms var(--ease-out);
   }
 
   .profile-panel:hover .profile-border {
@@ -199,7 +197,7 @@ const focusItems = [
   }
 
   .profile-avatar {
-    border-radius: 50%;
+    border-radius: 28px;
     overflow: hidden;
     width: 150px;
     height: 150px;
@@ -219,7 +217,7 @@ const focusItems = [
     color: var(--accent);
     font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
   }
 
   .stage-period,
@@ -229,6 +227,7 @@ const focusItems = [
     font-size: 0.82rem;
     font-weight: 650;
     letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
   }
 
   .profile-name {
@@ -238,6 +237,7 @@ const focusItems = [
     font-weight: 700;
     color: var(--text-strong);
     margin: 0.35rem 0;
+    text-wrap: balance;
   }
 
   .profile-tagline {
@@ -256,6 +256,7 @@ const focusItems = [
     font-weight: 600;
     text-decoration: none;
     word-break: break-word;
+    font-variant-numeric: tabular-nums;
   }
 
   .profile-email:hover {
@@ -290,10 +291,10 @@ const focusItems = [
     font-weight: 500;
     text-decoration: none;
     transition:
-      border-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
-      background 420ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 420ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+      border-color 420ms var(--ease-out),
+      background 420ms var(--ease-out),
+      color 420ms var(--ease-out),
+      transform 420ms var(--ease-out);
   }
 
   .profile-links a:hover {
@@ -310,7 +311,7 @@ const focusItems = [
   }
 
   .experience-panel {
-    border-radius: 18px;
+    border-radius: 22px;
     padding: clamp(1.5rem, 4vw, 2.25rem);
   }
 
@@ -329,6 +330,7 @@ const focusItems = [
     font-size: clamp(1.6rem, 4vw, 2.35rem);
     line-height: 1.1;
     color: var(--text-strong);
+    text-wrap: balance;
   }
 
   .work-timeline {
@@ -404,13 +406,14 @@ const focusItems = [
     margin: 0.7rem 0 0;
     color: var(--text);
     line-height: 1.75;
+    text-wrap: pretty;
   }
 
   .current-focus {
     margin-top: 0.75rem;
     padding: 1.25rem;
     border: 1px solid color-mix(in srgb, var(--accent), transparent 70%);
-    border-radius: 14px;
+    border-radius: 16px;
     background:
       linear-gradient(135deg, color-mix(in srgb, var(--accent-soft), transparent 12%), transparent 72%),
       color-mix(in srgb, var(--surface-muted), transparent 15%);
@@ -479,7 +482,7 @@ const focusItems = [
     .profile-panel,
     .experience-panel {
       padding: 1.25rem;
-      border-radius: 14px;
+      border-radius: 18px;
     }
 
     .experience-heading {

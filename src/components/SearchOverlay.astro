@@ -1,13 +1,18 @@
 <dialog class="search-dialog" data-search-dialog>
   <form method="dialog" class="search-panel">
     <div class="search-head">
-      <label for="site-search">搜尋文章</label>
+      <div>
+        <label for="site-search">搜尋文章</label>
+        <p>輸入關鍵字後會比對標題、標籤與內文摘要</p>
+      </div>
       <button class="icon-button" value="close" aria-label="關閉搜尋">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
     </div>
     <input id="site-search" data-search-input autocomplete="off" placeholder="輸入標題、標籤或內文" />
-    <div class="search-results" data-search-results></div>
+    <div class="search-results" data-search-results>
+      <p class="empty-state">找吧。</p>
+    </div>
   </form>
 </dialog>
 
@@ -20,8 +25,12 @@
 
   async function loadIndex() {
     if (index.length) return;
+    results.innerHTML = '<p class="empty-state">載入搜尋索引中</p>';
     const response = await fetch("/index.json");
     index = await response.json();
+    if (!input.value.trim()) {
+      results.innerHTML = '<p class="empty-state">找吧。</p>';
+    }
   }
 
   function render(items) {
