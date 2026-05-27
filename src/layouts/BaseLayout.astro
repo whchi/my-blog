@@ -49,6 +49,7 @@ const GTM_ID = "GTM-N2DN7CD";
     </script>
   </head>
   <body>
+    <div class="night-sky" aria-hidden="true"></div>
     <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <Header />
     <SearchOverlay />
@@ -69,6 +70,67 @@ const GTM_ID = "GTM-N2DN7CD";
         localStorage.setItem("theme", next);
         updateThemeIcons();
       });
+
+      const nightSky = document.querySelector(".night-sky");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      function randomBetween(min, max) {
+        return min + Math.random() * (max - min);
+      }
+      function createMeteor({top, left, oneShot = false} = {}) {
+        const meteor = document.createElement("span");
+        meteor.className = oneShot ? "meteor meteor-once" : "meteor";
+        meteor.style.setProperty("--meteor-top", top || `${randomBetween(5, 72)}vh`);
+        meteor.style.setProperty("--meteor-left", left || `${randomBetween(92, 118)}vw`);
+        meteor.style.setProperty("--meteor-width", `${randomBetween(7, 14)}rem`);
+        meteor.style.setProperty("--meteor-delay", oneShot ? "0s" : `${randomBetween(0, 11)}s`);
+        meteor.style.setProperty("--meteor-duration", `${randomBetween(7, 14)}s`);
+        meteor.style.setProperty("--meteor-x", `${randomBetween(-95, -145)}vw`);
+        meteor.style.setProperty("--meteor-y", `${randomBetween(34, 68)}vw`);
+        return meteor;
+      }
+      function renderNightSky() {
+        if (!nightSky) return;
+        const area = window.innerWidth * window.innerHeight;
+        const starCount = Math.round(Math.min(220, Math.max(90, area / randomBetween(5200, 8200))));
+        const meteorCount = reducedMotion.matches ? 0 : Math.round(randomBetween(3, 7));
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < starCount; i += 1) {
+          const star = document.createElement("span");
+          star.className = "star";
+          star.style.setProperty("--star-x", `${randomBetween(0, 100)}vw`);
+          star.style.setProperty("--star-y", `${randomBetween(0, 100)}vh`);
+          star.style.setProperty("--star-size", `${randomBetween(0.7, 2.2)}px`);
+          star.style.setProperty("--star-opacity", randomBetween(0.28, 0.92).toFixed(2));
+          star.style.setProperty("--twinkle-duration", `${randomBetween(4, 11)}s`);
+          star.style.setProperty("--twinkle-delay", `${randomBetween(-10, 0)}s`);
+          fragment.append(star);
+        }
+
+        for (let i = 0; i < meteorCount; i += 1) {
+          fragment.append(createMeteor());
+        }
+
+        nightSky.replaceChildren(fragment);
+      }
+      function shootMeteor(event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        if (!nightSky || reducedMotion.matches || document.documentElement.dataset.theme !== "dark") return;
+
+        const meteor = createMeteor({
+          top: `${event.clientY}px`,
+          left: `${event.clientX}px`,
+          oneShot: true,
+        });
+        meteor.addEventListener("animationend", () => meteor.remove(), {once: true});
+        nightSky.append(meteor);
+      }
+
+      renderNightSky();
+      nightSky?.addEventListener("click", shootMeteor, true);
+      window.addEventListener("resize", renderNightSky);
+      reducedMotion.addEventListener("change", renderNightSky);
     </script>
   </body>
 </html>
