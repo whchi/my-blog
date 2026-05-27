@@ -69,7 +69,7 @@ export function formatDateParts(value, locale = "zh-TW") {
 }
 
 export function getSummary(entry, fallback = "") {
-  return entry?.data?.summary || entry?.data?.description || fallback;
+  return entry?.data?.summary || fallback || SITE_DESCRIPTION;
 }
 
 export function getPostPreviewImage(entry) {
