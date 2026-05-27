@@ -1,5 +1,58 @@
+---
+const workStages = [
+  // {
+  //   period: "2026/01 - 現在",
+  //   title: "票務平台",
+  //   role: "Contract",
+  //   summary:
+  //     "投入票務交易與上線可靠性，處理訂單、鎖票、資料轉移、waiting room、壓測與 observability 等 production 議題。",
+  // },
+  {
+    period: "2024/07 - present",
+    title: "Docubank 大庫辦",
+    role: "解決方案工程師",
+    summary:
+      "將企業文件流程與 AI 應用從 POC 推進到可部署、可維運的產品階段，涵蓋 RAG、資料匯入、離線環境與多租戶權限。",
+  },
+  {
+    period: "2022/09 - 2024/06",
+    title: "CYBERBIZ",
+    role: "主任工程師",
+    summary:
+      "負責電商平台擴充、APP Market 架構與企業客製交付，並帶領小組支援大型商家需求與高流量活動。",
+  },
+  {
+    period: "2020/12 - 2022/06",
+    title: "奧丁丁集團",
+    role: "研發工程師",
+    summary:
+      "在區塊鏈實驗室參與 IoT Gateway、NFT Marketplace 與供應鏈追溯系統，負責產品開發、串接與 production 維運。",
+  },
+  {
+    period: "2018/11 - 2020/12",
+    title: "天下雜誌",
+    role: "資深工程師",
+    summary:
+      "支援媒體產品工程，涵蓋活動型系統、內容工具、資料流程、使用者標籤與 AI 推薦服務產品化。",
+  },
+  {
+    period: "2014/04 - 2018/11",
+    title: "早期經歷",
+    role: "工程師",
+    summary:
+      "從政府平台、客戶導入、電商後端、API 串接與早期 IoT / 後台系統開始累積產品交付與維運經驗。",
+  },
+];
+
+const focusItems = [
+  "把 AI 應用做成能上線與維運的產品",
+  "設計能承受真實流量與資料狀態的後端流程",
+  "建立團隊能接手、能排錯、能持續演進的系統",
+];
+---
+
 <section class="about-profile">
-  <div class="profile-wrapper">
+  <div class="profile-panel">
     <div class="profile-border">
       <div class="profile-avatar">
         <img
@@ -12,12 +65,12 @@
       </div>
     </div>
     <div class="profile-info">
+      <p class="profile-kicker">Practical SWE</p>
       <h2 class="profile-name">whchi</h2>
       <p class="profile-tagline">
-        Practical SWE
-        <span class="profile-divider"></span>
-        From Taiwan 🇹🇼
+        AI Application · Backend · Production Observability
       </p>
+      <a class="profile-email" href="mailto:whccchi@gmail.com">whccchi@gmail.com</a>
     </div>
     <nav class="profile-links" aria-label="個人連結">
       <ul>
@@ -48,24 +101,60 @@
       </ul>
     </nav>
   </div>
+
+  <div class="experience-panel" aria-labelledby="experience-title">
+    <div class="experience-heading">
+      <p class="experience-kicker">Work Experience</p>
+      <h2 id="experience-title"></h2>
+    </div>
+    <ol class="work-timeline">
+      {workStages.map((stage) => (
+        <li class="work-stage">
+          <div class="stage-marker" aria-hidden="true"></div>
+          <div class="stage-content">
+            <p class="stage-period">{stage.period}</p>
+            <h3>{stage.title}</h3>
+            <p class="stage-role">{stage.role}</p>
+            <p class="stage-summary">{stage.summary}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <!-- <section class="current-focus" aria-labelledby="current-focus-title">
+      <p class="experience-kicker">Current Focus</p>
+      <h3 id="current-focus-title">目前關注</h3>
+      <ul>
+        {focusItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </section> -->
+  </div>
 </section>
 
 <style>
   .about-profile {
-    display: flex;
-    justify-content: center;
-    padding: 2rem 1rem;
-    margin-bottom: 2.5rem;
-    background: var(--surface);
-    border-radius: 12px;
-    border: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.5fr);
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+    align-items: start;
+    margin-bottom: 3rem;
   }
 
-  .profile-wrapper {
+  .profile-panel,
+  .experience-panel {
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface), transparent 8%);
+  }
+
+  .profile-panel {
+    position: sticky;
+    top: 5.25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2rem);
+    border-radius: 10px;
+    text-align: center;
   }
 
   .profile-border {
@@ -110,34 +199,48 @@
     object-fit: cover;
   }
 
-  .profile-info {
-    text-align: center;
+  .profile-kicker,
+  .experience-kicker,
+  .stage-period,
+  .stage-role {
+    margin: 0;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .profile-name {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
+    font-size: clamp(1.6rem, 5vw, 2.1rem);
+    line-height: 1.1;
     font-weight: 700;
     color: var(--text-strong);
-    margin: 0 0 0.35rem;
-    letter-spacing: -0.02em;
+    margin: 0.35rem 0;
   }
 
   .profile-tagline {
-    font-size: 0.95rem;
-    color: var(--muted);
+    max-width: 18rem;
     margin: 0;
-    line-height: 1.5;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
   }
 
-  .profile-divider {
+  .profile-email {
     display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin: 0 0.5rem;
-    vertical-align: middle;
+    margin-top: 0.75rem;
+    color: var(--accent-text);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    word-break: break-word;
+  }
+
+  .profile-email:hover {
+    color: var(--accent);
+    text-decoration: underline;
   }
 
   .profile-links ul {
@@ -182,18 +285,166 @@
     flex-shrink: 0;
   }
 
-  @media (max-width: 700px) {
+  .experience-panel {
+    border-radius: 10px;
+    padding: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .experience-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .experience-heading h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 4vw, 2.35rem);
+    line-height: 1.1;
+    color: var(--text-strong);
+  }
+
+  .work-timeline {
+    position: relative;
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work-timeline::before {
+    content: "";
+    position: absolute;
+    top: 1.5rem;
+    bottom: 1.5rem;
+    left: 0.43rem;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .work-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.4rem 0;
+  }
+
+  .work-stage + .work-stage {
+    border-top: 1px solid var(--line-subtle);
+  }
+
+  .stage-marker {
+    width: 0.85rem;
+    height: 0.85rem;
+    margin-top: 0.35rem;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: 0 0 0 5px var(--bg);
+    z-index: 1;
+  }
+
+  .stage-content {
+    min-width: 0;
+  }
+
+  .stage-content h3 {
+    margin: 0.25rem 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.12rem, 2.8vw, 1.45rem);
+    line-height: 1.25;
+    color: var(--text-strong);
+  }
+
+  .stage-role {
+    margin-top: 0.25rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .stage-summary {
+    margin: 0.7rem 0 0;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .current-focus {
+    margin-top: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line-subtle);
+    border-radius: 8px;
+    background: var(--surface-muted);
+  }
+
+  .current-focus h3 {
+    margin: 0.25rem 0 0.85rem;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--text-strong);
+  }
+
+  .current-focus ul {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .current-focus li {
+    position: relative;
+    padding-left: 1rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .current-focus li::before {
+    content: "";
+    position: absolute;
+    top: 0.72em;
+    left: 0;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  @media (max-width: 820px) {
     .about-profile {
-      padding: 1.5rem 1rem;
+      grid-template-columns: 1fr;
     }
 
-    .profile-links ul {
-      gap: 0.5rem;
+    .profile-panel {
+      position: static;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .about-profile {
+      margin-bottom: 2rem;
     }
 
-    .profile-links a {
-      padding: 0.4rem 0.85rem;
-      font-size: 0.85rem;
+    .profile-panel,
+    .experience-panel {
+      padding: 1.25rem;
+      border-radius: 8px;
+    }
+
+    .experience-heading {
+      display: block;
+    }
+
+    .experience-heading h2 {
+      margin-top: 0.2rem;
+    }
+
+    .work-stage {
+      gap: 0.8rem;
     }
   }
 </style>
