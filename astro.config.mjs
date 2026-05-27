@@ -8,6 +8,11 @@ export default defineConfig({
   publicDir: "./static",
   outDir: "./dist",
   integrations: [sitemap(), mdx()],
+  trailingSlash: "always",
+  build: {
+    format: "directory",
+    minify: true,
+  },
   markdown: {
     shikiConfig: {
       theme: "github-dark",
