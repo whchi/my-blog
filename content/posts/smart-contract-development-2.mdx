@@ -59,13 +59,13 @@ solidity 的變數大致上分以下兩種
 每個 reference type 在定義的時候必須指定他的儲存位置，分為`storage`, `memory`, `calldata`
 
 ## boolean
-```sol
+```solidity
 bool myBoolean = true;
 ```
 
 ## int and uint
 有 uint8,uint16,uint32...uint256，如果都不指定預設是 uint256
-```sol
+```solidity
 int noAssign; // int256 noAssign = 0
 uint256 myUnsignedInt = 42;
 int256 mySignedInt = -42;
@@ -73,23 +73,23 @@ int256 mySignedInt = -42;
 
 ## address
 20-byte 的 eth address
-```sol
+```solidity
 address myAddress = 0x1234567890123456789012345678901234567890;
 ```
 ## bytes
 array of byte，alias of byte[]
-```sol
+```solidity
 bytes myBytes = "1234567890abcdef";
 byte[] sameMyBytes = "1234567890abcdef";
 ```
 
 ## string
-```sol
+```solidity
 string myString = "Hello, World!";
 ```
 
 ## enum
-```sol
+```solidity
 enum State {
     Open,
     Closed,
@@ -101,7 +101,7 @@ State xxx = State.Open;
 
 ## struct
 自定義的 key-value 結構，通常用來定義單數的物件
-```sol
+```solidity
 struct Person {
     string name;
     uint age;
@@ -119,7 +119,7 @@ Person myStruct = Person("Jon Doe", 18);
 * not iterable(key is hash and not saved into mapping)
 * key 不可以是 `mapping`, `array`, `enum` or `struct`
 * 如果對不存在的 key 進行存取的話，會取得 value 變數的預設值
-```sol
+```solidity
 mapping (uint256 => string) myMapping;
 myMapping[0] = "Hello";
 myMapping[1] = "World";
@@ -127,11 +127,11 @@ myMapping[1] = "World";
 
 ## array
 * fixed-size(compile time)
-```sol
+```solidity
 uint[3] numbers = [2, 3, 4];
 ```
 * dynamic-size(runtime)
-```sol
+```solidity
 uint[] numbers;
 byte[] byteNums;
 ```
@@ -151,7 +151,7 @@ byte[] byteNums;
   * not available for state variables
 
 實際撰寫時的語法如下
-```sol
+```solidity
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
