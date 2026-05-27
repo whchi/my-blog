@@ -48,7 +48,7 @@ const components = {
       <h1>{post.data.title}</h1>
       <div class="post-meta">
         <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
-        {normalizeTags(post.data.tags).map((tag) => <a href={`/tags/${tag.slug}`}>#{tag.label}</a>)}
+        {normalizeTags(post.data.tags).map((tag) => <a href={`/tags/${tag.slug}/`}>#{tag.label}</a>)}
       </div>
     </header>
 

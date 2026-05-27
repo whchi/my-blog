@@ -10,11 +10,11 @@ const page = {
   data: posts.slice(0, PAGE_SIZE),
   currentPage: 1,
   lastPage: Math.ceil(posts.length / PAGE_SIZE),
-  url: { prev: undefined, next: posts.length > PAGE_SIZE ? "/page/2" : undefined },
+  url: { prev: undefined, next: posts.length > PAGE_SIZE ? "/page/2/" : undefined },
 };
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} canonical="">
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} canonical="/">
   <section class="home-intro hero-decoration">
     <p class="eyebrow">Blog</p>
     <h1>技術筆記、工具與工程現場紀錄</h1>

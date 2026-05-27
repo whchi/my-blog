@@ -71,18 +71,8 @@ body {
   opacity: 0;
   background: linear-gradient(180deg, #070b1d 0%, #111827 56%, var(--bg) 100%);
   transition: opacity 260ms ease;
-  -webkit-mask-image: radial-gradient(
-    ellipse at center,
-    black 0%,
-    black 68%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse at center,
-    black 0%,
-    black 68%,
-    transparent 100%
-  );
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, black 0%, black 68%, transparent 100%);
 }
 
 .star {
@@ -95,8 +85,7 @@ body {
   background: rgb(255 255 255);
   box-shadow: 0 0 8px rgb(255 255 255 / 0.42);
   opacity: var(--star-opacity);
-  animation: star-twinkle var(--twinkle-duration) ease-in-out
-    var(--twinkle-delay) infinite alternate;
+  animation: star-twinkle var(--twinkle-duration) ease-in-out var(--twinkle-delay) infinite alternate;
 }
 
 .meteor {
@@ -106,17 +95,11 @@ body {
   width: var(--meteor-width);
   height: 1px;
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    rgb(255 255 255 / 0.9),
-    rgb(173 213 255 / 0.38) 42%,
-    transparent
-  );
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.9), rgb(173 213 255 / 0.38) 42%, transparent);
   box-shadow: 0 0 12px rgb(255 255 255 / 0.45);
   transform: rotate(-24deg);
   opacity: 0;
-  animation: meteor-shower var(--meteor-duration) linear var(--meteor-delay)
-    infinite;
+  animation: meteor-shower var(--meteor-duration) linear var(--meteor-delay) infinite;
 }
 
 .meteor-once {
@@ -529,6 +512,7 @@ h1 {
   gap: 1rem;
   margin-top: 3.5rem;
   padding-top: 1.5rem;
+  border-top: 1px solid var(--line-subtle);
 }
 
 .pager a,

@@ -5,7 +5,7 @@ import { getAllTags } from "../../lib/content.js";
 const tags = await getAllTags();
 ---
 
-<BaseLayout title="Tags" canonical="/tags">
+<BaseLayout title="Tags" canonical="/tags/">
   <section class="page-heading">
     <p class="eyebrow">Tags</p>
     <h1>標籤</h1>
@@ -13,7 +13,7 @@ const tags = await getAllTags();
   <ul class="tag-cloud">
     {tags.map((tag) => (
       <li>
-        <a href={`/tags/${tag.slug}`}>
+        <a href={`/tags/${tag.slug}/`}>
           <span>{tag.label}</span>
           <small>{tag.count}</small>
         </a>

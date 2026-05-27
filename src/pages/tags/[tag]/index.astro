@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 const { tag } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag.label}`} canonical={`/tags/${tag.slug}`}>
+<BaseLayout title={`#${tag.label}`} canonical={`/tags/${tag.slug}/`}>
   <section class="page-heading">
     <p class="eyebrow">Tag</p>
     <h1>#{tag.label}</h1>
