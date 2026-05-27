@@ -512,7 +512,6 @@ h1 {
   gap: 1rem;
   margin-top: 3.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--line-subtle);
 }
 
 .pager a,
