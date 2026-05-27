@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "Noto Sans TC";
+  src: url("//assets.d6i.dev/blog/fonts/Noto_Sans_TC/static/NotoSansTC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans TC";
+  src: url("//assets.d6i.dev/blog/fonts/Noto_Sans_TC/static/NotoSansTC-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Serif TC";
+  src: url("//assets.d6i.dev/blog/fonts/Noto_Serif_TC/static/NotoSerifTC-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Serif TC";
+  src: url("//assets.d6i.dev/blog/fonts/Noto_Serif_TC/static/NotoSerifTC-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  src: url("//assets.d6i.dev/blog/fonts/Source_Code_Pro/static/SourceCodePro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
