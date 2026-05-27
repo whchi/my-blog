@@ -41,7 +41,7 @@ const components = {
 };
 ---
 
-<BaseLayout title={post.data.title} description={getSummary(post)} canonical={getPostPermalink(post)} image={post.data.preview_image || post.data.preview_figure}>
+<BaseLayout title={post.data.title} description={getSummary(post, post.data.title)} canonical={getPostPermalink(post)} image={post.data.preview_image || post.data.preview_figure}>
   <article class="article-shell">
     <header class="article-header">
       <p class="eyebrow">Article</p>
