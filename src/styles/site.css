@@ -102,6 +102,20 @@ body::before {
   mask-image: radial-gradient(ellipse at center, black 0%, black 68%, transparent 100%);
 }
 
+.star-field {
+  position: absolute;
+  inset: -22vmax;
+  pointer-events: none;
+  transform-origin: 50% 62%;
+  animation: sky-rotation 180s linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+}
+
+:root[data-theme="dark"] .star-field {
+  animation-play-state: running;
+}
+
 .star {
   position: absolute;
   top: var(--star-y);
@@ -156,6 +170,15 @@ body::before {
   }
 }
 
+@keyframes sky-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes meteor-shower {
   0%,
   72% {
@@ -180,7 +203,7 @@ body::before {
     opacity: 1;
     transform: translate3d(0, 0, 0) rotate(-24deg);
   }
-  10% {
+  30% {
     opacity: 0;
     transform: translate3d(var(--meteor-x), var(--meteor-y), 0) rotate(-24deg);
   }
@@ -191,6 +214,7 @@ body::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .star-field,
   .star,
   .meteor {
     animation: none;

@@ -89,18 +89,22 @@ const GTM_ID = "GTM-N2DN7CD";
         const starCount = Math.round(Math.min(220, Math.max(90, area / randomBetween(5200, 8200))));
         const meteorCount = reducedMotion.matches ? 0 : Math.round(randomBetween(3, 7));
         const fragment = document.createDocumentFragment();
+        const starField = document.createElement("span");
+        starField.className = "star-field";
 
         for (let i = 0; i < starCount; i += 1) {
           const star = document.createElement("span");
           star.className = "star";
-          star.style.setProperty("--star-x", `${randomBetween(0, 100)}vw`);
-          star.style.setProperty("--star-y", `${randomBetween(0, 100)}vh`);
+          star.style.setProperty("--star-x", `${randomBetween(0, 100)}%`);
+          star.style.setProperty("--star-y", `${randomBetween(0, 100)}%`);
           star.style.setProperty("--star-size", `${randomBetween(0.7, 2.2)}px`);
           star.style.setProperty("--star-opacity", randomBetween(0.28, 0.92).toFixed(2));
           star.style.setProperty("--twinkle-duration", `${randomBetween(4, 11)}s`);
           star.style.setProperty("--twinkle-delay", `${randomBetween(-10, 0)}s`);
-          fragment.append(star);
+          starField.append(star);
         }
+
+        fragment.append(starField);
 
         for (let i = 0; i < meteorCount; i += 1) {
           fragment.append(createMeteor());
