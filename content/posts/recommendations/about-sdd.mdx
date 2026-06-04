@@ -1,0 +1,47 @@
+---
+title: '[推薦] understanding SDD: kiro, spec-kit, and tessl'
+date: 2026-06-04T08:52:00+08:00
+draft: false
+author: 'whchi'
+tags: ['recommendation']
+summary: ''
+preview_figure: ''
+preview_figcaption: ''
+---
+
+# Source
+https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
+
+# Summary
+
+1. SDD 目前定義很混亂，要先分清楚是
+- spec-first: 先寫 spec 再寫 code
+- spec-anchored: spec 完成後仍持續維護，作為長期依據
+- spec-as-source: 人主要改 spec，code 由工具產生
+
+2. 最成熟的是 spec-first，不是 spec-as-source，但更激進的 spec-as-source，也就是人不太碰 code、主要改 spec，再由 AI 產 code，目前還有太多不確定性。
+
+3. spec 不等於 AGENTS.md 或一般專案文件：AGENTS.md 屬於長期 context，spec 針對特定任務
+
+4. Kiro、GitHub spec-kit、Tessl 代表三種不同路線
+<TableWrapper className="table table-bordered">
+| 工具                  | 路線                                 | 特點                                    |
+| ------------------- | ---------------------------------- | ------------------------------------- |
+| **Kiro**            | 較輕量的 spec-first                    | Requirements → Design → Tasks         |
+| **GitHub spec-kit** | 較重型的 spec-first / spec-anchored 嘗試 | Constitution → Specify → Plan → Tasks |
+| **Tessl**           | 最接近 spec-as-source                 | spec 生成 code，code 標記為 generated       |
+</TableWrapper>
+
+5. 最大問題是：文件可能比 code 更難 review，因為產出太多文件了
+
+6. 文件多不代表 AI 真的會照做：agent 可能把既有 code 的描述誤解成新需求，最後產生重複實作。
+
+7. SDD 的真正價值是支援工程判斷，不是取代工程師
+<TableWrapper className="table table-bordered">
+| 好的 SDD       | 壞的 SDD             |
+| ------------ | ------------------ |
+| 先釐清需求與限制     | 產一堆文件假裝有控制         |
+| spec 連到測試與驗收 | spec 寫完就丟給 AI 自動完成 |
+| 小步改、小步驗證     | 一次做完整大功能           |
+| 人保留工程判斷      | 人完全不看 code，只信 spec |
+</TableWrapper>
