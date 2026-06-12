@@ -1,5 +1,5 @@
 export const SITE_TITLE = "社畜人生";
-export const SITE_DESCRIPTION = "技術筆記、工具與一些工程現場的碎念。";
+export const SITE_DESCRIPTION = "技術筆記、工具與一些雜談";
 export const PAGE_SIZE = 10;
 
 export function isPublished(entry) {
