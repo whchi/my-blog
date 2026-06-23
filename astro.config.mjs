@@ -7,7 +7,7 @@ export default defineConfig({
   output: "static",
   publicDir: "./static",
   outDir: "./dist",
-  integrations: [sitemap(), mdx()],
+  integrations: [sitemap(), mdx({ gfm: true })],
   trailingSlash: "always",
   build: {
     format: "directory",
