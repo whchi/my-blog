@@ -1,0 +1,288 @@
+---
+title: 'Agentic Workflow 的四個設計維度'
+date: 2026-06-23T22:59:16+08:00
+draft: false
+author: 'whchi'
+tags: ['agentic workflow', 'ai']
+summary: '從編排權、路徑彈性、協作拓撲與人工介入四個維度，拆解 Agentic Workflow 的架構選擇。'
+preview_figure: ''
+preview_figcaption: ''
+---
+
+# Agentic Workflow 的四個設計維度
+
+AI agent、AI workflow、agentic workflow 這幾個詞經常被混在一起用。有人覺得只要 LLM 會呼叫工具就算 agent，也有人堅持要能長時間自主執行才算。定義對不起來的時候，直接問「這到底算不算 agentic」其實沒什麼意義。
+
+比較實際的做法，是把系統拆成幾個看得到、講得清楚的設計選擇：誰決定下一步、執行路徑有多固定、有幾個 agent、它們怎麼協作，還有人在哪裡介入。
+
+下面這四個維度不是什麼業界標準，也不是互斥的四象限，只是我自己用來理解 agentic workflow 的一組座標。同一套系統在不同層級可以落在不同位置，也會隨著任務和風險一直變。
+
+## 先釐清：Workflow 和 Agent 差在哪裡？
+
+[Anthropic 的分類](https://www.anthropic.com/engineering/building-effective-agents)拿來當起點很好用：
+
+- **Workflow**：LLM 和工具照預先寫好的程式路徑跑。
+- **Agent**：LLM 自己動態決定執行過程和怎麼用工具。
+
+這當然不是唯一的定義，社群對 agent 和 workflow 的邊界到現在還在吵，而且實務上的系統幾乎都是混的。比如程式碼先把研究流程的大框定死，LLM 再決定每個階段要搜什麼、呼叫哪些工具。
+
+所以與其幫整套系統貼一個標籤，不如直接講清楚它是怎麼被控制的。
+
+## 維度一：編排權在誰手上？
+
+第一個問題是：誰決定下一步做什麼？
+
+<TableWrapper className="table table-bordered">
+  <table>
+    <thead>
+      <tr>
+        <th>模式</th>
+        <th>說明</th>
+        <th>適合情境</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Code-driven</strong></td>
+        <td>程式碼控制順序、分支、重試與停止條件，LLM 只處理特定節點</td>
+        <td>規則明確、錯誤成本高、需要穩定重現</td>
+      </tr>
+      <tr>
+        <td><strong>Model-driven</strong></td>
+        <td>LLM 根據目標與目前狀態選擇工具、規劃步驟或委派任務</td>
+        <td>任務開放、輸入差異大、難以預先列舉所有路徑</td>
+      </tr>
+      <tr>
+        <td><strong>Hybrid</strong></td>
+        <td>程式碼建立外框與安全邊界，LLM 在局部範圍內決策</td>
+        <td>大多數實務上的 agentic 系統</td>
+      </tr>
+    </tbody>
+  </table>
+</TableWrapper>
+
+[OpenAI Agents SDK](https://openai.github.io/openai-agents-python/multi_agent/) 也是把 orchestration 分成 LLM 決策跟 code orchestration，而且直接講明兩者可以混著用。
+
+要注意這個維度跟「有沒有用框架」是兩回事。LangGraph、AutoGen、CrewAI 都能做出好幾種編排方式，光看你用了哪個框架，是判斷不出架構長怎樣的。
+
+## 維度二：執行路徑有多固定？
+
+第二個問題是：每次執行會不會走同一條路？
+
+<TableWrapper className="table table-bordered">
+  <table>
+    <thead>
+      <tr>
+        <th>模式</th>
+        <th>說明</th>
+        <th>例子</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Fixed</strong></td>
+        <td>步驟與順序預先定義</td>
+        <td>擷取資料、摘要、審查、發布</td>
+      </tr>
+      <tr>
+        <td><strong>Conditional</strong></td>
+        <td>根據中間結果分支、重試或跳過步驟</td>
+        <td>偵測到異常才進入深入調查</td>
+      </tr>
+      <tr>
+        <td><strong>Adaptive</strong></td>
+        <td>執行時才決定下一步，路徑可能持續改變</td>
+        <td>開放式研究、除錯、探索性 coding</td>
+      </tr>
+    </tbody>
+  </table>
+</TableWrapper>
+
+Conditional 不一定要 LLM 來判斷，普通的 if-else 也算；Adaptive 也不是放生不管，好的自適應系統照樣有預算、權限、停止條件跟工具邊界把它框住。
+
+還有一點，Fixed 不等於 DAG。只要有重試、修正或 evaluator-optimizer loop，路徑就可能繞回來形成循環。真正該問的是「路徑是誰、在什麼時候決定的」，而不是看到固定流程就通通叫它 DAG。
+
+## 維度三：Agent 如何協作？
+
+第三個問題其實包含兩件事：系統裡有幾個獨立 agent，以及它們之間怎麼交換工作。
+
+<TableWrapper className="table table-bordered">
+  <table>
+    <thead>
+      <tr>
+        <th>模式</th>
+        <th>說明</th>
+        <th>主要代價</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Single Agent</strong></td>
+        <td>一個 agent 在同一個任務狀態中使用多個工具或載入不同 skill</td>
+        <td>context 容易膨脹，角色邊界較弱</td>
+      </tr>
+      <tr>
+        <td><strong>Manager-Worker</strong></td>
+        <td>中央 agent 拆解任務、呼叫 worker，再整合結果</td>
+        <td>manager 可能成為瓶頸或單點錯誤</td>
+      </tr>
+      <tr>
+        <td><strong>Handoff</strong></td>
+        <td>一個 agent 把控制權交給另一個專門 agent</td>
+        <td>需要處理 context 傳遞與責任邊界</td>
+      </tr>
+      <tr>
+        <td><strong>Peer / Decentralized</strong></td>
+        <td>多個 agent 透過共同協議協作，沒有單一中央決策者</td>
+        <td>最難除錯，也最容易產生協調成本</td>
+      </tr>
+    </tbody>
+  </table>
+</TableWrapper>
+
+Multi-agent 不等於「呼叫 LLM 很多次」。同一個 agent 本來就可以有很多輪 model call；會不會變成多個 agent，關鍵在它們有沒有各自不同的指令、context、工具、狀態或責任邊界。
+
+框架一樣不是一對一對應某種拓撲。像 [AutoGen Teams](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/tutorial/teams.html) 就同時給了 round-robin、model selector、swarm 跟 graph flow。所以把 AutoGen 或 CrewAI 直接想成「無中心、行為自然浮現」，是不對的。
+
+## 維度四：人在哪裡介入？
+
+自主程度不該用「agent 能連續走幾步」來衡量。三個工具呼叫可能就把正式資料刪掉，三十個唯讀搜尋卻幾乎沒風險。比較好的判準是：哪些動作需要授權，還有出錯之後救不救得回來。
+
+<TableWrapper className="table table-bordered">
+  <table>
+    <thead>
+      <tr>
+        <th>模式</th>
+        <th>說明</th>
+        <th>常見控制方式</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Human-triggered</strong></td>
+        <td>人決定每個主要動作，AI 提供建議或草稿</td>
+        <td>預覽、逐步確認</td>
+      </tr>
+      <tr>
+        <td><strong>Checkpointed</strong></td>
+        <td>系統可自行推進，但在高風險節點等待批准</td>
+        <td>金流、刪除、外部發布前確認</td>
+      </tr>
+      <tr>
+        <td><strong>Goal-driven within guardrails</strong></td>
+        <td>人給定目標與邊界，系統在權限、預算和停止條件內自行完成</td>
+        <td>sandbox、allowlist、限額、audit log、rollback</td>
+      </tr>
+    </tbody>
+  </table>
+</TableWrapper>
+
+就算是高度自主的系統，也不代表「沒有人要負責」。生產環境該有的可觀測性、失敗處理、權限隔離跟事後追蹤，一個都不能少。
+
+## 四個常見組合
+
+把四個維度湊在一起看，你會發現常見的不是一條成熟度階梯，而是幾種針對不同任務挑出來的組合。
+
+### 1. 可審查的研究流程
+
+```text
+Single Agent × Hybrid × Mostly Fixed × Checkpointed
+```
+
+程式碼或文件把研究階段定下來，LLM 在每個階段負責搜尋、分析、寫作，人則在來源、結論跟發布前把關。這種設計不追求自主性最大化，但好處是容易重現、好做版本控制，中斷了也接得回來。
+
+### 2. 確定性的批次處理
+
+```text
+Single Agent × Code-driven × Conditional × Goal-driven within guardrails
+```
+
+程式碼負責排程、重試跟資料流，LLM 只做分類、擷取或文字判斷這類事。適合拿來做客服分流、文件分類、合約欄位擷取。
+
+### 3. 單一自適應 Agent
+
+```text
+Single Agent × Model-driven × Adaptive × Checkpointed
+```
+
+Agent 可以讀錯誤訊息、改程式、跑測試，再看結果決定下一步。拿來探索跟除錯很適合，但碰到破壞性操作、對外發布或機密資料，還是該停下來等人確認。
+
+### 4. Manager-Worker 平行研究
+
+```text
+Multi-Agent × Model-driven Manager × Adaptive × Checkpointed
+```
+
+中央 agent 把能拆開的研究題目丟給多個 worker 平行做，再回來整合、補漏。Anthropic 公開的 multi-agent research system 走的就是 orchestrator-worker，而不是完全沒有中心的 swarm。
+
+## 社群與研究怎麼看？
+
+目前沒有「multi-agent 就是比較好」這種共識，但官方文件、研究跟開發者討論裡，倒是有幾個一直重複出現的訊號。
+
+### 先從最簡單的架構開始
+
+Anthropic 建議先找出最簡單能動的方案，真的有需要再加 agentic complexity；AutoGen 文件也是叫你先把 single agent 調好，確認單一 agent 真的不夠了，再升級成 team。
+
+[Hacker News 上對 Anthropic 那篇的討論](https://news.ycombinator.com/item?id=42470541)大致認同簡單、可組合的 workflow，但補了兩點：Human-in-the-Loop 會帶來長時間等待、重試跟重複執行的問題；還有生產系統不能只靠 prompt 加 model loop，durable execution、狀態管理、可觀測性一個都跑不掉。
+
+### Multi-agent 有 coordination tax
+
+多一個 agent 不只是多一次模型呼叫，跟著來的還有 context 傳遞、結果整合、錯誤傳播、延遲跟除錯成本。它真正划算的場景通常是：
+
+- 任務能清楚拆開、可以平行跑。
+- 不同子任務各自需要一大包、而且要彼此隔離的 context。
+- 不同 agent 需要不同的工具、權限或責任邊界。
+- 單一 agent 已經因為工具太多或 context 太長而開始掉效能。
+
+2025 年有篇研究 [Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296) 比了 260 組設定，結果是 multi-agent 在可平行的任務上可能佔到便宜，但在序列推理的任務上反而會被協調成本拖累而退步。這是在六個 agentic benchmark、固定算力預算下跑出來的受控結果，不該直接當成所有產品都適用的定律；它比較靠得住的提醒是：架構要配合任務性質，agent 的數量本身不代表能力。
+
+### 「全自動」不是唯一終點
+
+在投資、醫療、法規、金流、正式資料變更這些場景，Checkpointed 常常不是過渡期的妥協，而是本來就該這樣設計的產品選擇。自主程度要由風險、可逆性跟責任邊界決定，不是越高越成熟。
+
+## 一個實例：我的投資研究 repo
+
+我自己的 [tw-stock-researcher](https://github.com/anomalyco/tw-stock-researcher) 比較接近這一組：
+
+```text
+Single Agent × Hybrid × Mostly Fixed × Checkpointed
+```
+
+- Skill 用 Markdown 文件定義，LLM 看任務需要才載入對應的能力。
+- 大方向是固定的：case init、抓數據、分析、結論、市場觀察，照順序走。
+- 但每個階段裡，LLM 還是能看資料品質自己決定要用什麼工具、挖多深。
+- 產出存成結構化 Markdown，方便人工審查、版本控制，跨 session 也接得回來。
+
+我原本把它描述成 `LLM-as-Orchestrator × Fixed DAG`，其實不夠精確。比較準的說法是：巨觀流程固定，局部路徑交給 LLM；文件負責約束，程式跟人負責守邊界。這種混合設計對研究任務很合理，因為大多數時候「可審查」比「全自動」重要得多。
+
+## 如何選擇？
+
+在設計 agentic workflow 的時候，可以照順序問自己六個問題：
+
+1. **這題能不能用普通程式穩穩解決？** 能寫死的部分就先交給 deterministic code。
+2. **輸入跟路徑的變化有多大？** 變化小就用固定流程，變化大才放手讓模型動態規劃。
+3. **任務真的拆得開嗎？** 只有在能平行、能隔離或需要不同權限的時候，multi-agent 多付的成本才可能划算。
+4. **出錯的代價跟可逆性如何？** 高風險或救不回來的動作，一定要加批准點跟權限限制。
+5. **壞掉的時候找得到是哪裡壞嗎？** 每一步都該有看得到的輸入、輸出、狀態跟停止原因。
+6. **有沒有 eval 能證明這些複雜度是值得的？** 去比成功率、成本、延遲跟人工修正量，別只看 demo 跑起來聰不聰明。
+
+## 結論
+
+「Agentic」既不是某種架構的名字，也不是拿來掛胸前的成熟度勳章。真正有資訊量的，是這四個問題的答案：
+
+- 下一步由程式、模型，還是兩者共同決定？
+- 路徑是固定、條件式，還是執行時動態產生？
+- 是單一 agent、manager-worker、handoff，還是去中心協作？
+- 人在哪些風險節點介入，系統又有哪些 guardrail？
+
+這幾題回答清楚了，系統的成本、風險跟可維護性大概也就看得出來了。好的 agentic workflow 不是最自主、agent 塞最多的那個，而是在任務需要彈性的地方給彈性，在不需要的地方維持確定性。
+
+## 延伸閱讀
+
+- [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
+- [Anthropic: How we built our multi-agent research system](https://www.anthropic.com/engineering/built-multi-agent-research-system)
+- [OpenAI Agents SDK: Agent orchestration](https://openai.github.io/openai-agents-python/multi_agent/)
+- [AutoGen: Teams](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/tutorial/teams.html)
+- [LangChain: Multi-agent patterns](https://langchain-ai.github.io/langgraph/tutorials/multi_agent/multi-agent-collaboration/)
+- [Towards a Science of Scaling Agent Systems](https://arxiv.org/abs/2512.08296)
+- [Hacker News: Building Effective Agents 討論串](https://news.ycombinator.com/item?id=42470541)
